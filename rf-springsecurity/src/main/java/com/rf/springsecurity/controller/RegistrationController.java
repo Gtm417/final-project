@@ -2,6 +2,7 @@ package com.rf.springsecurity.controller;
 
 import com.rf.springsecurity.domain.Role;
 import com.rf.springsecurity.domain.User;
+import com.rf.springsecurity.services.UserAuthenticationService;
 import com.rf.springsecurity.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationController {
 
     private UserService userService;
+    private UserAuthenticationService userAuthenticationService;
     @Autowired
-    public RegistrationController(UserService userService) {
+    public RegistrationController(UserService userService, UserAuthenticationService userAuthenticationService) {
         this.userService = userService;
+        this.userAuthenticationService = userAuthenticationService;
     }
 
     @GetMapping("/registration")
@@ -29,6 +32,7 @@ public class RegistrationController {
     public String addUser(User user, Model model) {
         user.setActive(true);
         user.setRoles(Role.ROLE_USER);
+
         try{
             userService.saveNewUser(user);
         }catch (Exception ex){
@@ -36,6 +40,10 @@ public class RegistrationController {
             model.addAttribute("message", "login is already exist");
             return "registration";
         }
-        return "redirect:/login";
+
+        userAuthenticationService.autoLogin(user.getLogin(), user.getPassword());
+
+
+        return "redirect:/";
     }
 }

@@ -41,8 +41,8 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public void saveNewUser (User user) throws Exception{
+    public User saveNewUser (User user) throws Exception{
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }
