@@ -8,13 +8,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static java.util.stream.Collectors.joining;
 
@@ -35,6 +38,11 @@ public class MainController {
     }
     //TODO Home page by userID /Home{id}
 
+    @ModelAttribute
+    public void getUserName(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("username", user.getUsername());
+    }
+
     @RequestMapping("/")
     public String getMainPage(Model model) {
 
@@ -43,6 +51,11 @@ public class MainController {
         model.addAttribute("login", user.getUsername());
         model.addAttribute("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
         return "hello";
+    }
+    @GetMapping("/main")
+    public String getMainPage(){
+        return "main";
+
     }
 
     @GetMapping("/all_users")
