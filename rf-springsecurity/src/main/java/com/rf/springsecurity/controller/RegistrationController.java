@@ -27,7 +27,6 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Model model) {
-        System.out.println(user.toString());
         user.setActive(true);
         user.setRoles(Role.ROLE_USER);
         try{
