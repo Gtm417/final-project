@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 
+
 @Slf4j
 @Service
 public class UserService implements UserDetailsService {
@@ -28,20 +29,15 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userRepository.findByLogin(login);
-        if (user == null) {
-            throw new UsernameNotFoundException(login);
-        }
-        return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Collections.singleton(user.getRoles()));
+     User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException(login));
+     return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Collections.singleton(user.getRoles()));
     }
 
 
 
     public UsersDTO getAllUsers() {
         //TODO checking for an empty user list
-
         return new UsersDTO(userRepository.findAll());
-
     }
 
 

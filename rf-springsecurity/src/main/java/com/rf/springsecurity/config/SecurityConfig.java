@@ -1,4 +1,4 @@
-package com.rf.springsecurity;
+package com.rf.springsecurity.config;
 
 import com.rf.springsecurity.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
