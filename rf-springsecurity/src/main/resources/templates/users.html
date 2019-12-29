@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Users</title>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>-->
+</head>
+<body>
+<a href="?lang=en">en</a>
+<a href="?lang=ru">ru</a>
+<div id = "all_users">
+    <h2 th:text="#{title.all.users}"></h2>
+</div>
+<div id = "content">
+    <table class="datatable">
+        <thead>
+        <tr>
+            <th th:text="#{label.user.id}"></th>
+            <th th:text="#{label.login}"></th>
+            <th th:text="#{label.password}"></th>
+            <th th:text="#{label.user.active}"></th>
+            <th th:text="#{label.user.role}"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:if="${users.empty}">
+            <td colspan="2" th:text="#{message.users.empty}"> </td>
+        </tr>
+        <tr th:each="user: ${users}">
+            <td><span th:text="${user.id}"> Id </span></td>
+            <td><span th:text="${user.login}">Login </span></td>
+            <td><span th:text="${user.password}"> Password </span></td>
+            <td><span th:text="${user.active}"> Active </span></td>
+            <td><span th:text="${user.roles}"> Roles </span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</html>
