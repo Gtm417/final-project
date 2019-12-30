@@ -1,5 +1,6 @@
 package com.rf.springsecurity.services;
 
+import com.rf.springsecurity.exceptions.NotAuthenticatedRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,12 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 public class UserAuthenticationService {
 
     private UserService userService;
-    private AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserAuthenticationService(UserService userService, AuthenticationManager authenticationManager) {
+    public UserAuthenticationService(UserService userService) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
     }
 
 
@@ -42,6 +41,12 @@ public class UserAuthenticationService {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             log.info(String.format("Successfully %s auto logged in", username));
         }
+    }
 
+    public boolean checkAuthLogin(String login) throws NotAuthenticatedRequest {
+        if(!getAuthenticatedUser().getUsername().equals(login)){
+            throw new NotAuthenticatedRequest(login);
+        }
+        return true;
     }
 }

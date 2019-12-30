@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table( name="user",
+@Table( name="users",
         uniqueConstraints={@UniqueConstraint(columnNames={"login"})})
 public class User {
 
@@ -33,6 +33,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role roles;
+
+    //TODO delete
+    //, columnDefinition = "long default 0"
+    @Column(name = "balance", nullable = false, columnDefinition = "bigint default 0")
+    private long balance;
 
     @Override
     public String toString() {

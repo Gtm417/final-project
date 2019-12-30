@@ -43,7 +43,6 @@ public class RegistrationController {
 
         userAuthenticationService.autoLogin(user.getLogin(), user.getPassword());
 
-
         return "redirect:/";
     }
 }

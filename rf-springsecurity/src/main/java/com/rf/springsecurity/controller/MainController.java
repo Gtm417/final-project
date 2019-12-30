@@ -36,7 +36,6 @@ public class MainController {
         this.userService = userService;
         this.userAuthenticationService = userAuthenticationService;
     }
-    //TODO Home page by userID /Home{id}
 
     @ModelAttribute
     public void getUserName(@AuthenticationPrincipal User user, Model model) {
@@ -63,6 +62,12 @@ public class MainController {
     public String getAllUsers(Model model){
         model.addAttribute("users", userService.getAllUsers().getUsers());
         return "users";
+    }
+
+    @GetMapping("/redirectToBalanceReplenish")
+    public String  redirectToBalance(){
+        //String login = userAuthenticationService.getAuthenticatedUser().getUsername();
+        return "redirect:/balance";
     }
 
     @GetMapping("my-error-page")
