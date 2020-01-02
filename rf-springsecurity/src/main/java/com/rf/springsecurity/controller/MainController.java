@@ -66,6 +66,7 @@ public class MainController {
 
     @GetMapping("/redirectToBalanceReplenish")
     public String  redirectToBalance(){
+        //TODO delete
         //String login = userAuthenticationService.getAuthenticatedUser().getUsername();
         return "redirect:/balance";
     }

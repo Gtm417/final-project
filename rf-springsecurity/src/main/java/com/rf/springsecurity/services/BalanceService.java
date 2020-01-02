@@ -19,9 +19,11 @@ public class BalanceService {
 
     //TODO may be remove throws
     public void updateBalance(String login, long balance) throws Exception{
+
         User user = getUserByLogin(login);
         user.setBalance(user.getBalance() + balance);
         userRepository.save(user);
+
     }
 
     public BalanceUserDTO getUserBalance(String login){
