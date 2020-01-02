@@ -29,7 +29,7 @@ public class BalanceService {
     public BalanceUserDTO getUserBalance(String login){
         User user = getUserByLogin(login);
         //System.out.println(user.getBalance());
-        return new BalanceUserDTO(user.getLogin(),user.getBalance());
+        return new BalanceUserDTO(user.getBalance());
     }
 
     private User getUserByLogin(String login) {

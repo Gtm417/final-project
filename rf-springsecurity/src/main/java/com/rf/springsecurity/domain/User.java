@@ -34,8 +34,6 @@ public class User {
     @Column(nullable = false)
     private Role roles;
 
-    //TODO delete
-    //, columnDefinition = "long default 0"
     @Column(name = "balance", nullable = false, columnDefinition = "bigint default 0")
     private long balance;
 

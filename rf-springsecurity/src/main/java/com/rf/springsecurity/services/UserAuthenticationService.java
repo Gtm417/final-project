@@ -43,10 +43,5 @@ public class UserAuthenticationService {
         }
     }
 
-    public boolean checkAuthLogin(String login) throws NotAuthenticatedRequest {
-        if(!getAuthenticatedUser().getUsername().equals(login)){
-            throw new NotAuthenticatedRequest(login);
-        }
-        return true;
-    }
+
 }

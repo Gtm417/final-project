@@ -14,10 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import static java.util.stream.Collectors.joining;
 
@@ -39,14 +36,14 @@ public class MainController {
 
     @ModelAttribute
     public void getUserName(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("username", user.getUsername());
+            model.addAttribute("login", user.getUsername());
     }
 
     @RequestMapping("/")
     public String getMainPage(Model model) {
-
+        //TODO maybe dont needed getAuthUser() in can be done by @AuthenticationPrincipal User user
         UserDetails user = userAuthenticationService.getAuthenticatedUser();
-
+        //TODO dont needed attribute login
         model.addAttribute("login", user.getUsername());
         model.addAttribute("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
         return "hello";
@@ -66,8 +63,6 @@ public class MainController {
 
     @GetMapping("/redirectToBalanceReplenish")
     public String  redirectToBalance(){
-        //TODO delete
-        //String login = userAuthenticationService.getAuthenticatedUser().getUsername();
         return "redirect:/balance";
     }
 
