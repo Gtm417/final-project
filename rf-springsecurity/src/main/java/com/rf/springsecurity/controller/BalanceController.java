@@ -1,18 +1,14 @@
 package com.rf.springsecurity.controller;
 
 import com.rf.springsecurity.dto.BalanceUserDTO;
-import com.rf.springsecurity.exceptions.NotAuthenticatedRequest;
 import com.rf.springsecurity.services.BalanceService;
 import com.rf.springsecurity.services.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -1,5 +1,6 @@
 package com.rf.springsecurity.exceptions;
 
+//TODO Unused
 public class NotAuthenticatedRequest extends Exception {
 
 

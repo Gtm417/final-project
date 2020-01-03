@@ -8,11 +8,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 
 
 @Entity
@@ -32,7 +32,11 @@ public class Cruise {
     @JoinColumn(name="ship_id")
     private Ship ship;
 
-    @ManyToMany(mappedBy = "cruises",fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(
+            name = "ports_cruises",
+            joinColumns = @JoinColumn(name = "cruise_id"),
+            inverseJoinColumns = @JoinColumn(name = "port_id"))
     private List<Port> ports;
 
     @Column(name= "low_ticket_price",nullable = false)
@@ -48,4 +52,18 @@ public class Cruise {
     @Column(name= "arrival_date", nullable = false)
     private LocalDate arrivalDate;
 
+    @Override
+    public String toString() {
+        return "Cruise{" +
+                "id=" + id +
+                ", cruiseName='" + cruiseName + '\'' +
+                ", ship=" + ship +
+                ", ports=" + ports +
+                ", lowPrice=" + lowPrice +
+                ", casualPrice=" + casualPrice +
+                ", VIPPrice=" + VIPPrice +
+                ", departureDate=" + departureDate +
+                ", arrivalDate=" + arrivalDate +
+                '}';
+    }
 }

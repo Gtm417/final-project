@@ -1,6 +1,5 @@
 package com.rf.springsecurity.domain.ports;
 
-import com.rf.springsecurity.domain.ports.Port;
 import lombok.*;
 
 import javax.persistence.*;

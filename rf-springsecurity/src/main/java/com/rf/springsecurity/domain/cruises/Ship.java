@@ -1,17 +1,17 @@
 package com.rf.springsecurity.domain.cruises;
 
 
-import com.rf.springsecurity.domain.ports.Port;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
+
 
 @Entity
 @Table( name="ships",
@@ -37,4 +37,14 @@ public class Ship {
 
     @OneToOne(mappedBy = "ship",cascade = CascadeType.ALL)
     private Cruise cruise;
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "id=" + id +
+                ", shipName='" + shipName + '\'' +
+                ", maxAmountOfPassenger=" + maxAmountOfPassenger +
+                ", currentAmountOfPassenger=" + currentAmountOfPassenger +
+                '}';
+    }
 }

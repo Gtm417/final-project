@@ -34,13 +34,9 @@ public class MainController {
         this.userAuthenticationService = userAuthenticationService;
     }
 
-    @ModelAttribute
-    public void getUserName(@AuthenticationPrincipal User user, Model model) {
-            model.addAttribute("login", user.getUsername());
-    }
 
     @RequestMapping("/")
-    public String getMainPage(Model model) {
+    public String getHomePage(Model model) {
         //TODO maybe dont needed getAuthUser() in can be done by @AuthenticationPrincipal User user
         UserDetails user = userAuthenticationService.getAuthenticatedUser();
         //TODO dont needed attribute login
@@ -48,11 +44,8 @@ public class MainController {
         model.addAttribute("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
         return "hello";
     }
-    @GetMapping("/main")
-    public String getMainPage(){
-        return "main";
 
-    }
+
 
     @GetMapping("/all_users")
     @PreAuthorize("hasRole('ADMIN')")
@@ -70,4 +63,10 @@ public class MainController {
     public String getErrorPage(){
         return "error-page";
     }
+
+    @ModelAttribute
+    public void getUserName(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("login", user.getUsername());
+    }
+
 }

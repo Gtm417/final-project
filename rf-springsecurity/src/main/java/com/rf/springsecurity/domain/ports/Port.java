@@ -2,7 +2,6 @@ package com.rf.springsecurity.domain.ports;
 
 
 import com.rf.springsecurity.domain.cruises.Cruise;
-import com.rf.springsecurity.domain.cruises.Ship;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 
 
 @Entity
@@ -30,6 +28,16 @@ public class Port {
     @OneToMany(mappedBy = "port")
     private List<Excursion> excursions;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+
+    @ManyToMany(mappedBy = "ports",fetch = FetchType.EAGER)
     private List<Cruise> cruises;
+
+    @Override
+    public String toString() {
+        return "Port{" +
+                "id=" + id +
+                ", portName='" + portName + '\'' +
+                ", excursions=" + excursions +
+                '}';
+    }
 }
