@@ -1,4 +1,4 @@
-package com.rf.springsecurity.domain;
+package com.rf.springsecurity.domain.users;
 
 import lombok.*;
 
@@ -37,14 +37,6 @@ public class User {
     @Column(name = "balance", nullable = false, columnDefinition = "bigint default 0")
     private long balance;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", active=" + active +
-                ", roles=" + roles +
-                '}';
-    }
+    @Column(name = "bonus")
+    private int bonus;
 }

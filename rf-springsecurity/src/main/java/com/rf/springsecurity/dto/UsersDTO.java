@@ -1,6 +1,6 @@
 package com.rf.springsecurity.dto;
 
-import com.rf.springsecurity.domain.User;
+import com.rf.springsecurity.domain.users.User;
 
 import lombok.*;
 

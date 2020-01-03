@@ -1,6 +1,6 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.domain.User;
+import com.rf.springsecurity.domain.users.User;
 import com.rf.springsecurity.dto.UsersDTO;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;

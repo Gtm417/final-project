@@ -1,6 +1,7 @@
 package com.rf.springsecurity.dto;
 import lombok.*;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @ToString
 public class BalanceUserDTO {
-    //@NotEmpty(message = "balance cannot be empty.")
+    //TODO validation value have to be digit
     @NotNull(message = "balance cannot be empty.")
     @Min(value = 0, message =  "balance cannot be < 0" )
     private Long balance;

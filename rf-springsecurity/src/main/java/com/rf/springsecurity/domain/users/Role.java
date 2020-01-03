@@ -1,4 +1,4 @@
-package com.rf.springsecurity.domain;
+package com.rf.springsecurity.domain.users;
 
 import org.springframework.security.core.GrantedAuthority;
 
