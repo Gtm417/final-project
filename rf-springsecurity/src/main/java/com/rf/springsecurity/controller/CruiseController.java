@@ -33,16 +33,13 @@ public class CruiseController {
     @GetMapping("/cruise/{name}")
     public String getCruise(@PathVariable("name") String name, Model model){
        try{
-
            Cruise cruise = cruiseService.getCruiseDataByName(name);
-           System.out.println(cruise);
            model.addAttribute("name", name);
            model.addAttribute("ports", cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
-           System.out.println(cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
-           System.out.println(cruise.getPorts());
            model.addAttribute("departureDate",cruise.getDepartureDate());
        }catch(UnhandledCruiseName ex){
            //TODO exception handling
+           //TODO delete
            System.out.println("Error");
        }
         return "cruise";

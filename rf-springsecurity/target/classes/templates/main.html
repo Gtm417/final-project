@@ -9,6 +9,12 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <title>Title</title>
 </head>
 <!-- Главная страница -->
@@ -20,19 +26,46 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+
+
 <h1 th:text="${login}"></h1>
 <div class="container">
     <a href="?lang=en">en</a>
     <a href="?lang=ru">ru</a>
-</div>
 
-<div class="list-group" th:each="cruise: ${cruises}" >
-    <a href="/cruise/$cruise.cruiseName" class="list-group-item list-group-item-action active" th:text="${cruise.cruiseName}"></a>
-<!--    <a href="/cruise/${cruise.cruiseName}" class="list-group-item list-group-item-action active" th:text="${cruise.cruiseName}"></a>-->
-<!--    <a href="/cruise/${cruise.cruiseName}" class="list-group-item list-group-item-action active" th:text="${cruise.cruiseName}"></a>-->
-<!--    <a href="/cruise/${cruise.cruiseName}" class="list-group-item list-group-item-action active" th:text="${cruise.cruiseName}"></a>-->
-<!--    <a href="/cruise/${cruise.cruiseName}" class="list-group-item list-group-item-action active" th:text="${cruise.cruiseName}"></a>-->
 </div>
+<form th:action="@{/test}" method="post">
+    <button type="submit" class="btn btn-default"  th:text="#{button.login}"></button>
+<!--    <a th:href="@{/test}" class="btn btn-primary">test</a>-->
+</form>
+<div class="card-deck" style="width: 75rem;" >
+<!--    <img src="..." class="card-img-top" alt="...">-->
+    <div class="card" th:each="cruise: ${cruises}">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${cruise.cruiseName}" ></h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a th:href="@{/cruise/{name}(name=${cruise.cruiseName})}" class="btn btn-primary">Переход куда-нибудь</a>
+        </div>
+    </div>
+<!--   <div class="card"  th:each="cruise: ${cruises}" >-->
+<!--       <div class="card-body">-->
+<!--           <h5 class="card-title" th:text="${cruise.cruiseName}" ></h5>-->
+<!--           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--           <a th:href="@{/cruise/{name}(name=${cruise.cruiseName})}" class="btn btn-primary">Переход куда-нибудь</a>-->
+<!--       </div>-->
+<!--   </div>-->
+
+<!--</div>-->
+<!--<div class="list-group list-group-horizontal" th:each="cruise: ${cruises}" >-->
+<!--    <a class="list-group-item list-group-item-action active" th:href="@{/cruise/{name}(name=${cruise.cruiseName})}"  th:text="${cruise.cruiseName}"></a>-->
+
+<!--</div>-->
+<!--<div th:each="cruise: ${cruises}">-->
+<!--    <button type="button" class="btn btn-primary" th:text="${cruise.cruiseName}">Главный</button>-->
+<!--    <button type="button" class="btn btn-secondary" th:text="${cruise.cruiseName}">Вторичный</button>-->
+<!--    <button type="button" class="btn btn-success" th:text="${cruise.cruiseName}">Успех</button>-->
+<!--</div>-->
+
 <!--    <ul class="list-group list-group-horizontal" th:each="cruise: ${cruises}">-->
 <!--        <li class="list-group-item" th:text="${cruise.cruiseName}"></li>-->
 <!--    </ul>-->
@@ -51,8 +84,6 @@
     <a href="/login" th:text = #{button.login}> </a>
     <a th:text="#{button.logout}" href="/logout"> </a>
 </div>
-<div>
-<!--   List of Cruises which i could choose-->
-</div>
+
 </body>
 </html>

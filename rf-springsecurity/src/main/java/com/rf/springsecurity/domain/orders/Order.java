@@ -31,7 +31,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private Ticket ticket;
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+//    @Enumerated(EnumType.STRING)
+//    private OrderStatus status;
 
 }
