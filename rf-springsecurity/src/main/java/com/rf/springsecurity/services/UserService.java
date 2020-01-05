@@ -2,18 +2,15 @@ package com.rf.springsecurity.services;
 
 import com.rf.springsecurity.domain.users.User;
 import com.rf.springsecurity.dto.UsersDTO;
-import com.rf.springsecurity.exceptions.UnsupportedUserName;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-import java.util.Collections;
+
+import lombok.NonNull;
 
 
 
@@ -35,7 +32,7 @@ public class UserService {
         return new UsersDTO(userRepository.findAll());
     }
 
-    public void saveNewUser (@NotNull User user){
+    public void saveNewUser (@NonNull User user){
 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
@@ -45,11 +42,11 @@ public class UserService {
         return getUserByLogin(userAuthenticationService.getAuthenticatedUserDetails().getUsername());
     }
 
-    private User getUserByLogin(@NotNull String login) throws  UsernameNotFoundException {
+    private User getUserByLogin(@NonNull String login) throws  UsernameNotFoundException {
         return userRepository.findByLogin(login).orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
     }
 
-    public void updateUser(User user){
+    public void updateUser(@NonNull User user){
         userRepository.save(user);
     }
 }

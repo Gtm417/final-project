@@ -28,19 +28,13 @@ public class CruiseController {
         return "main";
     }
 
-
+    //TODO exception handling
     @GetMapping("/cruise/{name}")
-    public String getCruise(@PathVariable("name") String name, Model model){
-       try{
+    public String getCruise(@PathVariable("name") String name, Model model) throws UnsupportedCruiseName{
            Cruise cruise = cruiseService.getCruiseDataByName(name);
            model.addAttribute("name", name);
            model.addAttribute("ports", cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
            model.addAttribute("departureDate",cruise.getDepartureDate());
-       }catch(UnsupportedCruiseName ex){
-           //TODO exception handling
-           //TODO delete
-           System.out.println("Error");
-       }
         return "cruise";
     }
 }

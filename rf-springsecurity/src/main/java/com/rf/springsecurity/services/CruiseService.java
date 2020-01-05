@@ -10,14 +10,17 @@ import java.util.List;
 
 @Service
 public class CruiseService {
+
     private CruiseRepository cruiseRepository;
+
     @Autowired
     public CruiseService(CruiseRepository cruiseRepository) {
         this.cruiseRepository =cruiseRepository;
     }
 
     public Cruise getCruiseDataByName(String name) throws UnsupportedCruiseName {
-        return cruiseRepository.findByCruiseName(name).orElseThrow(() -> new UnsupportedCruiseName(name));
+        return cruiseRepository.findByCruiseName(name)
+                .orElseThrow(() -> new UnsupportedCruiseName(name));
     }
 
     public List<Cruise> getAllCruises(){

@@ -47,10 +47,13 @@ public class Cruise {
 
     @Column(name= "VIP_ticket_price",nullable = false)
     private long VIPPrice;
+
     @Column(name="departure_date", nullable =  false)
     private LocalDate departureDate;
+
     @Column(name= "arrival_date", nullable = false)
     private LocalDate arrivalDate;
+
 
     @Override
     public String toString() {

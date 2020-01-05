@@ -6,6 +6,7 @@ import com.rf.springsecurity.exceptions.UnsupportedUserName;
 import com.rf.springsecurity.services.BuyCruiseService;
 import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.UserAuthenticationService;
+import com.rf.springsecurity.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,33 +17,31 @@ public class BuyCruiseController {
 
     private BuyCruiseService buyCruiseService;
     private CruiseService cruiseService;
-    private final UserAuthenticationService userAuthenticationService;
+    private final UserService userService;
 
 
     @Autowired
-    public BuyCruiseController(BuyCruiseService buyCruiseService, CruiseService cruiseService,UserAuthenticationService userAuthenticationService) {
+    public BuyCruiseController(BuyCruiseService buyCruiseService, CruiseService cruiseService, UserService userService) {
         this.buyCruiseService = buyCruiseService;
         this.cruiseService = cruiseService;
-        this.userAuthenticationService = userAuthenticationService;
+        this.userService = userService;
     }
 
     @GetMapping("/cruise/{name}/buy")
-    public String getCruiseBuyForm(@PathVariable("name") String name, OrderDTO orderDTO, Model model){
+    public String getCruiseBuyForm(@PathVariable("name") String name,
+                                   OrderDTO orderDTO, Model model) throws UnsupportedCruiseName{
+        cruiseService.getCruiseDataByName(name);
         model.addAttribute("name", name);
         model.addAttribute("orderDTO", orderDTO);
         return "buy-cruise";
     }
 
     @PostMapping("/cruise/{name}/buy")
-    public String buyCruise(@PathVariable("name") String name, @ModelAttribute("orderDTO") OrderDTO orderDTO) throws UnsupportedCruiseName,UnsupportedUserName{
-        try {
+    public String buyCruise(@PathVariable("name") String name,
+                            @ModelAttribute("orderDTO") OrderDTO orderDTO) throws UnsupportedCruiseName {
             orderDTO.setCruise(cruiseService.getCruiseDataByName(name));
-            // TODO orderDTO.setUser(userAuthenticationService.getAuthenticatedUser());
+            orderDTO.setUser(userService.getAuthenticatedUser());
             buyCruiseService.buy(orderDTO);
-        } catch (UnsupportedCruiseName unsupportedCruiseName) {
-            //TODO Exception Handling
-            unsupportedCruiseName.printStackTrace();
-        }
         return "redirect:/main";
     }
 }

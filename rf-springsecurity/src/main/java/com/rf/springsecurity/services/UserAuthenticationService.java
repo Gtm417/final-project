@@ -1,8 +1,8 @@
 package com.rf.springsecurity.services;
 
 import com.rf.springsecurity.domain.users.User;
-import com.rf.springsecurity.exceptions.UnsupportedUserName;
 import com.rf.springsecurity.repository.UserRepository;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,8 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotNull;
 import java.util.Collections;
 
 @Slf4j
@@ -35,7 +33,7 @@ public class UserAuthenticationService  implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(@NotNull String login) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NonNull String login) throws UsernameNotFoundException {
 
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
@@ -43,7 +41,7 @@ public class UserAuthenticationService  implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Collections.singleton(user.getRoles()));
     }
 
-    public void autoLogin(String username, String password) {
+    public void autoLogin(String username, String password){
         UserDetails userDetails = loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

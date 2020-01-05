@@ -8,6 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CruiseRepository extends JpaRepository<Cruise, Long> {
-    List<Cruise> findAll();
     Optional<Cruise> findByCruiseName(String cruiseName);
 }
