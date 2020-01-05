@@ -2,6 +2,7 @@ package com.rf.springsecurity.services;
 
 import com.rf.springsecurity.domain.users.User;
 import com.rf.springsecurity.dto.UsersDTO;
+import com.rf.springsecurity.exceptions.UnhandledUserName;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Collections;
 @Service
 public class UserService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -44,5 +45,8 @@ public class UserService implements UserDetailsService {
     public User saveNewUser (User user) throws Exception{
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
+    }
+    public User getUserByLogin(String login) throws UnhandledUserName {
+        return userRepository.findByLogin(login).orElseThrow(() -> new UnhandledUserName(login));
     }
 }

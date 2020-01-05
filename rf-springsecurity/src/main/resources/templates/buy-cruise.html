@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Buy cruise</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+
+
+<form th:action="@{/cruise/{name}/buy(name=${name})}" method="post" th:object="${orderDTO}">
+    <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+    <div class="form-row" >
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Имя" th:field="*{firstName}">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Фамилия" th:field="*{secondName}">
+        </div>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="inlineCheckbox1" th:field="*{ticket}" th:value="VIP">
+        <label class="form-check-label" th:for="${#ids.next('ticket')}" th:text="VIP">1</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="inlineCheckbox2" th:field="*{ticket}" th:value="CASUAL">
+        <label class="form-check-label" th:for="${#ids.next('ticket')}" th:text="Casual">1</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="inlineCheckbox3" th:field="*{ticket}" th:value="LOW">
+        <label class="form-check-label" th:for="${#ids.next('ticket')}" th:text="Low">1</label>
+    </div>
+    <p><input type="submit" value="Submit" /></p>
+<!--    <button type="button" class="btn btn-default"  th:text="Submit"></button>-->
+</form>
 
 </body>
 </html>

@@ -21,11 +21,11 @@ public class BuyCruiseServiceTest {
     @Test
     public void buy() {
         OrderDTO orderDTO = OrderDTO.builder()
-                .cruiseName("name1")
+                //.cruiseName("name1")
                 .firstName("tima")
                 .secondName("tima")
                 .ticket(Ticket.VIP)
-                .userLogin("t")
+                //.userLogin("t")
                 .build();
         try {
             buyCruiseService.buy(orderDTO);

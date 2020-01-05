@@ -25,6 +25,7 @@
 <h1 th:text="${name}" ></h1>
 <h1 th:text="${ports}" ></h1>
 <h1 th:text="${departureDate}" ></h1>
-<!--<a th:href="@{/cruise/{name}/buy(name=${cruise.cruiseName})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Главная ссылка</a>-->
+<a th:href="@{/cruise/{name}/buy(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Главная ссылка</a>
+<input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
 </body>
 </html>

@@ -48,7 +48,7 @@ public class BalanceController {
             return "balance";
         }
         try{
-            balanceService.updateBalance(userAuthenticationService.getAuthenticatedUser().getUsername(), balanceDTO.getBalance());
+            balanceService.updateBalance(userAuthenticationService.getAuthenticatedUserDetails().getUsername(), balanceDTO.getBalance());
         }catch (Exception e){
             return "redirect:/balance";
         }

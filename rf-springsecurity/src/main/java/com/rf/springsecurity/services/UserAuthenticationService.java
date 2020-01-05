@@ -1,5 +1,7 @@
 package com.rf.springsecurity.services;
 
+import com.rf.springsecurity.domain.users.User;
+import com.rf.springsecurity.exceptions.UnhandledUserName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,13 +22,16 @@ public class UserAuthenticationService {
     }
 
 
-    public UserDetails getAuthenticatedUser(){
+    public UserDetails getAuthenticatedUserDetails(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
     }
 
-    public void autoLogin(String username, String password) {
+    public User getAuthenticatedUser() throws UnhandledUserName {
+        return userService.getUserByLogin(getAuthenticatedUserDetails().getUsername());
+    }
 
+    public void autoLogin(String username, String password) {
         UserDetails userDetails = userService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

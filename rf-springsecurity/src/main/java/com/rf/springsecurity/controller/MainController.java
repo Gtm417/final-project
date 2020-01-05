@@ -6,10 +6,8 @@ import com.rf.springsecurity.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -38,7 +36,7 @@ public class MainController {
     @RequestMapping("/")
     public String getHomePage(Model model) {
         //TODO maybe dont needed getAuthUser() in can be done by @AuthenticationPrincipal User user
-        UserDetails user = userAuthenticationService.getAuthenticatedUser();
+        UserDetails user = userAuthenticationService.getAuthenticatedUserDetails();
         //TODO dont needed attribute login
         model.addAttribute("login", user.getUsername());
         model.addAttribute("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(joining(",")));

@@ -32,11 +32,10 @@
 <div class="container">
     <a href="?lang=en">en</a>
     <a href="?lang=ru">ru</a>
-
+    <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
 </div>
 <form th:action="@{/test}" method="post">
     <button type="submit" class="btn btn-default"  th:text="#{button.login}"></button>
-<!--    <a th:href="@{/test}" class="btn btn-primary">test</a>-->
 </form>
 <div class="card-deck" style="width: 75rem;" >
 <!--    <img src="..." class="card-img-top" alt="...">-->
@@ -47,38 +46,7 @@
             <a th:href="@{/cruise/{name}(name=${cruise.cruiseName})}" class="btn btn-primary">Переход куда-нибудь</a>
         </div>
     </div>
-<!--   <div class="card"  th:each="cruise: ${cruises}" >-->
-<!--       <div class="card-body">-->
-<!--           <h5 class="card-title" th:text="${cruise.cruiseName}" ></h5>-->
-<!--           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--           <a th:href="@{/cruise/{name}(name=${cruise.cruiseName})}" class="btn btn-primary">Переход куда-нибудь</a>-->
-<!--       </div>-->
-<!--   </div>-->
 
-<!--</div>-->
-<!--<div class="list-group list-group-horizontal" th:each="cruise: ${cruises}" >-->
-<!--    <a class="list-group-item list-group-item-action active" th:href="@{/cruise/{name}(name=${cruise.cruiseName})}"  th:text="${cruise.cruiseName}"></a>-->
-
-<!--</div>-->
-<!--<div th:each="cruise: ${cruises}">-->
-<!--    <button type="button" class="btn btn-primary" th:text="${cruise.cruiseName}">Главный</button>-->
-<!--    <button type="button" class="btn btn-secondary" th:text="${cruise.cruiseName}">Вторичный</button>-->
-<!--    <button type="button" class="btn btn-success" th:text="${cruise.cruiseName}">Успех</button>-->
-<!--</div>-->
-
-<!--    <ul class="list-group list-group-horizontal" th:each="cruise: ${cruises}">-->
-<!--        <li class="list-group-item" th:text="${cruise.cruiseName}"></li>-->
-<!--    </ul>-->
-
-
-<!--<table class="datatable">-->
-
-<!--    <tbody>-->
-<!--    <tr th:each="cruise: ${cruises}">-->
-<!--        <td><span th:text="${cruise.cruiseName}"> Id </span></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
 <div>
     <a href="/registration"  th:text="#{button.registration}" ></a>
     <a href="/login" th:text = #{button.login}> </a>
