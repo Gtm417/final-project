@@ -1,19 +1,15 @@
 package com.rf.springsecurity.controller;
 
-import com.rf.springsecurity.domain.cruises.Ticket;
 import com.rf.springsecurity.dto.OrderDTO;
-import com.rf.springsecurity.exceptions.UnhandledCruiseName;
-import com.rf.springsecurity.exceptions.UnhandledUserName;
+import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
+import com.rf.springsecurity.exceptions.UnsupportedUserName;
 import com.rf.springsecurity.services.BuyCruiseService;
 import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.UserAuthenticationService;
-import com.rf.springsecurity.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class BuyCruiseController {
@@ -38,16 +34,14 @@ public class BuyCruiseController {
     }
 
     @PostMapping("/cruise/{name}/buy")
-    public String buyCruise(@PathVariable("name") String name, @ModelAttribute("orderDTO") OrderDTO orderDTO){
+    public String buyCruise(@PathVariable("name") String name, @ModelAttribute("orderDTO") OrderDTO orderDTO) throws UnsupportedCruiseName,UnsupportedUserName{
         try {
             orderDTO.setCruise(cruiseService.getCruiseDataByName(name));
-            orderDTO.setUser(userAuthenticationService.getAuthenticatedUser());
+            // TODO orderDTO.setUser(userAuthenticationService.getAuthenticatedUser());
             buyCruiseService.buy(orderDTO);
-        } catch (UnhandledCruiseName unhandledCruiseName) {
+        } catch (UnsupportedCruiseName unsupportedCruiseName) {
             //TODO Exception Handling
-            unhandledCruiseName.printStackTrace();
-        } catch (UnhandledUserName unhandledUserName) {
-            unhandledUserName.printStackTrace();
+            unsupportedCruiseName.printStackTrace();
         }
         return "redirect:/main";
     }

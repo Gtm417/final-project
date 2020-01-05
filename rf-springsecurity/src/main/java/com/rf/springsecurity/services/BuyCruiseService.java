@@ -1,21 +1,16 @@
 package com.rf.springsecurity.services;
 
 
-import com.rf.springsecurity.domain.cruises.Cruise;
 import com.rf.springsecurity.domain.cruises.Passenger;
-import com.rf.springsecurity.domain.cruises.Ship;
 import com.rf.springsecurity.domain.orders.Order;
-import com.rf.springsecurity.domain.orders.OrderStatus;
 import com.rf.springsecurity.dto.OrderDTO;
-import com.rf.springsecurity.exceptions.UnhandledCruiseName;
+import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.repository.CruiseRepository;
 import com.rf.springsecurity.repository.OrderRepository;
 import com.rf.springsecurity.repository.PassengerRepository;
 import com.rf.springsecurity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 // TODO clear
 @Service
@@ -36,12 +31,12 @@ public class BuyCruiseService {
     }
 
 
-    public void buy(OrderDTO orderDTO) throws UnhandledCruiseName {
+    public void buy(OrderDTO orderDTO) throws UnsupportedCruiseName {
         addNewOrder(orderDTO);
         addPassenger(orderDTO);
     }
 
-    private void addNewOrder(OrderDTO orderDTO) throws UnhandledCruiseName{
+    private void addNewOrder(OrderDTO orderDTO) throws UnsupportedCruiseName {
         //TODO Переедалть орЕлс
         orderRepository.save(Order.builder()
                 .cruise(orderDTO.getCruise())

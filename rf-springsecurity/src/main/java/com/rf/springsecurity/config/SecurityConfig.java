@@ -1,5 +1,6 @@
 package com.rf.springsecurity.config;
 
+import com.rf.springsecurity.services.UserAuthenticationService;
 import com.rf.springsecurity.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,11 +17,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
+    private final UserAuthenticationService userAuthenticationService;
 
     @Autowired
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
+    public SecurityConfig(UserAuthenticationService userService) {
+        this.userAuthenticationService = userService;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userService)
+                .userDetailsService(userAuthenticationService)
                 .passwordEncoder(bCryptPasswordEncoder());
     }
 

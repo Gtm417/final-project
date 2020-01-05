@@ -19,19 +19,17 @@ import javax.validation.Valid;
 public class BalanceController {
 
     private BalanceService balanceService;
-    private UserAuthenticationService userAuthenticationService;
 
     @Autowired
-    public BalanceController(BalanceService balanceService, UserAuthenticationService userAuthenticationService) {
+    public BalanceController(BalanceService balanceService) {
         this.balanceService = balanceService;
-        this.userAuthenticationService = userAuthenticationService;
     }
 
     @ModelAttribute
     public void getAuthUserBalance(@AuthenticationPrincipal User user,
                                    Model model){
         model.addAttribute("login", user.getUsername());
-        model.addAttribute("balance",balanceService.getUserBalance(user.getUsername()).getBalance());
+        model.addAttribute("balance",balanceService.getUserBalance().getBalance());
     }
 
     @GetMapping("/balance")
@@ -47,11 +45,8 @@ public class BalanceController {
         if(bindingResult.hasErrors()){
             return "balance";
         }
-        try{
-            balanceService.updateBalance(userAuthenticationService.getAuthenticatedUserDetails().getUsername(), balanceDTO.getBalance());
-        }catch (Exception e){
-            return "redirect:/balance";
-        }
+        balanceService.updateBalance(balanceDTO.getBalance());
+
         return "redirect:/balance";
     }
 }

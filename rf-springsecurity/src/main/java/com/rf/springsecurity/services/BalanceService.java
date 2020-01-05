@@ -2,38 +2,36 @@ package com.rf.springsecurity.services;
 
 import com.rf.springsecurity.domain.users.User;
 import com.rf.springsecurity.dto.BalanceUserDTO;
+import com.rf.springsecurity.exceptions.UnsupportedUserName;
 import com.rf.springsecurity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
+
 
 @Service
 public class BalanceService {
-    UserRepository userRepository;
+
+    private final UserService userService;
 
     @Autowired
-    public BalanceService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public BalanceService(UserService userService) {
+        this.userService = userService;
     }
 
-    //TODO may be remove throws
-    public void updateBalance(String login, long balance) throws Exception{
-
-        User user = getUserByLogin(login);
+    public void updateBalance(long balance){
+        User user = userService.getAuthenticatedUser();
         user.setBalance(user.getBalance() + balance);
-        userRepository.save(user);
-
+        userService.updateUser(user);
     }
 
-    public BalanceUserDTO getUserBalance(String login){
-        User user = getUserByLogin(login);
-        //System.out.println(user.getBalance());
+    public BalanceUserDTO getUserBalance(){
+        User user = userService.getAuthenticatedUser();
         return new BalanceUserDTO(user.getBalance());
     }
 
-    private User getUserByLogin(String login) {
-        return userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException(login));
-    }
+
 
 }

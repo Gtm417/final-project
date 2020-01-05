@@ -33,7 +33,6 @@ public class RegistrationController {
     public String addUser(User user, Model model) {
         user.setActive(true);
         user.setRoles(Role.ROLE_USER);
-
         try{
             userService.saveNewUser(user);
         }catch (Exception ex){
