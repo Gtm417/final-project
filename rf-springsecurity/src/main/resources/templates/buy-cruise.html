@@ -37,29 +37,10 @@
     </div>
     <div class="input-group">
         <div class="form-check form-check-inline" th:each="ticket: ${cruise.tickets}" >
-<!--            <input hidden   th:name="id" th:value="${ticket.id}">-->
-<!--            <input hidden   th:name="price" th:value="${ticket.price}" >-->
             <input class="form-check-input" type="radio" id="inlineCheckbox0"  th:field="*{ticket_id}" th:value="${ticket.id}" >
             <label  class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticket.price}" >1</label>
         </div>
     </div>
-<!--    <div th:object="${modelTicket}">-->
-<!--        <div class="form-check form-check-inline" th:each="ticket: ${cruise.tickets}" >-->
-<!--            <input hidden   th:name="id" th:value="${ticket.id}">-->
-<!--            <input hidden   th:name="price" th:value="${ticket.price}" >-->
-<!--            <input class="form-check-input" type="radio" id="inlineCheckbox0"  th:field="*{ticketName}" th:value="${ticket.ticketName}" >-->
-<!--            <label  class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticket.price}" >1</label>-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
-    <!--                th:field="*{excursionsDTO[__${stat.index}__].id}"-->
-    <!--              th:field="*{excursionsDTO[__${stat.index}__].duration}"-->
-    <!--             th:field="*{excursionsDTO[__${stat.index}__].price}" -->
-    <!--                         th:name="|excursionsDTO[${stat.index}].id|" -->
-    <!--                          th:name="|excursionsDTO[${stat.index}].duration|"-->
-    <!--                        th:name="|excursionsDTO[${stat.index}].price|"   -->
-    <!--                th:field="*{excursionDTO.excursionsDTO[__${stat.index}__].excursionName}"   -->
-    <!--                 th:name="|excursionsNames[${stat.index}].excursionName|"    -->
         <div >
         <div class="form-check form-check-inline" th:each="excursion, stat : ${allExcursions.excursionsDTO}" >
             <label th:text="${excursion.port.portName}">  </label>
@@ -70,21 +51,8 @@
                         </div>
                     </div>
         </div>
-<!--        <div th:object ="${excursionsDTOTest}">-->
-<!--            <div class="container" th:each="excursion, stat: ${excursionDTO.excursionsDTO}">-->
-<!--                <label th:text="${excursion.port.portName}"></label>-->
-<!--                <div class="form-check form-check-inline">-->
-<!--                    <label  class="form-check-label" th:text="${excursion.excursionName} + ${excursion.price}"  ></label>-->
-<!--                    <input class="form-check-input" type="radio" id="inlineCheckboxT1"  th:name="|excursionsDTO[${stat.index}].excursionName|" th:value="${excursion.excursionName}" >-->
-<!--                    <input hidden id="inlineCheckboxT2"  th:name="|excursionsDTO[${stat.index}].id|"  th:value="${excursion.id}">-->
-<!--                    <input hidden id="inlineCheckboxT3"   th:name="|excursionsDTO[${stat.index}].duration|"  th:value="${excursion.duration}">-->
-<!--                    <input hidden id="inlineCheckboxT4"  th:name="|excursionsDTO[${stat.index}].price|"  th:value="${excursion.price}" >-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
         <p><input type="submit" value="Submit" /></p>
     </div>
-<!--    <button type="button" class="btn btn-default"  th:text="Submit"></button>-->
 </form>
 
 </body>
