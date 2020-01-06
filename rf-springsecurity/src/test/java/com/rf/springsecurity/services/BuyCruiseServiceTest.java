@@ -14,21 +14,5 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class BuyCruiseServiceTest {
 
-    @Autowired
-    private BuyCruiseService buyCruiseService;
-    @Test
-    public void buy() {
-        OrderDTO orderDTO = OrderDTO.builder()
-                //.cruiseName("name1")
-                .firstName("tima")
-                .secondName("tima")
-                .ticket(Ticket.VIP)
-                //.userLogin("t")
-                .build();
-        try {
-            buyCruiseService.buy(orderDTO);
-        } catch (UnsupportedCruiseName unsupportedCruiseName) {
-            unsupportedCruiseName.printStackTrace();
-        }
-    }
+
 }

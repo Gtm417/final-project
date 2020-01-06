@@ -3,8 +3,11 @@ package com.rf.springsecurity.dto;
 
 import com.rf.springsecurity.domain.cruises.Cruise;
 import com.rf.springsecurity.domain.cruises.Ticket;
+import com.rf.springsecurity.domain.ports.Excursion;
 import com.rf.springsecurity.domain.users.User;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,10 +16,10 @@ import lombok.*;
 @Builder
 @ToString
 public class OrderDTO {
-    String firstName;
-    String secondName;
-    User user;
-    Cruise cruise;
-    Ticket ticket;
-
+    private String firstName;
+    private String secondName;
+    private User user;
+    private Cruise cruise;
+    private Ticket ticket;
+    private List<Excursion> excursions;
 }

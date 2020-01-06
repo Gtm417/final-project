@@ -29,7 +29,7 @@ public class Port {
     private List<Excursion> excursions;
 
 
-    @ManyToMany(mappedBy = "ports",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "ports",fetch = FetchType.LAZY)
     private List<Cruise> cruises;
 
     @Override
@@ -37,7 +37,7 @@ public class Port {
         return "Port{" +
                 "id=" + id +
                 ", portName='" + portName + '\'' +
-                ", excursions=" + excursions +
+                ", excursions=" +
                 '}';
     }
 }

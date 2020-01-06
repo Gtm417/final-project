@@ -2,7 +2,6 @@ package com.rf.springsecurity.controller;
 
 import com.rf.springsecurity.dto.BalanceUserDTO;
 import com.rf.springsecurity.services.BalanceService;
-import com.rf.springsecurity.services.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -45,7 +44,7 @@ public class BalanceController {
         if(bindingResult.hasErrors()){
             return "balance";
         }
-        balanceService.updateBalance(balanceDTO.getBalance());
+        balanceService.addBalance(balanceDTO.getBalance());
 
         return "redirect:/balance";
     }

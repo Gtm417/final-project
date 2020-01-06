@@ -29,9 +29,8 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
     private Cruise cruise;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
     private Ticket ticket;
-//    @Enumerated(EnumType.STRING)
-//    private OrderStatus status;
+
 
 }

@@ -4,6 +4,7 @@ package com.rf.springsecurity.domain.cruises;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,8 +29,8 @@ public class Passenger {
     @Column(nullable = false)
     private String secondName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="ticket_id")
     private Ticket ticket;
 
     @ManyToOne(fetch=FetchType.LAZY)

@@ -32,12 +32,19 @@ public class Cruise {
     @JoinColumn(name="ship_id")
     private Ship ship;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(
             name = "ports_cruises",
             joinColumns = @JoinColumn(name = "cruise_id"),
             inverseJoinColumns = @JoinColumn(name = "port_id"))
     private List<Port> ports;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
+    @JoinTable(
+            name = "price_cruises",
+            joinColumns = @JoinColumn(name = "cruise_id"),
+            inverseJoinColumns = @JoinColumn(name="ticket_id"))
+    private List<Ticket> tickets;
 
     @Column(name= "low_ticket_price",nullable = false)
     private long lowPrice;

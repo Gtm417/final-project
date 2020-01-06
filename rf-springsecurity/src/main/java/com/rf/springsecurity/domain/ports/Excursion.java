@@ -4,11 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@ToString
+
 
 
 @Entity
@@ -23,10 +24,28 @@ public class Excursion {
     @Column(name = "excursion_name")
     private String excursionName;
 
-    private String duration;
+    private int duration;
+    private long price;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="port_ID")
     private Port port;
 
+    public Excursion(long id, String excursionName, int duration, long price) {
+        this.id = id;
+        this.excursionName = excursionName;
+        this.duration = duration;
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Excursion{" +
+                "id=" + id +
+                ", excursionName='" + excursionName + '\'' +
+                ", duration=" + duration +
+                ", price=" + price +
+                ", port= " + port +
+                '}';
+    }
 }
