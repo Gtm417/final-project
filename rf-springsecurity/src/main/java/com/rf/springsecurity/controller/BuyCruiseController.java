@@ -22,47 +22,29 @@ public class BuyCruiseController {
 
     private BuyCruiseService buyCruiseService;
     private CruiseService cruiseService;
-    private final UserService userService;
-
 
     @Autowired
-    public BuyCruiseController(BuyCruiseService buyCruiseService, CruiseService cruiseService, UserService userService) {
+    public BuyCruiseController(BuyCruiseService buyCruiseService, CruiseService cruiseService) {
         this.buyCruiseService = buyCruiseService;
         this.cruiseService = cruiseService;
-        this.userService = userService;
     }
 
     @GetMapping("/cruise/{name}/buy")
     public String getCruiseBuyForm(@PathVariable("name") String name,
-                                   OrderDTO orderDTO, Ticket ticket, ExcursionsDTO excursionsDTO,ExcursionsDTO excursionsDTOTest, Model model) throws UnsupportedCruiseName{
-
+                                   OrderDTO orderDTO, Model model) throws UnsupportedCruiseName{
         Cruise cruise = cruiseService.getCruiseDataByName(name);
-        System.out.println(cruise.getTickets());
         model.addAttribute("cruise", cruise);
+        model.addAttribute("allExcursions", new ExcursionsDTO(cruiseService.getAllExcursionsInCruise(cruise)));
         model.addAttribute("name", name);
         model.addAttribute("orderDTO", orderDTO);
-        model.addAttribute("modelTicket", ticket);
-        model.addAttribute("excursionDTO",new ExcursionsDTO(cruiseService.getAllExcursionsInCruise(cruise)));
-        model.addAttribute("excursionsDTOTest", excursionsDTOTest);
         return "buy-cruise";
     }
 
-    @PostMapping("/cruise/{name}/buy")
-    public String buyCruise(@PathVariable("name") String name,
-                            @ModelAttribute("orderDTO") OrderDTO orderDTO,
-                            @ModelAttribute("modelTicket") Ticket ticket,
-                            @ModelAttribute("excursionDTO") ExcursionsDTO excursionsDTO,
-                            @ModelAttribute("excursionsDTOTest")ExcursionsDTO excursionsDTOTest
-                            ) throws Exception {
-        System.err.println(ticket);
-        System.err.println(excursionsDTOTest);
-        //System.err.println(excursionsDTO.toString());
-            orderDTO.setCruise(cruiseService.getCruiseDataByName(name));
-            orderDTO.setUser(userService.getAuthenticatedUser());
-            orderDTO.setTicket(ticket);
-            orderDTO.setExcursions(excursionsDTOTest.getExcursionsDTO());
-        //System.out.println(orderDTO.toString());
-
+    @PostMapping("/cruise/buy")
+    public String buyCruise(@ModelAttribute("orderDTO") OrderDTO orderDTO) throws Exception {
+        System.err.println(orderDTO.getTicket_id());
+        System.err.println(orderDTO.getExcursionNames());
+        System.err.println(orderDTO.getCruiseName());
        buyCruiseService.buy(orderDTO);
         return "redirect:/main";
     }

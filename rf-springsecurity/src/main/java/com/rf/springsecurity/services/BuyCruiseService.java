@@ -2,76 +2,57 @@ package com.rf.springsecurity.services;
 
 
 import com.rf.springsecurity.domain.cruises.Passenger;
+import com.rf.springsecurity.domain.cruises.Ticket;
 import com.rf.springsecurity.domain.orders.Order;
 import com.rf.springsecurity.domain.ports.Excursion;
 import com.rf.springsecurity.dto.OrderDTO;
 import com.rf.springsecurity.exceptions.NotEnoughMoney;
-import com.rf.springsecurity.repository.OrderRepository;
-import com.rf.springsecurity.repository.PassengerRepository;
-import com.rf.springsecurity.repository.TicketRepository;
+import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
+import com.rf.springsecurity.exceptions.UnsupportedTicketId;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 // TODO clear
 @Service
 public class BuyCruiseService {
-
-    private OrderRepository orderRepository;
-    private PassengerRepository passengerRepository;
-    private final TicketRepository ticketRepository;
+    private final OrderService orderService;
     private final BalanceService balanceService;
+    private final PassengerService passengerService;
+    private final ExcursionService excursionService;
 
 
     @Autowired
-    public BuyCruiseService(OrderRepository orderRepository, PassengerRepository passengerRepository, CruiseService cruiseService, BalanceService balanceService, TicketRepository ticketRepository) {
-        this.orderRepository = orderRepository;
-        this.passengerRepository = passengerRepository;
+    public BuyCruiseService(BalanceService balanceService, PassengerService passengerService,
+                            ExcursionService excursionService, OrderService orderService) {
+        this.orderService = orderService;
         this.balanceService = balanceService;
-        this.ticketRepository = ticketRepository;
+        this.passengerService = passengerService;
+        this.excursionService = excursionService;
     }
 
 
-    public void buy(OrderDTO orderDTO) throws Exception {
-        addNewOrder(orderDTO);
-        addPassenger(orderDTO);
-        balanceService.subBalance(getTotalCruisePrice(orderDTO));
+    public void buy(@NonNull OrderDTO orderDTO) throws UnsupportedTicketId, UnsupportedCruiseName, NotEnoughMoney {
+        Order order = orderService.castToOrder(orderDTO);
+        orderService.addNewOrder(order);
+        addPassenger(order);
+        balanceService.subBalance(getTotalCruisePrice(order.getTicket(),excursionService.findAllByListOfNames(orderDTO.getExcursionNames())));
     }
 
-    private void addNewOrder(OrderDTO orderDTO) throws Exception {
-        orderRepository.save(
-                Order.builder()
-                    .cruise(orderDTO.getCruise())
-                    .user(orderDTO.getUser())
-                    .ticket(ticketRepository.findById(orderDTO.getTicket().getId()).orElseThrow(Exception::new))
-                    .build());
-    }
 
-    private void addPassenger(OrderDTO orderDTO) throws Exception {
-        passengerRepository.save(
+    private void addPassenger(@NonNull Order order){
+        passengerService.saveNewPassenger(
                 Passenger.builder()
-                    .firstName(orderDTO.getFirstName())
-                    .secondName(orderDTO.getSecondName())
-                    .ticket(ticketRepository.findById(orderDTO.getTicket().getId()).orElseThrow(Exception::new))
-                    .ship(orderDTO.getCruise().getShip())
+                    .firstName(order.getFirstName())
+                    .secondName(order.getSecondName())
+                    .ticket(order.getTicket())
+                    .ship(order.getCruise().getShip())
                     .build());
     }
 
-    private long getTotalCruisePrice(OrderDTO orderDTO){
-        return orderDTO.getTicket().getPrice() + getExcursionsTotalPrice(orderDTO);
+    private long getTotalCruisePrice(@NonNull Ticket ticket, @NonNull List<Excursion> excursions){
+        return ticket.getPrice() + excursionService.getTotalPriceOfExcursions(excursions);
     }
-
-    private long getExcursionsTotalPrice(OrderDTO orderDTO){
-        return orderDTO.getExcursions().stream()
-                .filter((excursion -> excursion.getExcursionName() != null))
-                .mapToLong(Excursion::getPrice)
-                .sum();
-
-    }
-//    //todo replace orElse
-//    private Ticket getTicket(OrderDTO orderDTO) {
-//        return orderDTO.getCruise().getTickets().stream()
-//                .filter((ticket) -> orderDTO.getTicket_id() == ticket.getId()).findAny().orElse(null);
-//    }
-
-
 }

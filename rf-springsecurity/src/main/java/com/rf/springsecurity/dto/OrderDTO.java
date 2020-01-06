@@ -16,10 +16,10 @@ import java.util.List;
 @Builder
 @ToString
 public class OrderDTO {
+    //TODO validate
     private String firstName;
     private String secondName;
-    private User user;
-    private Cruise cruise;
-    private Ticket ticket;
-    private List<Excursion> excursions;
+    private String cruiseName;
+    private long ticket_id;
+    private List<String> excursionNames;
 }

@@ -1,5 +1,6 @@
 package com.rf.springsecurity.domain.ports;
 
+import com.rf.springsecurity.domain.orders.Order;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,8 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-
 
 @Entity
 @Table( name="excursions",
@@ -33,7 +32,7 @@ public class Excursion {
 
     public Excursion(long id, String excursionName, int duration, long price) {
         this.id = id;
-        this.excursionName = excursionName;
+        this.excursionName =excursionName;
         this.duration = duration;
         this.price = price;
     }

@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CruiseService {
@@ -31,12 +33,9 @@ public class CruiseService {
     }
 
     public List<Excursion> getAllExcursionsInCruise(Cruise cruise){
-        ArrayList<Excursion> excursions = new ArrayList<>();
-        for (Port port : cruise.getPorts()) {
-            excursions.addAll(port.getExcursions());
-        }
-        //System.err.println(excursions);
-        //  cruise.getPorts().stream().
-        return excursions;
+        return cruise.getPorts().stream()
+                .map((Port::getExcursions))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 }
