@@ -39,11 +39,7 @@ public class Cruise {
             inverseJoinColumns = @JoinColumn(name = "port_id"))
     private List<Port> ports;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
-    @JoinTable(
-            name = "price_cruises",
-            joinColumns = @JoinColumn(name = "cruise_id"),
-            inverseJoinColumns = @JoinColumn(name="ticket_id"))
+    @OneToMany(mappedBy = "cruise", fetch =  FetchType.LAZY)
     private List<Ticket> tickets;
 
     @Column(name="departure_date", nullable =  false)

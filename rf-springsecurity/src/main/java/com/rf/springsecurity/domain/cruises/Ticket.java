@@ -1,16 +1,16 @@
 package com.rf.springsecurity.domain.cruises;
 
 import com.rf.springsecurity.domain.orders.Order;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Ticket {
     @Id
@@ -27,8 +27,9 @@ public class Ticket {
     @Column(name="discount", nullable = false, columnDefinition = "int default 0")
     private int discount;
 
-    @ManyToMany(mappedBy = "tickets",fetch = FetchType.LAZY)
-    private List<Cruise> cruise;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="cruise_id")
+    private Cruise cruise;
 
     @OneToMany(mappedBy = "ticket")
     private List<Passenger> listOfPassenger;

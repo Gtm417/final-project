@@ -23,4 +23,7 @@ public class TicketService {
     public long getTicketPriceWithDiscount(Ticket ticket){
         return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
     }
+    public void addNewTicket(Ticket ticket){
+        ticketRepository.save(ticket);
+    }
 }

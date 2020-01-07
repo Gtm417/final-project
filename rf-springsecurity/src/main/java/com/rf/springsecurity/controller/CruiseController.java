@@ -41,10 +41,5 @@ public class CruiseController {
         return "cruise";
     }
 
-    @GetMapping("/cruise/{name}/edit")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String getCruiseEditPage(@PathVariable("name") String name, Model model){
 
-        return "";
-    }
 }
