@@ -32,7 +32,6 @@ public class ExcursionService {
                 .collect(Collectors.toList());
     }
     public long getTotalPriceOfExcursions(List<Excursion> excursions){
-        System.err.println(excursions.stream().mapToLong(Excursion::getPrice).sum());
         return excursions.stream().mapToLong(Excursion::getPrice).sum();
     }
 }

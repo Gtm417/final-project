@@ -5,6 +5,8 @@ import com.rf.springsecurity.domain.ports.Port;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.services.CruiseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import static java.util.stream.Collectors.joining;
 
 @Controller
+
 public class CruiseController {
 
     private CruiseService cruiseService;
@@ -36,5 +39,12 @@ public class CruiseController {
            model.addAttribute("ports", cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
            model.addAttribute("departureDate",cruise.getDepartureDate());
         return "cruise";
+    }
+
+    @GetMapping("/cruise/{name}/edit")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String getCruiseEditPage(@PathVariable("name") String name, Model model){
+
+        return "";
     }
 }

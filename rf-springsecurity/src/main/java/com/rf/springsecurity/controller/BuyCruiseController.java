@@ -16,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/cruise")
 public class BuyCruiseController {
 
     private BuyCruiseService buyCruiseService;
@@ -29,7 +31,7 @@ public class BuyCruiseController {
         this.cruiseService = cruiseService;
     }
 
-    @GetMapping("/cruise/{name}/buy")
+    @GetMapping("/{name}/buy")
     public String getCruiseBuyForm(@PathVariable("name") String name,
                                    OrderDTO orderDTO, Model model) throws UnsupportedCruiseName{
         Cruise cruise = cruiseService.getCruiseDataByName(name);
@@ -37,15 +39,18 @@ public class BuyCruiseController {
         model.addAttribute("allExcursions", new ExcursionsDTO(cruiseService.getAllExcursionsInCruise(cruise)));
         model.addAttribute("name", name);
         model.addAttribute("orderDTO", orderDTO);
+        model.addAttribute("ticketsPrice",cruise.getTickets().stream()
+                .mapToLong(ticket -> buyCruiseService.getTicketPriceWithDiscount(ticket)).toArray());
+
         return "buy-cruise";
     }
 
-    @PostMapping("/cruise/buy")
+    @PostMapping("/buy")
     public String buyCruise(@ModelAttribute("orderDTO") OrderDTO orderDTO) throws Exception {
         System.err.println(orderDTO.getTicket_id());
         System.err.println(orderDTO.getExcursionNames());
         System.err.println(orderDTO.getCruiseName());
-       buyCruiseService.buy(orderDTO);
+        buyCruiseService.buy(orderDTO);
         return "redirect:/main";
     }
 }

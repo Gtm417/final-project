@@ -24,6 +24,9 @@ public class Ticket {
     @Column(nullable = false)
     private long price;
 
+    @Column(name="discount", nullable = false, columnDefinition = "int default 0")
+    private int discount;
+
     @ManyToMany(mappedBy = "tickets",fetch = FetchType.LAZY)
     private List<Cruise> cruise;
 

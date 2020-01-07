@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<!--xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"-->
+
+
 <head>
     <meta charset="UTF-8">
     <title>Sweater</title>
@@ -16,6 +19,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <title>Title</title>
+
 </head>
 <!-- Главная страница -->
 <body>
@@ -34,9 +38,12 @@
     <a href="?lang=ru">ru</a>
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
 </div>
-<form th:action="@{/test}" method="post">
-    <button type="submit" class="btn btn-default"  th:text="#{button.login}"></button>
-</form>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    This content is only shown to administrators.
+</div>
+<div sec:authorize="hasRole('USER')">
+    This content is only shown to users.
+</div>
 <div class="card-deck" style="width: 75rem;" >
 <!--    <img src="..." class="card-img-top" alt="...">-->
     <div class="card" th:each="cruise: ${cruises}">

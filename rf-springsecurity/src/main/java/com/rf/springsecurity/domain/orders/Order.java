@@ -37,7 +37,4 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
     private Ticket ticket;
-
-
-
 }

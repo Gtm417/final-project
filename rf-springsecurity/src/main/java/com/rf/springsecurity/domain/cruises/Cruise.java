@@ -46,20 +46,18 @@ public class Cruise {
             inverseJoinColumns = @JoinColumn(name="ticket_id"))
     private List<Ticket> tickets;
 
-    @Column(name= "low_ticket_price",nullable = false)
-    private long lowPrice;
-
-    @Column(name= "casual_ticket_price",nullable = false)
-    private long casualPrice;
-
-    @Column(name= "VIP_ticket_price",nullable = false)
-    private long VIPPrice;
-
     @Column(name="departure_date", nullable =  false)
     private LocalDate departureDate;
 
     @Column(name= "arrival_date", nullable = false)
     private LocalDate arrivalDate;
+
+    @Column(name="description_eng")
+    private String description_eng;
+
+    @Column(name="description_ru")
+    private String description_ru;
+
 
 
     @Override
@@ -69,9 +67,6 @@ public class Cruise {
                 ", cruiseName='" + cruiseName + '\'' +
                 ", ship=" + ship +
                 ", ports=" + ports +
-                ", lowPrice=" + lowPrice +
-                ", casualPrice=" + casualPrice +
-                ", VIPPrice=" + VIPPrice +
                 ", departureDate=" + departureDate +
                 ", arrivalDate=" + arrivalDate +
                 '}';

@@ -36,9 +36,9 @@
         </div>
     </div>
     <div class="input-group">
-        <div class="form-check form-check-inline" th:each="ticket: ${cruise.tickets}" >
+        <div class="form-check form-check-inline" th:each="ticket, stat: ${cruise.tickets}" >
             <input class="form-check-input" type="radio" id="inlineCheckbox0"  th:field="*{ticket_id}" th:value="${ticket.id}" >
-            <label  class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticket.price}" >1</label>
+            <label  class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticketsPrice[__${stat.index}__]}" >1</label>
         </div>
     </div>
         <div >

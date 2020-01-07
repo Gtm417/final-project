@@ -15,22 +15,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// TODO clear
 @Service
 public class BuyCruiseService {
     private final OrderService orderService;
     private final BalanceService balanceService;
     private final PassengerService passengerService;
     private final ExcursionService excursionService;
+    private final TicketService ticketService;
 
 
     @Autowired
     public BuyCruiseService(BalanceService balanceService, PassengerService passengerService,
-                            ExcursionService excursionService, OrderService orderService) {
+                            ExcursionService excursionService, OrderService orderService, TicketService ticketService) {
         this.orderService = orderService;
         this.balanceService = balanceService;
         this.passengerService = passengerService;
         this.excursionService = excursionService;
+        this.ticketService = ticketService;
     }
 
 
@@ -45,14 +46,18 @@ public class BuyCruiseService {
     private void addPassenger(@NonNull Order order){
         passengerService.saveNewPassenger(
                 Passenger.builder()
-                    .firstName(order.getFirstName())
-                    .secondName(order.getSecondName())
-                    .ticket(order.getTicket())
-                    .ship(order.getCruise().getShip())
-                    .build());
+                        .firstName(order.getFirstName())
+                        .secondName(order.getSecondName())
+                        .ticket(order.getTicket())
+                        .ship(order.getCruise().getShip())
+                        .build());
+    }
+
+    public long getTicketPriceWithDiscount(Ticket ticket){
+        return ticketService.getTicketPriceWithDiscount(ticket);
     }
 
     private long getTotalCruisePrice(@NonNull Ticket ticket, @NonNull List<Excursion> excursions){
-        return ticket.getPrice() + excursionService.getTotalPriceOfExcursions(excursions);
+        return  ticketService.getTicketPriceWithDiscount(ticket) + excursionService.getTotalPriceOfExcursions(excursions);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TicketService {
+    private static final int ONE_HUNDRED_PERCENT = 100;
 
     private final TicketRepository ticketRepository;
 
@@ -17,5 +18,9 @@ public class TicketService {
 
     public Ticket getTicketById(long id) throws UnsupportedTicketId {
         return ticketRepository.findById(id).orElseThrow(() -> new UnsupportedTicketId("There is no ticket with such id: " + id));
+    }
+
+    public long getTicketPriceWithDiscount(Ticket ticket){
+        return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
     }
 }
