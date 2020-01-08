@@ -7,24 +7,41 @@
 <body>
 <form th:action="@{/cruise/{name}/edit/adding-ticket(name=${name})}" th:object="${ticketDTO}" method="post">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+
+
     <div class="input-group">
 
         <div class="form-group" >
+            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('ticketName')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('ticketName')}" th:text="${err}"></li>
+                </ul>
+            </div>
             <label th:text="name" ></label>
             <input type="text" th:field="*{ticketName}">
         </div>
 
         <div class="form-group">
+            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('price')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
+                </ul>
+            </div>
             <label th:text="price" ></label>
             <input type="text"  th:field="*{price}">
         </div>
 
         <div class="form-group">
+            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('discount')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('discount')}" th:text="${err}"></li>
+                </ul>
+            </div>
             <label th:text="discount" ></label>
             <input type="text"  th:field="*{discount}">
         </div>
 
-        <button type="submit" class="btn btn-default"  th:text="Submit"></button>
+        <button type="submit" class="btn btn-default"  th:text="Submit" ></button>
 
     </div>
 

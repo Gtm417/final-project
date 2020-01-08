@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class BalanceUserDTO {
     //TODO validation value have to be digit
     @NotNull(message = "balance cannot be empty.")
-    @Min(value = 0, message =  "balance cannot be < 0" )
+    @Min(value = 1, message =  "balance cannot be > 0" )
     private Long balance;
 
     public Long getBalance() {

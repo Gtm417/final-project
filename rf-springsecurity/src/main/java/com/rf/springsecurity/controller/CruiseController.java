@@ -36,9 +36,8 @@ public class CruiseController {
     @GetMapping("/cruise/{name}")
     public String getCruise(@PathVariable("name") String name, Model model) throws UnsupportedCruiseName{
            Cruise cruise = cruiseService.getCruiseDataByName(name);
-           model.addAttribute("name", name);
+           model.addAttribute("cruise", cruise);
            model.addAttribute("ports", cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
-           model.addAttribute("departureDate",cruise.getDepartureDate());
         return "cruise";
     }
 

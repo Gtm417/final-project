@@ -7,19 +7,24 @@ import com.rf.springsecurity.dto.ExcursionsDTO;
 import com.rf.springsecurity.dto.OrderDTO;
 import com.rf.springsecurity.exceptions.NotEnoughMoney;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
+import com.rf.springsecurity.exceptions.UnsupportedTicketId;
 import com.rf.springsecurity.services.BuyCruiseService;
 import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/cruise")
 public class BuyCruiseController {
 
     //TODO handling Not Enough Money Exc
+    //TODO handling UnsupportedTicketId
 
     private BuyCruiseService buyCruiseService;
     private CruiseService cruiseService;
@@ -32,7 +37,7 @@ public class BuyCruiseController {
 
     @GetMapping("/{name}/buy")
     public String getCruiseBuyForm(@PathVariable("name") String name,
-                                   OrderDTO orderDTO, Model model) throws UnsupportedCruiseName{
+                                  OrderDTO orderDTO, Model model) throws UnsupportedCruiseName{
         Cruise cruise = cruiseService.getCruiseDataByName(name);
         model.addAttribute("cruise", cruise);
         model.addAttribute("allExcursions", new ExcursionsDTO(cruiseService.getAllExcursionsInCruise(cruise)));
@@ -45,7 +50,11 @@ public class BuyCruiseController {
     }
 
     @PostMapping("/buy")
-    public String buyCruise(@ModelAttribute("orderDTO") OrderDTO orderDTO) throws Exception {
+    public String buyCruise(@Valid @ModelAttribute("orderDTO") OrderDTO orderDTO,
+                            BindingResult bindingResult) throws NotEnoughMoney, UnsupportedCruiseName, UnsupportedTicketId {
+        if(bindingResult.hasErrors()){
+            return "buy-cruise";
+        }
         System.err.println(orderDTO.getTicket_id());
         System.err.println(orderDTO.getExcursionNames());
         System.err.println(orderDTO.getCruiseName());

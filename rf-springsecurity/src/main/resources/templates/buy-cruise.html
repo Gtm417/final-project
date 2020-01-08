@@ -26,6 +26,12 @@
 
 <form th:action="@{/cruise/buy}" method="post" th:object="${orderDTO}">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+    <div class="error"  style="color: red;" th:if="${#fields.hasErrors('*')}">
+        <p><strong>Errors</strong></p>
+        <ul>
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+        </ul>
+    </div>
     <div class="form-row" >
         <input hidden name="cruiseName" th:value="${name}">
         <div class="col">

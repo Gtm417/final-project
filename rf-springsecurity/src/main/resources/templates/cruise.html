@@ -23,9 +23,10 @@
 <script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
-<h1 th:text="${name}" ></h1>
+<h1 th:text="${cruise.cruiseName}" ></h1>
 <h1 th:text="${ports}" ></h1>
-<h1 th:text="${departureDate}" ></h1>
+<h1 th:text="${cruise.description_eng}" ></h1>
+<h1 th:text="${cruise.departureDate}" ></h1>
 <a th:href="@{/cruise/{name}/buy(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Главная ссылка</a>
 <div sec:authorize="hasRole('ROLE_ADMIN')">
     <a th:href="@{/cruise/{name}/edit(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" th:text="Edit"> </a>

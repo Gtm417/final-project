@@ -10,14 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/cruise/{name}/edit")
 public class CruiseEditController {
     //TODO null from form editing
-    //TODO validate descriptionDTO
-    //TODO validate ticketDTO
+    //TODO same tickets(name and cruise_id) in one table
     private final CruiseService cruiseService;
 
     public CruiseEditController(CruiseService cruiseService) {
@@ -32,8 +34,9 @@ public class CruiseEditController {
 
     @GetMapping("/description")
     @PreAuthorize("hasRole('ADMIN')")
-    public String getDescriptionEditPage(@PathVariable("name") String name, CruiseDescriptionsDTO cruiseDescriptionsDTO, Model model){
-        model.addAttribute("descriptionDTO", cruiseDescriptionsDTO);
+    public String getDescriptionEditPage(@PathVariable("name") String name, Model model) throws UnsupportedCruiseName {
+        model.addAttribute("cruise",cruiseService.getCruiseDataByName(name));
+        model.addAttribute("descriptionDTO", new CruiseDescriptionsDTO());
         return "cruise/edit-description";
     }
 
@@ -41,7 +44,6 @@ public class CruiseEditController {
     @PreAuthorize("hasRole('ADMIN')")
     public String editCruiseDescription(@PathVariable("name") String  name,
                                         @ModelAttribute("descriptionDTO") CruiseDescriptionsDTO cruiseDescriptionsDTO) throws UnsupportedCruiseName {
-        System.err.println(cruiseDescriptionsDTO.toString());
         cruiseService.changeCruiseDescription(cruiseService.getCruiseDataByName(name), cruiseDescriptionsDTO);
         return "cruise/edit-description";
     }
@@ -49,7 +51,8 @@ public class CruiseEditController {
     @GetMapping("/add/ticket")
     @PreAuthorize("hasRole('ADMIN')")
     public String getAddTicketPage(@PathVariable("name") String name,
-                                   TicketDTO ticketDTO, Model model){
+                                   TicketDTO ticketDTO, Model model) throws UnsupportedCruiseName {
+        model.addAttribute("cruise",cruiseService.getCruiseDataByName(name));
         model.addAttribute("ticketDTO", ticketDTO);
         return "cruise/add-ticket";
     }
@@ -57,7 +60,11 @@ public class CruiseEditController {
     @PostMapping("/adding-ticket")
     @PreAuthorize("hasRole('ADMIN')")
     public String getAddTicketPage(@PathVariable("name") String name,
-                                   @ModelAttribute TicketDTO ticketDTO) throws UnsupportedCruiseName {
+                                   @Valid @ModelAttribute TicketDTO ticketDTO,
+                                   BindingResult bindingResult) throws UnsupportedCruiseName {
+        if(bindingResult.hasErrors()){
+            return "cruise/add-ticket";
+        }
         System.err.println(ticketDTO.toString());
         cruiseService.addNewTicketToCruise(cruiseService.getCruiseDataByName(name), ticketDTO);
         return "cruise/add-ticket";

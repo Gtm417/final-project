@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 
 @Controller
-
 public class BalanceController {
 
     private BalanceService balanceService;
@@ -32,8 +31,7 @@ public class BalanceController {
     }
 
     @GetMapping("/balance")
-    public String balanceReplenish(BalanceUserDTO balanceDTO,
-                                   Model model) {
+    public String balanceReplenish(BalanceUserDTO balanceDTO, Model model) {
         model.addAttribute("balanceDTO", balanceDTO);
         return "balance";
     }
@@ -45,7 +43,6 @@ public class BalanceController {
             return "balance";
         }
         balanceService.addBalance(balanceDTO.getBalance());
-
         return "redirect:/balance";
     }
 }
