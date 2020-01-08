@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnsupportedCruiseName.class)
-    public String  handlingUnsupportedCruiseName(Model model, UnsupportedUserName ex){
+    public String  handlingUnsupportedCruiseName(UnsupportedCruiseName ex, Model model){
         model.addAttribute("error", ex.getMessage());
-        log.info(ex.getMessage());
+        log.error("Cruise not found: " + ex.getMessage());
         return "redirect:/main";
     }
 
@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
         log.info(ex.getMessage());
         return "redirect:/login";
     }
+    //TODO EXception NotEnoughMoney Handling
 
 
 

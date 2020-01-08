@@ -44,7 +44,9 @@
 <div sec:authorize="hasRole('USER')">
     This content is only shown to users.
 </div>
+<p th:if="${error}" th:text="#{alert.wrong.cruise.name} + ${error}"  class="alert alert-info" role="alert"></p>
 <div class="card-deck" style="width: 75rem;" >
+
 <!--    <img src="..." class="card-img-top" alt="...">-->
     <div class="card" th:each="cruise: ${cruises}">
         <div class="card-body">

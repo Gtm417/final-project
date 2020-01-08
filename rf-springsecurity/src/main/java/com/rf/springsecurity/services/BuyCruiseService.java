@@ -42,7 +42,7 @@ public class BuyCruiseService {
         balanceService.subBalance(getTotalCruisePrice(order.getTicket(),excursionService.findAllByListOfNames(orderDTO.getExcursionNames())));
     }
 
-
+    //TODO find out if ship current capacity allows and add current capacity if allows
     private void addPassenger(@NonNull Order order){
         passengerService.saveNewPassenger(
                 Passenger.builder()

@@ -14,6 +14,7 @@ public class PassengerService {
         this.passengerRepository = passengerRepository;
     }
 
+
     public void saveNewPassenger(Passenger passenger){
         passengerRepository.save(passenger);
     }

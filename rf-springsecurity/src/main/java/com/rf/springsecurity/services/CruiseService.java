@@ -1,6 +1,7 @@
 package com.rf.springsecurity.services;
 
 import com.rf.springsecurity.domain.cruises.Cruise;
+import com.rf.springsecurity.domain.cruises.Passenger;
 import com.rf.springsecurity.domain.cruises.Ticket;
 import com.rf.springsecurity.domain.ports.Excursion;
 import com.rf.springsecurity.domain.ports.Port;
@@ -49,6 +50,7 @@ public class CruiseService {
         cruise.setDescription_eng(cruiseDescriptionsDTO.getDescription_eng());
         cruiseRepository.save(cruise);
     }
+
     public void addNewTicketToCruise(Cruise cruise, TicketDTO ticketDTO){
         ticketService.addNewTicket(Ticket.builder()
                 .ticketName(ticketDTO.getTicketName())
@@ -56,5 +58,9 @@ public class CruiseService {
                 .discount(ticketDTO.getDiscount())
                 .cruise(cruise)
                 .build());
+    }
+
+    public List<Passenger> getCurrentListOfPassengersAtCruise(String name) throws UnsupportedCruiseName {
+       return getCruiseDataByName(name).getShip().getListOfPassenger();
     }
 }

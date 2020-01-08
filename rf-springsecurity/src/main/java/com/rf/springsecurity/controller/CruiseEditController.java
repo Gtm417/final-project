@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/cruise/{name}/edit")
 public class CruiseEditController {
+    //TODO null from form editing
+    //TODO validate descriptionDTO
+    //TODO validate ticketDTO
     private final CruiseService cruiseService;
 
     public CruiseEditController(CruiseService cruiseService) {
@@ -62,9 +65,9 @@ public class CruiseEditController {
 
     @GetMapping("/all_passengers")
     @PreAuthorize("hasRole('ADMIN')")
-    public String getAllPassengers(@PathVariable("name") String name, PassengersDTO passengersDTO, Model model){
-        model.addAttribute("passengers", new PassengersDTO());
-        return "cruise-passengers";
+    public String getAllPassengers(@PathVariable("name") String name, Model model) throws UnsupportedCruiseName {
+        model.addAttribute("passengers", cruiseService.getCurrentListOfPassengersAtCruise(name));
+        return "cruise/cruise-passengers";
     }
 
 }

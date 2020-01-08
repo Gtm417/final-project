@@ -5,12 +5,12 @@ import com.rf.springsecurity.domain.ports.Port;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.services.CruiseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import static java.util.stream.Collectors.joining;
 
 @Controller
@@ -26,12 +26,13 @@ public class CruiseController {
 
 
     @GetMapping("/main")
-    public String getMainPage(Model model){
+    public String getMainPage(@RequestParam(value = "error", required = false) String error, Model model){
+        //model.addAttribute("error", error != null);
+        model.addAttribute("error", error );
         model.addAttribute("cruises", cruiseService.getAllCruises());
         return "main";
     }
 
-    //TODO exception handling
     @GetMapping("/cruise/{name}")
     public String getCruise(@PathVariable("name") String name, Model model) throws UnsupportedCruiseName{
            Cruise cruise = cruiseService.getCruiseDataByName(name);
@@ -40,6 +41,7 @@ public class CruiseController {
            model.addAttribute("departureDate",cruise.getDepartureDate());
         return "cruise";
     }
+
 
 
 }

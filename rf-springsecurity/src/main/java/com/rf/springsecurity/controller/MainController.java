@@ -35,10 +35,8 @@ public class MainController {
 
     @RequestMapping("/")
     public String getHomePage(Model model) {
-        //TODO maybe dont needed getAuthUser() in can be done by @AuthenticationPrincipal User user
+        //TODO maybe dont needed getAuthUser() it can be done by @AuthenticationPrincipal User user
         UserDetails user = userAuthenticationService.getAuthenticatedUserDetails();
-        //TODO dont needed attribute login
-        model.addAttribute("login", user.getUsername());
         model.addAttribute("role", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
         return "hello";
     }
