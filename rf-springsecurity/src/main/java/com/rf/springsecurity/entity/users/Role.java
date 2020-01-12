@@ -1,8 +1,6 @@
-package com.rf.springsecurity.domain;
+package com.rf.springsecurity.entity.users;
 
 import org.springframework.security.core.GrantedAuthority;
-
-import javax.persistence.Entity;
 
 public enum Role implements GrantedAuthority {
     ROLE_USER, ROLE_ADMIN;

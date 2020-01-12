@@ -1,48 +1,52 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.domain.User;
+import com.rf.springsecurity.entity.users.User;
 import com.rf.springsecurity.dto.UsersDTO;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
+
+
+import lombok.NonNull;
 
 
 
 @Slf4j
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+    private UserAuthenticationService userAuthenticationService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserAuthenticationService userAuthenticationService) {
         this.userRepository = userRepository;
+        this.userAuthenticationService = userAuthenticationService;
     }
-
-
-
-    @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-     User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException(login));
-     return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Collections.singleton(user.getRoles()));
-    }
-
-
 
     public UsersDTO getAllUsers() {
-        //TODO checking for an empty user list
         return new UsersDTO(userRepository.findAll());
     }
 
+    public void saveNewUser (@NonNull User user){
 
-    public void saveNewUser (User user) throws Exception{
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
+
+    public User getAuthenticatedUser(){
+        return getUserByLogin(userAuthenticationService.getAuthenticatedUserDetails().getUsername());
+    }
+
+    private User getUserByLogin(@NonNull String login) throws  UsernameNotFoundException {
+        return userRepository.findByLogin(login).orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
+    }
+
+    public void updateUser(@NonNull User user){
+        userRepository.save(user);
+    }
+
 }

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<a th:href="@{/cruise/{name}/edit/description(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Description</a>
+<a th:href="@{/cruise/{name}/edit/add/ticket(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add Ticket</a>
+<a th:href="@{/cruise/{name}/edit/all_passengers(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Passengers</a>
+</body>
+</html>

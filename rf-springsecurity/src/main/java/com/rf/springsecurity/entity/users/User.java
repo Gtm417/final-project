@@ -1,4 +1,4 @@
-package com.rf.springsecurity.domain;
+package com.rf.springsecurity.entity.users;
 
 import lombok.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table( name="user",
+@Table( name="users",
         uniqueConstraints={@UniqueConstraint(columnNames={"login"})})
 public class User {
 
@@ -34,14 +34,6 @@ public class User {
     @Column(nullable = false)
     private Role roles;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", active=" + active +
-                ", roles=" + roles +
-                '}';
-    }
+    @Column(name = "balance", nullable = false, columnDefinition = "bigint default 0")
+    private long balance;
 }

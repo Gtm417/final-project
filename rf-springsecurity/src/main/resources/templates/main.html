@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<!--xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"-->
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sweater</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <title>Title</title>
+
+</head>
+<!-- Главная страница -->
+<body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+
+
+<h1 th:text="${login}"></h1>
+<div class="container">
+    <a href="?lang=en">en</a>
+    <a href="?lang=ru">ru</a>
+    <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+
+</div>
+<div sec:authorize="hasRole('USER')">
+
+</div>
+<p th:if="${error}" th:text="#{alert.wrong.cruise.name} + ${error}"  class="alert alert-info" role="alert"></p>
+<div class="card-deck" style="width: 75rem;" >
+
+<!--    <img src="..." class="card-img-top" alt="...">-->
+    <div class="card" th:each="cruise: ${cruises}">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${cruise.cruiseName}" ></h5>
+            <p class="card-text" th:text="${cruise.description_eng}"></p>
+            <a th:href="@{/cruise/{name}(name=${cruise.cruiseName})}" class="btn btn-primary">Просмотреть рейс</a>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a href="/registration"  th:text="#{button.registration}" ></a>
+    <a href="/login" th:text = #{button.login}> </a>
+    <a th:text="#{button.logout}" href="/logout"> </a>
+</div>
+
+</body>
+</html>
