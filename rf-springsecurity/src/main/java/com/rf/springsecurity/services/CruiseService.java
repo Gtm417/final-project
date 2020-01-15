@@ -51,7 +51,8 @@ public class CruiseService {
     }
 
     public void addNewTicketToCruise(Cruise cruise, TicketDTO ticketDTO){
-        ticketService.addNewTicket(Ticket.builder()
+        ticketService.addNewTicket(
+                Ticket.builder()
                 .ticketName(ticketDTO.getTicketName())
                 .price(ticketDTO.getPrice())
                 .discount(ticketDTO.getDiscount())
@@ -59,6 +60,7 @@ public class CruiseService {
                 .build());
     }
 
+    //TODO 1 request
     public List<Passenger> getCurrentListOfPassengersAtCruise(String name) throws UnsupportedCruiseName {
        return getCruiseDataByName(name).getShip().getListOfPassenger();
     }

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 public class BuyCruiseService {
-
+    //TODO repos
     private final OrderService orderService;
     private final BalanceService balanceService;
     private final PassengerService passengerService;
@@ -35,7 +35,7 @@ public class BuyCruiseService {
         this.ticketService = ticketService;
     }
 
-
+    //TODO Transactional
     public void buy(@NonNull OrderDTO orderDTO) throws UnsupportedTicketId, UnsupportedCruiseName, NotEnoughMoney {
         Order order = orderService.castToOrder(orderDTO);
         orderService.addNewOrder(order);

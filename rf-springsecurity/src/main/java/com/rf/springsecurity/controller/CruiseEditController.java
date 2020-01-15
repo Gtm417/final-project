@@ -41,6 +41,7 @@ public class CruiseEditController {
     @PreAuthorize("hasRole('ADMIN')")
     public String editCruiseDescription(@PathVariable("name") String  name,
                                         @ModelAttribute("descriptionDTO") CruiseDescriptionsDTO cruiseDescriptionsDTO) throws UnsupportedCruiseName {
+        //TODO обернуть  єтот метод
         cruiseService.changeCruiseDescription(cruiseService.getCruiseDataByName(name), cruiseDescriptionsDTO);
         return "cruise/edit-description";
     }

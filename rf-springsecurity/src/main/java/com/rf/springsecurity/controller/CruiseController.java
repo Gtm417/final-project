@@ -32,6 +32,8 @@ public class CruiseController {
         return "main";
     }
 
+
+    // пробуем из мейна перекидывать сюда сразу круиз Я передал уже все круизы в мейн
     //передавать круиз в запросе
     @GetMapping("/cruise/{name}")
     public String getCruise(@PathVariable("name") String name, Model model) throws UnsupportedCruiseName{
@@ -44,9 +46,7 @@ public class CruiseController {
     @GetMapping("/test/{name}")
     public String test(@PathVariable("name") String name, Model model) throws UnsupportedCruiseName{
         Cruise cruise = cruiseService.getCruiseDataByName(name);
-        System.err.println("//////////////////////////////////////////");
         model.addAttribute("cruise", cruise);
-        //System.err.println(cruiseService.getAllExcursionsInCruise(cruise));
         model.addAttribute("ports", cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
         return "cruise";
     }

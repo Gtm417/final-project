@@ -27,6 +27,8 @@ public class BalanceController {
     public void getAuthUserBalance(@AuthenticationPrincipal User user,
                                    Model model){
         model.addAttribute("login", user.getUsername());
+        //TOdo не понятно зачем здесь сделано  через getUserBalance можна вытащить юзера через user.getUsername()
+        //или достать его из сессии передать его в методы которые пополняют юзера
         model.addAttribute("balance",balanceService.getUserBalance().getBalance());
         System.err.println("?????????????????????????????");
     }

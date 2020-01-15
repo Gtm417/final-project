@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BalanceService {
 
+    //todo balance service in userservice
+
     private final UserService userService;
 
     @Autowired
