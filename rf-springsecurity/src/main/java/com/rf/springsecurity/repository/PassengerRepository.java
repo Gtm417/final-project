@@ -1,6 +1,6 @@
 package com.rf.springsecurity.repository;
 
-import com.rf.springsecurity.entity.cruises.Passenger;
+import com.rf.springsecurity.entity.cruise.Passenger;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.entity.users.User;
+import com.rf.springsecurity.entity.user.User;
 import com.rf.springsecurity.dto.BalanceUserDTO;
 import com.rf.springsecurity.exceptions.NotEnoughMoney;
 import org.springframework.beans.factory.annotation.Autowired;

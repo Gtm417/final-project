@@ -1,4 +1,4 @@
-package com.rf.springsecurity.entity.ports;
+package com.rf.springsecurity.entity.port;
 
 import lombok.*;
 
@@ -9,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 
 @Entity
 @Table( name="excursions",
@@ -36,5 +37,13 @@ public class Excursion {
         this.price = price;
     }
 
-
+    @Override
+    public String toString() {
+        return "Excursion{" +
+                "id=" + id +
+                ", excursionName='" + excursionName + '\'' +
+                ", duration=" + duration +
+                ", price=" + price +
+                '}';
+    }
 }

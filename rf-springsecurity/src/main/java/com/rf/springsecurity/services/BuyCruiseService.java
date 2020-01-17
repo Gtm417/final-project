@@ -1,10 +1,10 @@
 package com.rf.springsecurity.services;
 
 
-import com.rf.springsecurity.entity.cruises.Passenger;
-import com.rf.springsecurity.entity.cruises.Ticket;
-import com.rf.springsecurity.entity.orders.Order;
-import com.rf.springsecurity.entity.ports.Excursion;
+import com.rf.springsecurity.entity.cruise.Passenger;
+import com.rf.springsecurity.entity.cruise.Ticket;
+import com.rf.springsecurity.entity.order.Order;
+import com.rf.springsecurity.entity.port.Excursion;
 import com.rf.springsecurity.dto.OrderDTO;
 import com.rf.springsecurity.exceptions.NotEnoughMoney;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;

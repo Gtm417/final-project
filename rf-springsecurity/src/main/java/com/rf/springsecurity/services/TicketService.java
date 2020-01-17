@@ -1,6 +1,6 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.entity.cruises.Ticket;
+import com.rf.springsecurity.entity.cruise.Ticket;
 import com.rf.springsecurity.exceptions.UnsupportedTicketId;
 import com.rf.springsecurity.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;

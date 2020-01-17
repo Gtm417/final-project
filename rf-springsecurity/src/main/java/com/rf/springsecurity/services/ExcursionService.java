@@ -1,6 +1,6 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.entity.ports.Excursion;
+import com.rf.springsecurity.entity.port.Excursion;
 import com.rf.springsecurity.repository.ExcursionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

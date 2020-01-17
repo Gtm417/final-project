@@ -1,7 +1,7 @@
 package com.rf.springsecurity.controller;
 
-import com.rf.springsecurity.entity.cruises.Cruise;
-import com.rf.springsecurity.entity.ports.Port;
+import com.rf.springsecurity.entity.cruise.Cruise;
+import com.rf.springsecurity.entity.port.Port;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.services.CruiseService;
 import org.springframework.beans.factory.annotation.Autowired;

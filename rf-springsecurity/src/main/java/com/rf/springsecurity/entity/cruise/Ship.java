@@ -1,4 +1,4 @@
-package com.rf.springsecurity.entity.cruises;
+package com.rf.springsecurity.entity.cruise;
 
 
 import lombok.*;

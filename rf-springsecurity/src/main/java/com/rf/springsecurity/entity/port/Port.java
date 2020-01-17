@@ -1,7 +1,7 @@
-package com.rf.springsecurity.entity.ports;
+package com.rf.springsecurity.entity.port;
 
 
-import com.rf.springsecurity.entity.cruises.Cruise;
+import com.rf.springsecurity.entity.cruise.Cruise;
 import lombok.*;
 
 import javax.persistence.*;

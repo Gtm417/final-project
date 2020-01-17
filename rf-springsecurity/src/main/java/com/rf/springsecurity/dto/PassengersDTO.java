@@ -1,6 +1,6 @@
 package com.rf.springsecurity.dto;
 
-import com.rf.springsecurity.entity.cruises.Passenger;
+import com.rf.springsecurity.entity.cruise.Passenger;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

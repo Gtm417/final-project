@@ -1,7 +1,7 @@
 package com.rf.springsecurity.controller;
 
-import com.rf.springsecurity.entity.users.Role;
-import com.rf.springsecurity.entity.users.User;
+import com.rf.springsecurity.entity.user.Role;
+import com.rf.springsecurity.entity.user.User;
 import com.rf.springsecurity.services.UserAuthenticationService;
 import com.rf.springsecurity.services.UserService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
-package com.rf.springsecurity.entity.cruises;
+package com.rf.springsecurity.entity.cruise;
 
-import com.rf.springsecurity.entity.orders.Order;
+import com.rf.springsecurity.entity.order.Order;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,4 +36,14 @@ public class Ticket {
 
     @OneToMany(mappedBy = "ticket")
     private List<Order> orders;
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", ticketName='" + ticketName + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                '}';
+    }
 }

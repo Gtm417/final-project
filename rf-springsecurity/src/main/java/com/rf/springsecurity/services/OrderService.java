@@ -1,7 +1,7 @@
 package com.rf.springsecurity.services;
 
 
-import com.rf.springsecurity.entity.orders.Order;
+import com.rf.springsecurity.entity.order.Order;
 import com.rf.springsecurity.dto.OrderDTO;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.exceptions.UnsupportedTicketId;

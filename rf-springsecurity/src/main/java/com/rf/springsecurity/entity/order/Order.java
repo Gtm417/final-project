@@ -1,9 +1,9 @@
-package com.rf.springsecurity.entity.orders;
+package com.rf.springsecurity.entity.order;
 
 
-import com.rf.springsecurity.entity.cruises.Cruise;
-import com.rf.springsecurity.entity.cruises.Ticket;
-import com.rf.springsecurity.entity.users.User;
+import com.rf.springsecurity.entity.cruise.Cruise;
+import com.rf.springsecurity.entity.cruise.Ticket;
+import com.rf.springsecurity.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;

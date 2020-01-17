@@ -27,7 +27,7 @@
 <h1 th:text="${ports}" ></h1>
 <h1 th:text="${cruise.description_eng}" ></h1>
 <h1 th:text="${cruise.departureDate}" ></h1>
-<a th:href="@{/cruise/{name}/buy(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"> Купить</a>
+<a th:href="@{/user/cruise/buy(id=${cruise.id})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"> Купить</a>
 <div sec:authorize="hasRole('ROLE_ADMIN')">
     <a th:href="@{/cruise/{name}/edit(name=${name})}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" th:text="Edit"> </a>
 </div>

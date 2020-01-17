@@ -1,7 +1,7 @@
-package com.rf.springsecurity.entity.cruises;
+package com.rf.springsecurity.entity.cruise;
 
 
-import com.rf.springsecurity.entity.ports.Port;
+import com.rf.springsecurity.entity.port.Port;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,7 +38,7 @@ public class Cruise {
             inverseJoinColumns = @JoinColumn(name = "port_id"))
     private List<Port> ports;
 
-    @OneToMany(mappedBy = "cruise", fetch =  FetchType.LAZY)
+    @OneToMany(mappedBy = "cruise", fetch =  FetchType.EAGER)
     private List<Ticket> tickets;
 
     @Column(name="departure_date", nullable =  false)

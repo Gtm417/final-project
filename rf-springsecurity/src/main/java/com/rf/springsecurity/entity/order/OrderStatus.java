@@ -1,4 +1,4 @@
-package com.rf.springsecurity.entity.orders;
+package com.rf.springsecurity.entity.order;
 
 public enum OrderStatus {
     AWAITING, CONFIRMED

@@ -1,6 +1,6 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.entity.users.User;
+import com.rf.springsecurity.entity.user.User;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;

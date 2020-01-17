@@ -1,6 +1,6 @@
 package com.rf.springsecurity.repository;
 
-import com.rf.springsecurity.entity.cruises.Ticket;
+import com.rf.springsecurity.entity.cruise.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -33,8 +33,7 @@
             <a th:href="@{/main}" th:text="Main"> </a>
             <h1 th:text="#{title.hello.world}"></h1>
             <h2 th:text="#{text.logged.with}"></h2>
-            <h3  th:text="${login}"></h3>
-            <h4  th:text="${role}"></h4>
+            <h3  th:text="${session.user.login}"></h3>
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-package com.rf.springsecurity.entity.users;
+package com.rf.springsecurity.entity.user;
 
 import lombok.*;
 

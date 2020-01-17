@@ -24,57 +24,139 @@
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 
 
-<form th:action="@{/cruise/buy}" method="post" th:object="${orderDTO}">
+<form id="buy" th:action="@{/user/cruise/buy}" method="post" th:object="${orderDTO}">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
-    <div class="error"  style="color: red;" th:if="${#fields.hasErrors('*')}">
-        <p><strong>Errors</strong></p>
-        <ul>
-            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-        </ul>
-    </div>
-    <div class="form-row" >
-        <input hidden name="cruiseName" th:value="${name}">
-        <div class="col">
-            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('firstName')}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>
-                </ul>
+        <div class="error"  style="color: red;" th:if="${#fields.hasErrors('*')}">
+            <p><strong>Errors</strong></p>
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
+        </div>
+        <div class="form-row" >
+            <div class="col">
+                <div class="error"  style="color: red;" th:if="${#fields.hasErrors('firstName')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+                <input type="text" class="form-control" placeholder="Имя" th:field="*{firstName}">
             </div>
-            <input type="text" class="form-control" placeholder="Имя" th:field="*{firstName}">
-        </div>
-        <div class="col">
-            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('secondName')}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}"></li>
-                </ul>
+            <div class="col">
+                <div class="error"  style="color: red;" th:if="${#fields.hasErrors('secondName')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+                <input type="text" class="form-control" placeholder="Фамилия" th:field="*{secondName}">
             </div>
-            <input type="text" class="form-control" placeholder="Фамилия" th:field="*{secondName}">
         </div>
-    </div>
-    <div class="input-group">
-        <div class="form-check form-check-inline" th:each="ticket, stat: ${cruise.tickets}" >
-            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('ticket_id')}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('ticket_id')}" th:text="${err}"></li>
-                </ul>
-            </div>
-            <input class="form-check-input" type="radio" id="inlineCheckbox0"  th:field="*{ticket_id}" th:value="${ticket.id}" >
-            <label  class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticketsPrice[__${stat.index}__]}" >1</label>
+        <div class="form-group">
+            <select th:field="*{ticket}">
+                <option th:each="ticket, stat: ${cruise.tickets}"
+                        th:value="${ticket.id}"
+                        th:text="#{${'orderDTO.ticket' + ticket}}">Wireframe</option>
+            </select>
         </div>
-    </div>
-        <div >
-        <div class="form-check form-check-inline" th:each="excursion, stat : ${allExcursions.excursionsDTO}" >
-            <label th:text="${excursion.port.portName}">  </label>
-                    <div class="input-group">
-                        <div class="form-check form-check-inline">
-                            <label  class="form-check-label" th:text="${excursion.excursionName} + ${excursion.price}"  ></label>
-                            <input class="form-check-input" type="radio" id="inlineCheckbox1" th:name="|excursionNames[${stat.index}]|"   th:value="${excursion.excursionName}" >
-                        </div>
-                    </div>
-        </div>
-        <p><input type="submit" value="Submit" /></p>
-    </div>
+
+<!--        <div class="input-group">-->
+<!--            <div class="form-check form-check-inline" th:each="ticket, stat: ${cruise.tickets}" >-->
+<!--&lt;!&ndash;                <div class="error"  style="color: red;" th:if="${#fields.hasErrors('ticket_id')}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <li th:each="err : ${#fields.errors('ticket_id')}" th:text="${err}"></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--                <input class="form-check-input" type="radio" id="inlineCheckbox0"  th:field="*{ticket.id}" th:value="${ticket.id}">-->
+<!--&lt;!&ndash;                <input class="form-check-input" hidden name ="id" th:value="${ticket.id}" >&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-check-input" hidden name ="ticketName" th:value="${ticket.ticketName}" >&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-check-input" hidden name = "price" th:value="${ticket.price}" >&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="form-check-input" hidden name="discount" th:value="${ticket.discount}" >&ndash;&gt;-->
+<!--                <input class="form-check-input" hidden th:field="*{ticket.id}" th:value="${ticket.id}" >-->
+<!--                <input class="form-check-input" hidden th:field="*{ticket.ticketName}" th:value="${ticket.ticketName}" >-->
+<!--                <input class="form-check-input" hidden th:field="*{ticket.price}" th:value="${ticket.price}" >-->
+<!--                <input class="form-check-input" hidden th:field="*{ticket.discount}" th:value="${ticket.discount}" >-->
+<!--                <label class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticketsPrice[__${stat.index}__]}" >1</label>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
+
+    <p><input type="submit" value="Submit" /></p>
 </form>
+<table class="table" style="
+    width: 40%;
+    margin: 0 auto;
+    background:  #0c5460;
+    border-radius: 10px;
+    color: white;
+">
+    <tbody>
+    <tr th:each="excursion, itemStat :${excursions}">
+        <td  th:text="${excursion.id}"></td>
+        <td  th:text="${excursion.excursionName}"></td>
+        <td th:text="${excursion.price}"></td>
+        <td>
+            <form id="form" class="form-group" th:action="@{/user/add/excursion}" method="post" th:object="${excursionDTO}">
+                <input type="hidden" name="id" th:value="${excursion.id}"  />
+                <input type="hidden" name="excursionName" th:value="${excursion.excursionName}" />
+                <input type="hidden" name="price" th:value="${excursion.price}" />
+                <input type="hidden" name="duration" th:value="${excursion.duration}"/>
+                <button class="btn btn-success" form="form" th:text="Add"></button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!--    <div class="error"  style="color: red;" th:if="${#fields.hasErrors('*')}">-->
+<!--        <p><strong>Errors</strong></p>-->
+<!--        <ul>-->
+<!--            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--    <div class="form-row" >-->
+<!--        <input hidden name="cruiseName" th:value="${name}">-->
+<!--        <div class="col">-->
+<!--            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('firstName')}">-->
+<!--                <ul>-->
+<!--                    <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <input type="text" class="form-control" placeholder="Имя" th:field="*{firstName}">-->
+<!--        </div>-->
+<!--        <div class="col">-->
+<!--            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('secondName')}">-->
+<!--                <ul>-->
+<!--                    <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <input type="text" class="form-control" placeholder="Фамилия" th:field="*{secondName}">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="input-group">-->
+<!--        <div class="form-check form-check-inline" th:each="ticket, stat: ${cruise.tickets}" >-->
+<!--            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('ticket_id')}">-->
+<!--                <ul>-->
+<!--                    <li th:each="err : ${#fields.errors('ticket_id')}" th:text="${err}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <input class="form-check-input" type="radio" id="inlineCheckbox0"  th:field="*{ticket_id}" th:value="${ticket.id}" >-->
+<!--            <label  class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticketsPrice[__${stat.index}__]}" >1</label>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--        <div >-->
+<!--        <div class="form-check form-check-inline" th:each="excursion, stat : ${allExcursions.excursionsDTO}" >-->
+<!--            <label th:text="${excursion.port.portName}">  </label>-->
+<!--                    <div class="input-group">-->
+<!--                        <div class="form-check form-check-inline">-->
+<!--                            <label  class="form-check-label" th:text="${excursion.excursionName} + ${excursion.price}"  ></label>-->
+<!--                            <input class="form-check-input" type="radio" id="inlineCheckbox1" th:name="|excursionNames[${stat.index}]|"   th:value="${excursion.excursionName}" >-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--        </div>-->
+<!--        <p><input type="submit" value="Submit" /></p>-->
+<!--    </div>-->
+
 
 </body>
 </html>

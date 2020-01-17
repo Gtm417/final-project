@@ -1,6 +1,6 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.entity.cruises.Passenger;
+import com.rf.springsecurity.entity.cruise.Passenger;
 import com.rf.springsecurity.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
