@@ -10,5 +10,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class ExcursionsDTO {
-    List<Excursion> excursionsDTO;
+    //TODO SET
+    private List<Excursion> excursionsDTO;
 }

@@ -24,7 +24,7 @@
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 
 
-<form id="buy" th:action="@{/user/cruise/buy}" method="post" th:object="${orderDTO}">
+<form id="buy" th:action="@{/user/cruise/buy(id=${cruise.id})}" method="post" th:object="${orderDTO}">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
         <div class="error"  style="color: red;" th:if="${#fields.hasErrors('*')}">
             <p><strong>Errors</strong></p>
@@ -54,33 +54,9 @@
             <select th:field="*{ticket}">
                 <option th:each="ticket, stat: ${cruise.tickets}"
                         th:value="${ticket.id}"
-                        th:text="#{${'orderDTO.ticket' + ticket}}">Wireframe</option>
+                        th:text="${ticket.ticketName} + ' ' + ${ticketsPrice[__${stat.index}__]} "> </option>
             </select>
         </div>
-
-<!--        <div class="input-group">-->
-<!--            <div class="form-check form-check-inline" th:each="ticket, stat: ${cruise.tickets}" >-->
-<!--&lt;!&ndash;                <div class="error"  style="color: red;" th:if="${#fields.hasErrors('ticket_id')}">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li th:each="err : ${#fields.errors('ticket_id')}" th:text="${err}"></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--                <input class="form-check-input" type="radio" id="inlineCheckbox0"  th:field="*{ticket.id}" th:value="${ticket.id}">-->
-<!--&lt;!&ndash;                <input class="form-check-input" hidden name ="id" th:value="${ticket.id}" >&ndash;&gt;-->
-<!--&lt;!&ndash;                <input class="form-check-input" hidden name ="ticketName" th:value="${ticket.ticketName}" >&ndash;&gt;-->
-<!--&lt;!&ndash;                <input class="form-check-input" hidden name = "price" th:value="${ticket.price}" >&ndash;&gt;-->
-<!--&lt;!&ndash;                <input class="form-check-input" hidden name="discount" th:value="${ticket.discount}" >&ndash;&gt;-->
-<!--                <input class="form-check-input" hidden th:field="*{ticket.id}" th:value="${ticket.id}" >-->
-<!--                <input class="form-check-input" hidden th:field="*{ticket.ticketName}" th:value="${ticket.ticketName}" >-->
-<!--                <input class="form-check-input" hidden th:field="*{ticket.price}" th:value="${ticket.price}" >-->
-<!--                <input class="form-check-input" hidden th:field="*{ticket.discount}" th:value="${ticket.discount}" >-->
-<!--                <label class="form-check-label" th:for="${#ids.next('ticket')}"   th:text="${ticket.ticketName} + ${ticketsPrice[__${stat.index}__]}" >1</label>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-
-
     <p><input type="submit" value="Submit" /></p>
 </form>
 <table class="table" style="
@@ -91,6 +67,9 @@
     color: white;
 ">
     <tbody>
+    <tr th:if="${excursions.empty}">
+        <td colspan="2" th:text="#{message.users.empty}"> </td>
+    </tr>
     <tr th:each="excursion, itemStat :${excursions}">
         <td  th:text="${excursion.id}"></td>
         <td  th:text="${excursion.excursionName}"></td>
@@ -98,10 +77,10 @@
         <td>
             <form id="form" class="form-group" th:action="@{/user/add/excursion}" method="post" th:object="${excursionDTO}">
                 <input type="hidden" name="id" th:value="${excursion.id}"  />
-                <input type="hidden" name="excursionName" th:value="${excursion.excursionName}" />
+                <input type="hidden" name="excursionName" th:value="${excursion.excursionName}"/>
                 <input type="hidden" name="price" th:value="${excursion.price}" />
                 <input type="hidden" name="duration" th:value="${excursion.duration}"/>
-                <button class="btn btn-success" form="form" th:text="Add"></button>
+                <button class="btn btn-success"  th:text="Add"></button>
             </form>
         </td>
     </tr>

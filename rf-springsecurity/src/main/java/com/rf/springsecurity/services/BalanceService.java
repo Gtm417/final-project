@@ -28,18 +28,6 @@ public class BalanceService {
         userService.updateUser(user);
     }
 
-    //TODO передавать сюда Юзера
-    //TODO сново тащит юзера это плохо он уже у меня должен быть
-    public void subBalance(long balance) throws NotEnoughMoney {
-        User user = userService.getAuthenticatedUser();
-        long totalBalance = user.getBalance() - balance;
-        if (totalBalance < 0) {
-            throw new NotEnoughMoney("Not Enough Money " + user.getBalance());
-        }
-        user.setBalance(user.getBalance() - balance);
-        userService.updateUser(user);
-    }
-
 //мб  нев нужен вообще
     public BalanceUserDTO getUserBalance(){
         //TODO can find User by name from controller

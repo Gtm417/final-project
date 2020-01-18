@@ -27,12 +27,12 @@ public class Order {
 
     private String secondName;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Cruise cruise;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY,  optional = false)
     private Ticket ticket;
 }

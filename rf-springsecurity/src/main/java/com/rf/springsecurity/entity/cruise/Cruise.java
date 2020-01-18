@@ -10,8 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 
 
@@ -20,7 +20,7 @@ import java.util.List;
         uniqueConstraints={@UniqueConstraint(columnNames={"cruise_name"})})
 public class Cruise {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
@@ -53,4 +53,15 @@ public class Cruise {
     @Column(name="description_ru")
     private String description_ru;
 
+//    public Cruise(String name, Ship ship, List<Port> ports, List<Ticket> tickets, LocalDate departureDate, LocalDate arrivalDate, String description_eng, String description_ru) {
+//        this.cruiseName = name;
+//        this.ship = ship;
+//        this.ports= ports;
+//        this.tickets = tickets;
+//        this.departureDate =departureDate;
+//        this.arrivalDate = arrivalDate;
+//        this.description_eng = description_eng;
+//        this.description_ru = description_ru;
+//
+//    }
 }

@@ -24,7 +24,7 @@
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 
 
-<form id="buy" th:action="@{/user/cruise/buy}" method="post" th:object="${orderDTO}">
+<form id="buy" th:action="@{/user/cruise/buy(id=${cruise.id})}" method="post" th:object="${orderDTO}">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
         <div class="error"  style="color: red;" th:if="${#fields.hasErrors('*')}">
             <p><strong>Errors</strong></p>
@@ -67,6 +67,9 @@
     color: white;
 ">
     <tbody>
+    <tr th:if="${excursions.empty}">
+        <td colspan="2" th:text="#{message.users.empty}"> </td>
+    </tr>
     <tr th:each="excursion, itemStat :${excursions}">
         <td  th:text="${excursion.id}"></td>
         <td  th:text="${excursion.excursionName}"></td>

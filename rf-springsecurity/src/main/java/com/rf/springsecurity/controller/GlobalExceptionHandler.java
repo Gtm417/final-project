@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
         log.info(ex.getMessage());
         return "redirect:/login";
     }
-    //TODO EXception NotEnoughMoney Handling
+    //TODO Exception NotEnoughMoney Handling
 
 
 

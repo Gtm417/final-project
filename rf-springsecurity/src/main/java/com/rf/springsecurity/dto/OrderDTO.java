@@ -1,6 +1,7 @@
 package com.rf.springsecurity.dto;
 
-
+import com.rf.springsecurity.entity.cruise.Ticket;
+import com.rf.springsecurity.entity.port.Excursion;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -9,10 +10,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString
+//TODO rename
 public class OrderDTO {
     @NotNull
     @Pattern(
@@ -26,8 +27,11 @@ public class OrderDTO {
             message = "The name should contain only Latin characters and begin with a upper case character"
     )
     private String secondName;
-    private String cruiseName;
-    @NotNull
-    private long ticket_id;
-    private List<String> excursionNames;
+    private Ticket ticket;
+    private List<Excursion> excursions;
+
+//    public TestOrderDTO(List<Excursion> excursionsDTO) {
+//        this.excursionsDTO = excursionsDTO;
+//    }
 }
+
