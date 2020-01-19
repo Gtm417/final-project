@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body>
-<h1 th:text="'Hello' + ${login} + 'Your current balance = ' + ${balance} "> </h1>
+<a href="?lang=en">en</a>
+<a href="?lang=ru">ru</a>
+
+<h1 th:text="#{label.current.balance} + ' ' + ${session.user.balance}"> </h1>
+
     <div class="panel-body" >
         <form th:action ="@{/replenishment}" modelAttribute="balanceDTO"  th:object="${balanceDTO}" method="post">
             <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">

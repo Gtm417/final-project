@@ -22,12 +22,10 @@ import lombok.NonNull;
 public class UserService {
 
     private UserRepository userRepository;
-    private UserAuthenticationService userAuthenticationService;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserAuthenticationService userAuthenticationService) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userAuthenticationService = userAuthenticationService;
     }
 
     public UsersDTO getAllUsers() {
@@ -35,7 +33,6 @@ public class UserService {
     }
 
     public void saveNewUser (@NonNull User user){
-
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -44,17 +41,20 @@ public class UserService {
         return getUserByLogin(getAuthenticatedUserDetails().getUsername());
     }
 
-   private UserDetails getAuthenticatedUserDetails(){
+    private UserDetails getAuthenticatedUserDetails(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
     }
 
     private User getUserByLogin(@NonNull String login) throws  UsernameNotFoundException {
-        return userRepository.findByLogin(login).orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
+        return userRepository.findByLogin(login).
+                orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
     }
 
-    public void updateUser(@NonNull User user){
-        userRepository.save(user);
+    public User addBalance(User user, long balance){ ;
+        user.setBalance(user.getBalance() + balance);
+        return userRepository.save(user);
     }
+
 
 }

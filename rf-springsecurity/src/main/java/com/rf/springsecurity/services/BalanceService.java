@@ -20,14 +20,6 @@ public class BalanceService {
     }
 
 
-    //TODO передавать сюда Юзера
-    //TODO сново тащит юзера это плохо он уже у меня должен быть
-    public void addBalance(long balance){
-        User user = userService.getAuthenticatedUser();
-        user.setBalance(user.getBalance() + balance);
-        userService.updateUser(user);
-    }
-
 //мб  нев нужен вообще
     public BalanceUserDTO getUserBalance(){
         //TODO can find User by name from controller
