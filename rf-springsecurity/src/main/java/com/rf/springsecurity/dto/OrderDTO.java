@@ -7,6 +7,7 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,7 +29,7 @@ public class OrderDTO {
     )
     private String secondName;
     private Ticket ticket;
-    private List<Excursion> excursions;
+    private Set<Excursion> excursions;
 
 //    public TestOrderDTO(List<Excursion> excursionsDTO) {
 //        this.excursionsDTO = excursionsDTO;

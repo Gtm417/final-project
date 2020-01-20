@@ -30,6 +30,7 @@ public class RegistrationController {
         return "registration";
     }
 
+    //TODO Exception Handling
     @PostMapping("/registration")
     public String addUser(User user, Model model) {
         user.setActive(true);
@@ -44,6 +45,6 @@ public class RegistrationController {
 
         userAuthenticationService.autoLogin(user.getLogin(), user.getPassword());
 
-        return "redirect:/";
+        return "redirect:/user";
     }
 }

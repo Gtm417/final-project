@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BuyCruiseService {
@@ -71,11 +72,11 @@ public class BuyCruiseService {
         return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
     }
 
-    private long getTotalPriceOfExcursions(List<Excursion> excursions){
+    private long getTotalPriceOfExcursions(Set<Excursion> excursions){
         return excursions.stream().mapToLong(Excursion::getPrice).sum();
     }
 
-    private long getTotalCruisePrice(@NonNull Ticket ticket, @NonNull List<Excursion> excursions){
+    private long getTotalCruisePrice(@NonNull Ticket ticket, @NonNull Set<Excursion> excursions){
         return  getTicketPriceWithDiscount(ticket) + getTotalPriceOfExcursions(excursions);
     }
 }

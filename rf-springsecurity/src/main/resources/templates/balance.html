@@ -20,12 +20,6 @@
     <div class="panel-body" >
         <form th:action ="@{/replenishment}" modelAttribute="balanceDTO"  th:object="${balanceDTO}" method="post">
             <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
-            <div class="error"  style="color: red;" th:if="${#fields.hasErrors('balance')}">
-                <p><strong>Errors</strong></p>
-                <ul>
-                    <li th:each="err : ${#fields.errors('balance')}" th:text="${err}"></li>
-                </ul>
-            </div>
             <div class="form-group" >
                 <label th:text="#{label.sum.replenish.balance}" ></label>
                 <input type="number"  required min="100" step="100"  placeholder="0" name="balance" th:field="*{balance}" th:title="#{label.current.balance}">

@@ -5,11 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Data
 @AllArgsConstructor
 public class ExcursionsDTO {
     //TODO SET
-    private List<Excursion> excursionsDTO;
+    private Set<Excursion> excursionsDTO;
 }

@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 
 import static com.rf.springsecurity.controller.SessionAttributeConstants.*;
@@ -72,7 +71,7 @@ public class UserController {
     @GetMapping("/cruise/buy")
     public String getCruiseBuyForm( Model model, HttpSession session){
         Cruise cruise = (Cruise) session.getAttribute(SESSION_CRUISE);
-        util.addListOfExcursionsToSession(session);
+        util.addSetOfExcursionsToSession(session);
         model.addAttribute("cruise", cruise);
         model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
         model.addAttribute("excursionDTO", new Excursion());
@@ -97,8 +96,9 @@ public class UserController {
     @PostMapping(value = "/add/excursion")
     @ResponseBody
     public ResponseEntity<Excursion> addExcursion (HttpSession session,
-                                                   @ModelAttribute("excursionDTO") Excursion excursion) throws Exception {
+                                                   @ModelAttribute("excursionDTO") Excursion excursion){
         util.addExcursionToListInSession(session, excursion);
+        System.err.println(session.getAttribute(SESSION_EXCURSIONS));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

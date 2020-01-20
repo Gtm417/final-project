@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.util.*;
 
 import static com.rf.springsecurity.controller.SessionAttributeConstants.SESSION_EXCURSIONS;
 import static com.rf.springsecurity.controller.SessionAttributeConstants.SESSION_USER;
@@ -20,19 +20,15 @@ public class Util {
         session.setAttribute(SESSION_USER, user);
     }
 
-    public void addListOfExcursionsToSession(HttpSession session){
+    public void addSetOfExcursionsToSession(HttpSession session){
         ExcursionsDTO excursionsDTO = ((ExcursionsDTO)session.getAttribute(SESSION_EXCURSIONS));
         if(excursionsDTO == null){
-            session.setAttribute(SESSION_EXCURSIONS, new ExcursionsDTO(new ArrayList<>()));
+            session.setAttribute(SESSION_EXCURSIONS, new ExcursionsDTO(new TreeSet<>((exc1,exc2) -> (int)(exc1.getId() - exc2.getId()))));
         }
     }
 
-    public void addExcursionToListInSession(HttpSession session, Excursion excursion) throws Exception {
-
+    public void addExcursionToListInSession(HttpSession session, Excursion excursion){
         ExcursionsDTO excursionsDTO = ((ExcursionsDTO)session.getAttribute(SESSION_EXCURSIONS));
-        if(excursionsDTO.getExcursionsDTO().stream().anyMatch(excursion1 -> excursion1.equals(excursion))){
-            throw new Exception();//TODO  Должно быть сделано через СЕТ  тогда не нужна эта ошибка
-        }
         excursionsDTO.getExcursionsDTO().add(excursion);
     }
 
