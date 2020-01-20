@@ -22,12 +22,6 @@
     <label th:text="#{label.balance} + ' ' + ${session.user.balance}"></label>
 </div>
 
-<form action="#" th:action="@{/redirectToBalanceReplenish}">
-
-    <button type="submit" class="btn btn-block"  th:text="#{button.replenish.balance}"></button>
-
-<!--   <input type="button" value="Submit"/>-->
-</form>
 <div class="container">
     <div sec:authorize="hasRole('ROLE_ADMIN')">
     </div>
@@ -35,7 +29,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <a th:href="@{/main}" th:text="Main"> </a>
+            <a th:href="@{/user/main}" th:text="Main"> </a>
             <h1 th:text="#{title.hello.world}"></h1>
             <h2 th:text="#{text.logged.with}"></h2>
             <h3  th:text="${session.user.login}"></h3>

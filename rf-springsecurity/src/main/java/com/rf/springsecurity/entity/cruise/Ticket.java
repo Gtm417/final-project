@@ -12,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
+//Todo Двойной первичный ключ (имя и айди круиза)
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

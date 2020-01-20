@@ -53,15 +53,4 @@ public class Cruise {
     @Column(name="description_ru")
     private String description_ru;
 
-//    public Cruise(String name, Ship ship, List<Port> ports, List<Ticket> tickets, LocalDate departureDate, LocalDate arrivalDate, String description_eng, String description_ru) {
-//        this.cruiseName = name;
-//        this.ship = ship;
-//        this.ports= ports;
-//        this.tickets = tickets;
-//        this.departureDate =departureDate;
-//        this.arrivalDate = arrivalDate;
-//        this.description_eng = description_eng;
-//        this.description_ru = description_ru;
-//
-//    }
 }

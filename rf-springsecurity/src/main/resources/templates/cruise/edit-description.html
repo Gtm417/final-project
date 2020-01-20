@@ -5,16 +5,16 @@
     <title>Edit Description</title>
 </head>
 <body>
-<form th:action="@{/cruise/{name}/edit/descriptionEdit(name=${name})}" th:object="${descriptionDTO}" method="post">
+<form th:action="@{/cruise/edit/descriptionEdit}" th:object="${descriptionDTO}" method="post">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
     <div class="input-group">
         <div class="form-group" >
             <label th:text="ENG" ></label>
-            <input type="text" th:field="*{description_eng}" value ="${cruise.description_eng}">
+            <input type="text" required th:field="*{description_eng}" value ="${cruise.description_eng}">
         </div>
         <div class="form-group">
             <label th:text="RU" ></label>
-            <input type="text"  th:field="*{description_ru}"  value ="${cruise.description_ru}">
+            <input type="text"  required th:field="*{description_ru}"  value ="${cruise.description_ru}">
         </div>
         <button type="submit" class="btn btn-default"  th:text="Submit"></button>
 

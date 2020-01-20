@@ -10,6 +10,7 @@ import com.rf.springsecurity.dto.TicketDTO;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.repository.CruiseRepository;
 import com.rf.springsecurity.repository.ExcursionRepository;
+import com.rf.springsecurity.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
@@ -20,16 +21,16 @@ import java.util.stream.Collectors;
 public class CruiseService {
 
     private static final int ONE_HUNDRED_PERCENT = 100;
-    //TODO repos
-    private CruiseRepository cruiseRepository;
+
+    private final CruiseRepository cruiseRepository;
     private final ExcursionRepository excursionRepository;
-    private final TicketService ticketService;
+    private  final TicketRepository ticketRepository;
 
     @Autowired
-    public CruiseService(CruiseRepository cruiseRepository, TicketService ticketService, ExcursionRepository excursionRepository) {
-        this.cruiseRepository =cruiseRepository;
-        this.ticketService = ticketService;
+    public CruiseService(CruiseRepository cruiseRepository,ExcursionRepository excursionRepository, TicketRepository ticketRepository) {
+        this.cruiseRepository = cruiseRepository;
         this.excursionRepository = excursionRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     public Cruise getCruiseDataByName(String name) throws UnsupportedCruiseName {
@@ -51,8 +52,8 @@ public class CruiseService {
         cruiseRepository.save(cruise);
     }
 
-    public void addNewTicketToCruise(Cruise cruise, TicketDTO ticketDTO){
-        ticketService.addNewTicket(
+    public void addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise){
+        ticketRepository.save(
                 Ticket.builder()
                 .ticketName(ticketDTO.getTicketName())
                 .price(ticketDTO.getPrice())

@@ -37,11 +37,7 @@ public class BalanceController {
 
     @PostMapping("/replenishment")
     public String replenishment(@Valid @ModelAttribute("balanceDTO")BalanceUserDTO balanceDTO,
-                                BindingResult bindingResult,
                                 HttpSession session){
-        if(bindingResult.hasErrors()){
-            return "balance";
-        }
 
         util.addUserToSession(
                 userService.addBalance(

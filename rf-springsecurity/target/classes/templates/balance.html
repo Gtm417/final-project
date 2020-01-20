@@ -28,7 +28,7 @@
             </div>
             <div class="form-group" >
                 <label th:text="#{label.sum.replenish.balance}" ></label>
-                <input type="text" placeholder="Balance" name="balance" th:field="*{balance}">
+                <input type="number"  required min="100" step="100"  placeholder="0" name="balance" th:field="*{balance}" th:title="#{label.current.balance}">
             </div>
             <button type="submit" class="btn btn-default"  th:text="#{button.replenish.balance}"></button>
         </form>

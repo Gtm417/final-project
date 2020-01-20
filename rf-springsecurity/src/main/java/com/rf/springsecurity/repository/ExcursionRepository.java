@@ -13,9 +13,6 @@ import java.util.Optional;
 public interface ExcursionRepository extends JpaRepository<Excursion,Long> {
     Optional<Excursion> findByExcursionName(String name);
 
-    @Override
-    List<Excursion> findAll();
-
     @Query("SELECT e FROM Cruise c JOIN c.ports s JOIN s.excursions e WHERE c.id = :id")
     List<Excursion> findAllByCruiseID(@Param("id") long id);
 }

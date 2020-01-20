@@ -5,7 +5,7 @@
     <title>Add ticket</title>
 </head>
 <body>
-<form th:action="@{/cruise/{name}/edit/adding-ticket(name=${name})}" th:object="${ticketDTO}" method="post">
+<form th:action="@{/cruise/edit/adding-ticket}" th:object="${ticketDTO}" method="post">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
 
 
