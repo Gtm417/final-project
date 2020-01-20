@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    //TODO redirect to NOT FOUND 404, Убрать model.attribute error
     @ExceptionHandler(UnsupportedCruiseName.class)
     public String  handlingUnsupportedCruiseName(UnsupportedCruiseName ex, Model model){
         model.addAttribute("error", ex.getMessage());

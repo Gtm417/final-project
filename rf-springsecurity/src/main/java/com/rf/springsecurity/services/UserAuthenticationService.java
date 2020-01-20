@@ -25,20 +25,13 @@ public class UserAuthenticationService  implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-
-    public UserDetails getAuthenticatedUserDetails(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-    }
-
-
     @Override
     public UserDetails loadUserByUsername(@NonNull String login) throws UsernameNotFoundException {
 
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
 
-        return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Collections.singleton(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), Collections.singleton(user.getRoles()));
     }
 
     public void autoLogin(String username, String password){

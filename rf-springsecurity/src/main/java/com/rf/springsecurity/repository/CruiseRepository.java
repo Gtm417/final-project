@@ -10,5 +10,4 @@ import java.util.Optional;
 @Repository
 public interface CruiseRepository extends JpaRepository<Cruise, Long> {
     Optional<Cruise> findByCruiseName(String cruiseName);
-    //List<Excursion> findAllByCruiseId(long id);
 }

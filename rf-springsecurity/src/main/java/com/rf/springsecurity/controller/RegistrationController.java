@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @Controller
+//TODO Refactoring
 public class RegistrationController {
-
 
     private UserService userService;
     private UserAuthenticationService userAuthenticationService;
@@ -31,6 +31,7 @@ public class RegistrationController {
     }
 
     //TODO Exception Handling
+    //TODO should receive userDTO
     @PostMapping("/registration")
     public String addUser(User user, Model model) {
         user.setActive(true);

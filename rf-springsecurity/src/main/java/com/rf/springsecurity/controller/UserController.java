@@ -59,7 +59,9 @@ public class UserController {
     }
 
     @GetMapping("/cruise")
-    public String  getCruisePage(@RequestParam("id") Long id, Model model,HttpSession session) throws UnsupportedCruiseName {
+    public String  getCruisePage(@RequestParam("id") Long id,
+                                 Model model,
+                                 HttpSession session) throws UnsupportedCruiseName {
         Cruise cruise = cruiseService.findCruiseById(id);
         session.setAttribute(SESSION_CRUISE, cruise);
         model.addAttribute("cruise", cruise);
@@ -69,7 +71,8 @@ public class UserController {
 
 
     @GetMapping("/cruise/buy")
-    public String getCruiseBuyForm( Model model, HttpSession session){
+    public String getCruiseBuyForm( Model model,
+                                    HttpSession session){
         Cruise cruise = (Cruise) session.getAttribute(SESSION_CRUISE);
         util.addSetOfExcursionsToSession(session);
         model.addAttribute("cruise", cruise);
@@ -82,7 +85,8 @@ public class UserController {
 
     //TODO обнулить сессию екскурсий
     @PostMapping("/cruise/buy")
-    public String buyCruise(@ModelAttribute("orderDTO") OrderDTO orderDTO, HttpSession session) throws NotEnoughMoney{
+    public String buyCruise(@ModelAttribute("orderDTO") OrderDTO orderDTO,
+                            HttpSession session) throws NotEnoughMoney{
         orderDTO.setExcursions(((ExcursionsDTO) session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO());
         buyCruiseService.buyCruise(orderDTO,
                 (Cruise) session.getAttribute(SESSION_CRUISE),
@@ -95,8 +99,8 @@ public class UserController {
 
     @PostMapping(value = "/add/excursion")
     @ResponseBody
-    public ResponseEntity<Excursion> addExcursion (HttpSession session,
-                                                   @ModelAttribute("excursionDTO") Excursion excursion){
+    public ResponseEntity<Excursion> addExcursion (@ModelAttribute("excursionDTO") Excursion excursion,
+                                                   HttpSession session){
         util.addExcursionToListInSession(session, excursion);
         System.err.println(session.getAttribute(SESSION_EXCURSIONS));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

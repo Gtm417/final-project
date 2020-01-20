@@ -46,12 +46,14 @@ public class CruiseService {
         return excursionRepository.findAllByCruiseID(id);
     }
 
+    //TODO void
     public void changeCruiseDescription(Cruise cruise, CruiseDescriptionsDTO cruiseDescriptionsDTO){
         cruise.setDescription_ru(cruiseDescriptionsDTO.getDescription_ru());
         cruise.setDescription_eng(cruiseDescriptionsDTO.getDescription_eng());
         cruiseRepository.save(cruise);
     }
 
+    //TODO void
     public void addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise){
         ticketRepository.save(
                 Ticket.builder()
@@ -60,11 +62,6 @@ public class CruiseService {
                 .discount(ticketDTO.getDiscount())
                 .cruise(cruise)
                 .build());
-    }
-
-    //TODO 1 request
-    public List<Passenger> getCurrentListOfPassengersAtCruise(String name) throws UnsupportedCruiseName {
-       return getCruiseDataByName(name).getShip().getListOfPassenger();
     }
 
     public List<Long> listOfTicketPriceWithDiscount(Cruise cruise){

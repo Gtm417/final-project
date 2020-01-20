@@ -1,7 +1,6 @@
 package com.rf.springsecurity.services;
 
 import com.rf.springsecurity.entity.user.User;
-import com.rf.springsecurity.dto.UsersDTO;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,6 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public UsersDTO getAllUsers() {
-        return new UsersDTO(userRepository.findAll());
     }
 
     public void saveNewUser (@NonNull User user){

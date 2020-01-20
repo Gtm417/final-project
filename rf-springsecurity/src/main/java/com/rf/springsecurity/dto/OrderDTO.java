@@ -31,8 +31,5 @@ public class OrderDTO {
     private Ticket ticket;
     private Set<Excursion> excursions;
 
-//    public TestOrderDTO(List<Excursion> excursionsDTO) {
-//        this.excursionsDTO = excursionsDTO;
-//    }
 }
 
