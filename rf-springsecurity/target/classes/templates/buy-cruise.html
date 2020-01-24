@@ -75,12 +75,21 @@
         <td  th:text="${excursion.excursionName}"></td>
         <td th:text="${excursion.price}"></td>
         <td>
-            <form id="form" class="form-group" th:action="@{/user/add/excursion}" method="post" th:object="${excursionDTO}">
+            <form id="add" class="form-group" th:action="@{/user/add/excursion}" method="post" th:object="${excursionDTO}">
                 <input type="hidden" name="id" th:value="${excursion.id}"  />
                 <input type="hidden" name="excursionName" th:value="${excursion.excursionName}"/>
                 <input type="hidden" name="price" th:value="${excursion.price}" />
                 <input type="hidden" name="duration" th:value="${excursion.duration}"/>
                 <button class="btn btn-success"  th:text="Add"></button>
+            </form>
+        </td>
+        <td>
+            <form id="remove" class="form-group" th:action="@{/user/remove/excursion}" method="post" th:object="${excursionDTO}">
+                <input type="hidden" name="id" th:value="${excursion.id}"  />
+                <input type="hidden" name="excursionName" th:value="${excursion.excursionName}"/>
+                <input type="hidden" name="price" th:value="${excursion.price}" />
+                <input type="hidden" name="duration" th:value="${excursion.duration}"/>
+                <button class="btn btn-danger"  th:text="Remove"></button>
             </form>
         </td>
     </tr>

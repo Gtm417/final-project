@@ -14,7 +14,7 @@ import java.util.Set;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-//TODO rename
+
 public class OrderDTO {
     @NotNull
     @Pattern(

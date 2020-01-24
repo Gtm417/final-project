@@ -46,7 +46,7 @@ public class UserService {
                 orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
     }
 
-    public User addBalance(User user, long balance){ ;
+    public User addBalance(User user, long balance){
         user.setBalance(user.getBalance() + balance);
         return userRepository.save(user);
     }

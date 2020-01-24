@@ -11,6 +11,5 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class ExcursionsDTO {
-    //TODO SET
     private Set<Excursion> excursionsDTO;
 }

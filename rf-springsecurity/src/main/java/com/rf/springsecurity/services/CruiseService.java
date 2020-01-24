@@ -33,11 +33,6 @@ public class CruiseService {
         this.ticketRepository = ticketRepository;
     }
 
-    public Cruise getCruiseDataByName(String name) throws UnsupportedCruiseName {
-        return cruiseRepository.findByCruiseName(name)
-                .orElseThrow(() -> new UnsupportedCruiseName(name));
-    }
-
     public List<Cruise> getAllCruises(){
         return cruiseRepository.findAll();
     }
@@ -46,27 +41,26 @@ public class CruiseService {
         return excursionRepository.findAllByCruiseID(id);
     }
 
-    //TODO void
-    public void changeCruiseDescription(Cruise cruise, CruiseDescriptionsDTO cruiseDescriptionsDTO){
+    public Cruise changeCruiseDescription(Cruise cruise, CruiseDescriptionsDTO cruiseDescriptionsDTO){
         cruise.setDescription_ru(cruiseDescriptionsDTO.getDescription_ru());
         cruise.setDescription_eng(cruiseDescriptionsDTO.getDescription_eng());
-        cruiseRepository.save(cruise);
+        return cruiseRepository.save(cruise);
     }
 
-    //TODO void
-    public void addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise){
-        ticketRepository.save(
+    public Ticket addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise){
+        return ticketRepository.save(
                 Ticket.builder()
-                .ticketName(ticketDTO.getTicketName())
-                .price(ticketDTO.getPrice())
-                .discount(ticketDTO.getDiscount())
-                .cruise(cruise)
-                .build());
+                        .ticketName(ticketDTO.getTicketName())
+                        .price(ticketDTO.getPrice())
+                        .discount(ticketDTO.getDiscount())
+                        .cruise(cruise)
+                        .build());
     }
 
     public List<Long> listOfTicketPriceWithDiscount(Cruise cruise){
         return cruise.getTickets().stream()
-                .map(this::getTicketPriceWithDiscount).collect(Collectors.toList());
+                .map(this::getTicketPriceWithDiscount)
+                .collect(Collectors.toList());
 
     }
 

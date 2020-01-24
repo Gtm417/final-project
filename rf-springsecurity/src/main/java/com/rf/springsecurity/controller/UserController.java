@@ -2,6 +2,7 @@ package com.rf.springsecurity.controller;
 
 import com.rf.springsecurity.dto.ExcursionsDTO;
 import com.rf.springsecurity.dto.OrderDTO;
+import com.rf.springsecurity.dto.OrdersDTO;
 import com.rf.springsecurity.entity.cruise.Cruise;
 import com.rf.springsecurity.entity.port.Excursion;
 import com.rf.springsecurity.entity.port.Port;
@@ -10,6 +11,7 @@ import com.rf.springsecurity.exceptions.NotEnoughMoney;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.services.BuyCruiseService;
 import com.rf.springsecurity.services.CruiseService;
+import com.rf.springsecurity.services.OrderService;
 import com.rf.springsecurity.services.UserService;
 import com.rf.springsecurity.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +34,19 @@ public class UserController {
     private final UserService userService;
     private final CruiseService cruiseService;
     private final BuyCruiseService buyCruiseService;
+    private final OrderService orderService;
 
     private final Util util;
 
 
     @Autowired
-    public UserController(UserService userService, CruiseService cruiseService, Util util, BuyCruiseService buyCruiseService) {
+    public UserController(UserService userService, CruiseService cruiseService, Util util,
+                          BuyCruiseService buyCruiseService, OrderService orderService) {
         this.userService = userService;
         this.cruiseService = cruiseService;
         this.util = util;
         this.buyCruiseService = buyCruiseService;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -105,6 +110,22 @@ public class UserController {
         System.err.println(session.getAttribute(SESSION_EXCURSIONS));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping(value = "/remove/excursion")
+    @ResponseBody
+    public ResponseEntity<Excursion> removeExcursion (@ModelAttribute("excursionDTO") Excursion excursion,
+                                                   HttpSession session){
+        util.removeExcursionFromSession(session, excursion);
+        System.err.println(session.getAttribute(SESSION_EXCURSIONS));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "/orders")
+    public String getAllOrders(HttpSession session, Model model){
+        model.addAttribute("orders", orderService.findAllOrdersByUser((User) session.getAttribute(SESSION_USER)));
+        return "orders";
+    }
+
 
 
 

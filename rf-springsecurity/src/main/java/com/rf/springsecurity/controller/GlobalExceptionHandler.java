@@ -4,9 +4,12 @@ package com.rf.springsecurity.controller;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.exceptions.UnsupportedUserName;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Slf4j
 @ControllerAdvice
@@ -26,6 +29,9 @@ public class GlobalExceptionHandler {
         log.info(ex.getMessage());
         return "redirect:/login";
     }
+
+
+
     //TODO Exception NotEnoughMoney Handling
 
 

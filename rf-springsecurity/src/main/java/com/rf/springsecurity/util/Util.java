@@ -32,6 +32,11 @@ public class Util {
         excursionsDTO.getExcursionsDTO().add(excursion);
     }
 
+    public void removeExcursionFromSession(HttpSession session, Excursion excursion){
+        ExcursionsDTO excursionsDTO = ((ExcursionsDTO)session.getAttribute(SESSION_EXCURSIONS));
+        excursionsDTO.getExcursionsDTO().remove(excursion);
+    }
+
     public void resetExcursionSession(HttpSession session){
        ((ExcursionsDTO)session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO().clear();
     }
