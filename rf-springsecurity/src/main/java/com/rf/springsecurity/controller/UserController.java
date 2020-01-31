@@ -49,6 +49,11 @@ public class UserController {
         this.orderService = orderService;
     }
 
+    @GetMapping("/error")
+    public String getErrorPage(){
+        return "error-page";
+    }
+
     @GetMapping
     public String main(HttpSession session) {
         session.setAttribute(SESSION_USER, userService.getAuthenticatedUser());
@@ -107,7 +112,6 @@ public class UserController {
     public ResponseEntity<Excursion> addExcursion (@ModelAttribute("excursionDTO") Excursion excursion,
                                                    HttpSession session){
         util.addExcursionToListInSession(session, excursion);
-        System.err.println(session.getAttribute(SESSION_EXCURSIONS));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -116,7 +120,6 @@ public class UserController {
     public ResponseEntity<Excursion> removeExcursion (@ModelAttribute("excursionDTO") Excursion excursion,
                                                    HttpSession session){
         util.removeExcursionFromSession(session, excursion);
-        System.err.println(session.getAttribute(SESSION_EXCURSIONS));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -7,11 +7,14 @@ import com.rf.springsecurity.entity.port.Excursion;
 import com.rf.springsecurity.entity.port.Port;
 import com.rf.springsecurity.dto.CruiseDescriptionsDTO;
 import com.rf.springsecurity.dto.TicketDTO;
+import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.repository.CruiseRepository;
 import com.rf.springsecurity.repository.ExcursionRepository;
 import com.rf.springsecurity.repository.TicketRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
@@ -47,14 +50,18 @@ public class CruiseService {
         return cruiseRepository.save(cruise);
     }
 
-    public Ticket addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise){
-        return ticketRepository.save(
-                Ticket.builder()
-                        .ticketName(ticketDTO.getTicketName())
-                        .price(ticketDTO.getPrice())
-                        .discount(ticketDTO.getDiscount())
-                        .cruise(cruise)
-                        .build());
+    public Ticket addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise) throws DataBaseDuplicateConstraint {
+        try{
+            return ticketRepository.save(
+                    Ticket.builder()
+                            .ticketName(ticketDTO.getTicketName())
+                            .price(ticketDTO.getPrice())
+                            .discount(ticketDTO.getDiscount())
+                            .cruise(cruise)
+                            .build());
+        } catch (DataIntegrityViolationException ex){
+            throw new DataBaseDuplicateConstraint(cruise.getCruiseName() + "already has ticket with name: ", ticketDTO.getTicketName());
+        }
     }
 
     public List<Long> listOfTicketPriceWithDiscount(Cruise cruise){

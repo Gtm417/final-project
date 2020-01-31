@@ -22,7 +22,7 @@
 
                 <div class="panel-body">
                     <form th:action = "@{/registration}" method="post">
-                        <p th:if="${message}" class="alert alert-info" role="alert" th:text="#{message.exist.login }"></p>
+                        <p th:if="${error}" class="alert alert-info" role="alert" th:text="#{message.exist.login }"></p>
                         <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
                         <div class="form-group">
                             <label for="login" th:text="#{label.login}"></label>

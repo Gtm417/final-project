@@ -1,9 +1,13 @@
 package com.rf.springsecurity.services;
 
+import com.rf.springsecurity.entity.cruise.Ticket;
 import com.rf.springsecurity.entity.user.User;
+import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,9 +31,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void saveNewUser (@NonNull User user){
+    public User saveNewUser (@NonNull User user) throws DataBaseDuplicateConstraint {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
+        try{
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException ex){
+            throw new DataBaseDuplicateConstraint("User with such login already exist:", user.getLogin());
+        }
     }
 
     public User getAuthenticatedUser(){

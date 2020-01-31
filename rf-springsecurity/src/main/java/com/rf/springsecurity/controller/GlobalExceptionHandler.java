@@ -30,8 +30,6 @@ public class GlobalExceptionHandler {
         return "redirect:/login";
     }
 
-
-
     //TODO Exception NotEnoughMoney Handling
 
 

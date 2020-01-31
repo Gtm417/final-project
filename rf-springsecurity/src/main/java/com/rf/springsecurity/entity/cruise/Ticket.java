@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 
+@Table( name="ticket",
+        uniqueConstraints={@UniqueConstraint(columnNames={"ticket_name", "cruise_id"})})
 //Todo Двойной первичный ключ (имя и айди круиза)
 public class Ticket {
     @Id

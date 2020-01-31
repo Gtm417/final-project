@@ -17,7 +17,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserAuthenticationService userAuthenticationService;
 
@@ -28,17 +27,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.sessionManagement().maximumSessions(1);
         http
                     .authorizeRequests()
-                    .antMatchers("/login", "/registration","/main","/cruise/{name}","/test").permitAll()
-                    .antMatchers("/all_users").hasRole("ADMIN")
+                    .antMatchers("/login", "/registration").anonymous()
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin().defaultSuccessUrl("/user",true).loginPage("/login").permitAll()
+                    .formLogin().defaultSuccessUrl("/user",true).loginPage("/login")
                 .and()
                     .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
                 .and()
-                    .exceptionHandling().accessDeniedPage("/my-error-page");
+                    .exceptionHandling().accessDeniedPage("/user/error");
 
     }
 

@@ -30,13 +30,6 @@ public class Excursion {
     @JoinColumn(name="port_ID")
     private Port port;
 
-    public Excursion(long id, String excursionName, int duration, long price) {
-        this.id = id;
-        this.excursionName =excursionName;
-        this.duration = duration;
-        this.price = price;
-    }
-
     @Override
     public String toString() {
         return "Excursion{" +
