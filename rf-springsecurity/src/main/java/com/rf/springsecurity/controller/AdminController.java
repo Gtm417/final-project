@@ -2,8 +2,8 @@ package com.rf.springsecurity.controller;
 
 
 import com.rf.springsecurity.dto.CruiseDescriptionsDTO;
-import com.rf.springsecurity.dto.TicketDTO;
 import com.rf.springsecurity.entity.cruise.Cruise;
+import com.rf.springsecurity.entity.cruise.Ticket;
 import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.OrderService;
@@ -55,8 +55,8 @@ public class AdminController {
 
     @GetMapping("/add/ticket")
     @PreAuthorize("hasRole('ADMIN')")
-    public String getAddTicketPage(@RequestParam(value = "error", required = false) String error, TicketDTO ticketDTO, Model model){
-        model.addAttribute("ticketDTO", ticketDTO);
+    public String getAddTicketPage(@RequestParam(value = "error", required = false) String error,  Model model){
+        //model.addAttribute("ticketDTO", ticketDTO);
         model.addAttribute("error", error != null);
         return "cruise/add-ticket";
     }
@@ -64,7 +64,7 @@ public class AdminController {
     @PostMapping("/adding-ticket")
     @PreAuthorize("hasRole('ADMIN')")
     //todo peredelat na Ticket
-    public String getAddTicketPage(@Valid @ModelAttribute TicketDTO ticketDTO,
+    public String getAddTicketPage(@Valid @ModelAttribute Ticket ticketDTO,
                                    BindingResult bindingResult, HttpSession session) throws DataBaseDuplicateConstraint {
         if(bindingResult.hasErrors()){
             return "cruise/add-ticket";

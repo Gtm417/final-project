@@ -1,22 +1,18 @@
 package com.rf.springsecurity.services;
 
 import com.rf.springsecurity.entity.cruise.Cruise;
-import com.rf.springsecurity.entity.cruise.Passenger;
 import com.rf.springsecurity.entity.cruise.Ticket;
 import com.rf.springsecurity.entity.port.Excursion;
-import com.rf.springsecurity.entity.port.Port;
 import com.rf.springsecurity.dto.CruiseDescriptionsDTO;
-import com.rf.springsecurity.dto.TicketDTO;
 import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.repository.CruiseRepository;
 import com.rf.springsecurity.repository.ExcursionRepository;
 import com.rf.springsecurity.repository.TicketRepository;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,29 +46,24 @@ public class CruiseService {
         return cruiseRepository.save(cruise);
     }
     //todo Ticket
-    public Ticket addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise) throws DataBaseDuplicateConstraint {
+    public Ticket addNewTicketToCruise(Ticket ticketDTO ,Cruise cruise) throws DataBaseDuplicateConstraint {
         try{
-            return ticketRepository.save(
-                    Ticket.builder()
-                            .ticketName(ticketDTO.getTicketName())
-                            .price(ticketDTO.getPrice())
-                            .discount(ticketDTO.getDiscount())
-                            .cruise(cruise)
-                            .build());
+            ticketDTO.setPriceWithDiscount(setTicketPriceWithDiscount(ticketDTO));
+            ticketDTO.setCruise(cruise);
+            return ticketRepository.save(ticketDTO);
         } catch (DataIntegrityViolationException ex){
             throw new DataBaseDuplicateConstraint(cruise.getCruiseName() + "already has ticket with name: ", ticketDTO.getTicketName());
         }
     }
 
-    public List<Long> listOfTicketPriceWithDiscount(Cruise cruise){
-        return cruise.getTickets().stream()
-                .map(this::getTicketPriceWithDiscount)
-                .collect(Collectors.toList());
 
+    public long setTicketPriceWithDiscount(Ticket ticket){
+        return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
     }
 
-    public long getTicketPriceWithDiscount(Ticket ticket){
-        return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
+    public List<Ticket> showAllTicketsForCruise(Cruise cruise){
+        return ticketRepository.findAllByCruise(cruise);
+
     }
 
     //TODo norm Exception

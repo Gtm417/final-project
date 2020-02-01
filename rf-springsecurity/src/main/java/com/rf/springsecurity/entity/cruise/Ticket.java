@@ -30,9 +30,8 @@ public class Ticket {
     @Column(name="discount", nullable = false, columnDefinition = "int default 0")
     private int discount;
 
-//
-//    @Column(name= "final_price", nullable = false)
-//    private long priceWithDiscount;
+    @Column(name= "final_price", nullable = false)
+    private long priceWithDiscount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="cruise_id")

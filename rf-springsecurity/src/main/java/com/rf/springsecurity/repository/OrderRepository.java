@@ -13,11 +13,9 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-
-   //@Query("SELECT o, t, c FROM Order o JOIN o.cruise c JOIN o.ticket t WHERE c = :cruise") // todo delete
     List<Order> findAllByCruise(Cruise cruise);
 
-    @Query("select new com.rf.springsecurity.dto.OrdersDTO(o.firstName,o.secondName,o.ticket.ticketName,o.cruise.cruiseName) " +
+    @Query("select new com.rf.springsecurity.dto.OrdersDTO(o.firstName,o.secondName,o.ticket.ticketName,o.cruise.cruiseName, o.orderPrice) " +
             "from Order o WHERE o.user =:user")
     List<OrdersDTO> findAllByUser(User user);
 }

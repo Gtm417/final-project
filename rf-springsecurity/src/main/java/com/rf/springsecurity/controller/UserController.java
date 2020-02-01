@@ -74,16 +74,15 @@ public class UserController {
 
 
     @GetMapping("/cruise/buy")
-    public String getCruiseBuyForm(Model model,
-                                   HttpSession session) {
+    public String getCruiseBuyForm(Model model,HttpSession session) {
         Cruise cruise = (Cruise) session.getAttribute(SESSION_CRUISE);
         //util.addSetOfExcursionsToSession(session);
         //model.addAttribute("cruise", cruise);
         //model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
         //model.addAttribute("excursionDTO", new Excursion());
         //model.addAttribute("orderDTO", new OrderDTO());
+        model.addAttribute("tickets", cruiseService.showAllTicketsForCruise(cruise));
         model.addAttribute("orderDTO", new Order());
-        model.addAttribute("ticketsPrice", cruiseService.listOfTicketPriceWithDiscount(cruise));
         return "buy-cruise";
     }
 
@@ -109,12 +108,10 @@ public class UserController {
     @GetMapping("/cruise/buy-submit")
     public String submitBuyPage(Model model, HttpSession session) {
         Cruise cruise = (Cruise) session.getAttribute(SESSION_CRUISE);
-        //model.addAttribute("cruise", cruise);
         util.addSetOfExcursionsToSession(session);
         model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
-        Order order = (Order) session.getAttribute("order"); // thymeleaf get session.order
-        //todo add to table ticket value price with discount, calc 1 time before insert new Ticket
-        order.setOrderPrice(cruiseService.getTicketPriceWithDiscount(order.getTicket()));
+        Order order = (Order) session.getAttribute("order");
+        order.setOrderPrice(order.getTicket().getPriceWithDiscount());
         model.addAttribute("resultPrice",
                 ((Order) session.getAttribute("order")).getOrderPrice() + util.getTotalPriceSelectedExcursions(session));// перенести в сервис ++
         return "submit-form";
@@ -125,7 +122,6 @@ public class UserController {
                             HttpSession session) throws NotEnoughMoney {
             Order order = (Order) session.getAttribute(SESSION_ORDER);
             order.setOrderPrice(resultPrice);
-            System.out.println(resultPrice);
             orderService.buyCruise(order,
                     (Cruise)session.getAttribute(SESSION_CRUISE),
                     (User)session.getAttribute(SESSION_USER));
@@ -147,7 +143,6 @@ public class UserController {
                                                   @ModelAttribute("portName") String portName,
                                                   HttpSession session) {
         excursion.setPort(Port.builder().id(portId).portName(portName).build());
-        System.out.println(excursion);
         util.addExcursionToListInSession(session, excursion);
         return "redirect:/user/cruise/buy-submit";
     }

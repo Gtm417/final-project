@@ -35,6 +35,7 @@ public class OrderService {
     public List<OrdersDTO> findAllOrdersByUser(User user){
         return orderRepository.findAllByUser(user);
     }
+    
     public boolean buyCruise(@NonNull Order order, @NonNull Cruise cruise, @NonNull User user) throws NotEnoughMoney {
         order.setCruise(cruise);
         order.setUser(user);

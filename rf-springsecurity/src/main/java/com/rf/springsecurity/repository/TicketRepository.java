@@ -1,5 +1,6 @@
 package com.rf.springsecurity.repository;
 
+import com.rf.springsecurity.entity.cruise.Cruise;
 import com.rf.springsecurity.entity.cruise.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,4 +11,5 @@ import java.util.List;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
+    List<Ticket> findAllByCruise(Cruise cruise);
 }

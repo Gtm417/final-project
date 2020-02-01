@@ -1,14 +1,11 @@
 package com.rf.springsecurity.controller;
 
-import com.rf.springsecurity.dto.BalanceUserDTO;
 import com.rf.springsecurity.entity.user.User;
 import com.rf.springsecurity.services.UserService;
 import com.rf.springsecurity.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -30,19 +27,17 @@ public class BalanceController {
     }
 
     @GetMapping("/balance")
-    public String balanceReplenish(BalanceUserDTO balanceDTO, Model model) {
-            model.addAttribute("balanceDTO", balanceDTO);
+    public String balanceReplenish(Model model) {
         return "balance";
     }
 
     @PostMapping("/replenishment")
-    public String replenishment(@Valid @ModelAttribute("balanceDTO")BalanceUserDTO balanceDTO,
+    public String replenishment(@ModelAttribute("balance") Long balance,
                                 HttpSession session){
-
         util.addUserToSession(
                 userService.addBalance(
                     (User) session.getAttribute(SESSION_USER),
-                    balanceDTO.getBalance()
+                    balance
                     ),
                 session
         );
