@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -55,22 +54,21 @@ public class AdminController {
 
     @GetMapping("/add/ticket")
     @PreAuthorize("hasRole('ADMIN')")
-    public String getAddTicketPage(@RequestParam(value = "error", required = false) String error,  Model model){
-        //model.addAttribute("ticketDTO", ticketDTO);
+    public String getAddTicketPage(@RequestParam(value = "error", required = false) String error,
+                                   @RequestParam(value = "success", required = false) String success,
+                                   Model model){
+        model.addAttribute("ticketDTO", new Ticket());
         model.addAttribute("error", error != null);
+        model.addAttribute("success", success != null);
         return "cruise/add-ticket";
     }
 
     @PostMapping("/adding-ticket")
     @PreAuthorize("hasRole('ADMIN')")
-    //todo peredelat na Ticket
     public String getAddTicketPage(@Valid @ModelAttribute Ticket ticketDTO,
-                                   BindingResult bindingResult, HttpSession session) throws DataBaseDuplicateConstraint {
-        if(bindingResult.hasErrors()){
-            return "cruise/add-ticket";
-        }
+                                   HttpSession session) throws DataBaseDuplicateConstraint {
         cruiseService.addNewTicketToCruise(ticketDTO, (Cruise)session.getAttribute(SESSION_CRUISE));
-        return "cruise/add-ticket";
+        return "redirect:/cruise/edit/add/ticket?success";
     }
 
     @GetMapping("/all_passengers")

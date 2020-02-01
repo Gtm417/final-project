@@ -89,7 +89,7 @@ public class UserController {
     //TODO обнулить сессию екскурсий
     @PostMapping("/cruise/buy")
     public String buyCruise(@ModelAttribute("orderDTO") Order order,
-                            HttpSession session) throws NotEnoughMoney {
+                            HttpSession session){
         //orderDTO.setExcursions(((ExcursionsDTO) session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO());
         //orderDTO.setOrderPrice(cruiseService.getTicketPriceWithDiscount(orderDTO.getTicket()));
         session.setAttribute(SESSION_ORDER, order);

@@ -1,6 +1,7 @@
 package com.rf.springsecurity.controller;
 
 
+import com.rf.springsecurity.exceptions.NotEnoughMoney;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
 import com.rf.springsecurity.exceptions.UnsupportedUserName;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,12 @@ public class GlobalExceptionHandler {
         return "redirect:/login";
     }
 
+    @ExceptionHandler(NotEnoughMoney.class)
+    public String handlingNotEnoughMoney(Model model, NotEnoughMoney ex){
+        model.addAttribute("notEnoughMoney", true);
+        log.info(ex.getMessage());
+        return "not-enough-money";
+    }
     //TODO Exception NotEnoughMoney Handling
 
 
