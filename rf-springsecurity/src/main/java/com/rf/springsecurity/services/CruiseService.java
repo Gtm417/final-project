@@ -71,7 +71,7 @@ public class CruiseService {
 
     }
 
-    private long getTicketPriceWithDiscount(Ticket ticket){
+    public long getTicketPriceWithDiscount(Ticket ticket){
         return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
     }
 

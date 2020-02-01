@@ -41,5 +41,11 @@ public class Util {
        ((ExcursionsDTO)session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO().clear();
     }
 
+    public long getTotalPriceSelectedExcursions(HttpSession session){
+        ExcursionsDTO excursionsDTO = ((ExcursionsDTO)session.getAttribute(SESSION_EXCURSIONS));
+        return Objects.nonNull(excursionsDTO) ?
+                excursionsDTO.getExcursionsDTO().stream().mapToLong(Excursion::getPrice).sum()
+                : 0;
+    }
 
 }

@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 
+import java.util.Set;
+
 import static com.rf.springsecurity.controller.SessionAttributeConstants.*;
 import static java.util.stream.Collectors.joining;
 
@@ -50,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/error")
-    public String getErrorPage(){
+    public String getErrorPage() {
         return "error-page";
     }
 
@@ -63,15 +65,15 @@ public class UserController {
     @GetMapping("/main")
     public String getMainPage(@RequestParam(value = "error", required = false) String error,
                               Model model) {
-        model.addAttribute("error", error );
+        model.addAttribute("error", error);
         model.addAttribute("cruises", cruiseService.getAllCruises());
         return "main";
     }
 
     @GetMapping("/cruise")
-    public String  getCruisePage(@RequestParam("id") Long id,
-                                 Model model,
-                                 HttpSession session) throws UnsupportedCruiseName {
+    public String getCruisePage(@RequestParam("id") Long id,
+                                Model model,
+                                HttpSession session) throws UnsupportedCruiseName {
         Cruise cruise = cruiseService.findCruiseById(id);
         session.setAttribute(SESSION_CRUISE, cruise);
         model.addAttribute("cruise", cruise);
@@ -81,55 +83,95 @@ public class UserController {
 
 
     @GetMapping("/cruise/buy")
-    public String getCruiseBuyForm( Model model,
-                                    HttpSession session){
+    public String getCruiseBuyForm(Model model,
+                                   HttpSession session) {
         Cruise cruise = (Cruise) session.getAttribute(SESSION_CRUISE);
-        util.addSetOfExcursionsToSession(session);
-        model.addAttribute("cruise", cruise);
-        model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
-        model.addAttribute("excursionDTO", new Excursion());
+        //util.addSetOfExcursionsToSession(session);
+        //model.addAttribute("cruise", cruise);
+        //model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
+        //model.addAttribute("excursionDTO", new Excursion());
         model.addAttribute("orderDTO", new OrderDTO());
-        model.addAttribute("ticketsPrice",cruiseService.listOfTicketPriceWithDiscount(cruise));
+        model.addAttribute("ticketsPrice", cruiseService.listOfTicketPriceWithDiscount(cruise));
         return "buy-cruise";
     }
 
     //TODO обнулить сессию екскурсий
     @PostMapping("/cruise/buy")
     public String buyCruise(@ModelAttribute("orderDTO") OrderDTO orderDTO,
-                            HttpSession session) throws NotEnoughMoney{
-        orderDTO.setExcursions(((ExcursionsDTO) session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO());
-        buyCruiseService.buyCruise(orderDTO,
-                (Cruise) session.getAttribute(SESSION_CRUISE),
-                (User)session.getAttribute(SESSION_USER)
-        );
+                            HttpSession session) throws NotEnoughMoney {
+        //orderDTO.setExcursions(((ExcursionsDTO) session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO());
+        //orderDTO.setOrderPrice(cruiseService.getTicketPriceWithDiscount(orderDTO.getTicket()));
+        session.setAttribute(SESSION_ORDER, orderDTO);
+        System.out.println(orderDTO);
+        session.removeAttribute(SESSION_EXCURSIONS);
+//        buyCruiseService.buyCruise(orderDTO,
+//                (Cruise) session.getAttribute(SESSION_CRUISE),
+//                (User) session.getAttribute(SESSION_USER)
+//        );
 
-        util.resetExcursionSession(session);
-        return "redirect:/user/cruise/buy";
+        //util.resetExcursionSession(session);
+       // return "redirect:/user/cruise/buy";
+        return "redirect:/user/cruise/buy-submit";
     }
 
+    @GetMapping("/cruise/buy-submit")
+    public String submitBuyPage(Model model, HttpSession session) {
+        Cruise cruise = (Cruise) session.getAttribute(SESSION_CRUISE);
+        //model.addAttribute("cruise", cruise);
+        util.addSetOfExcursionsToSession(session);
+        model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
+        OrderDTO orderDTO = (OrderDTO) session.getAttribute("order"); // thymeleaf get session.order
+        //todo add to table ticket value price with discount, calc 1 time before insert new Ticket
+        orderDTO.setOrderPrice(cruiseService.getTicketPriceWithDiscount(orderDTO.getTicket()));
+        model.addAttribute("resultPrice",
+                ((OrderDTO) session.getAttribute("order")).getOrderPrice() + util.getTotalPriceSelectedExcursions(session));// перенести в сервис ++
+        return "submit-form";
+    }
+
+    @PostMapping("/cruise/buy-submit")
+    public String submitBuy(@ModelAttribute("resultPrice") Long resultPrice,
+                            HttpSession session) throws NotEnoughMoney {
+            OrderDTO orderDTO = (OrderDTO) session.getAttribute(SESSION_ORDER);
+            orderDTO.setOrderPrice(resultPrice);
+            System.out.println(resultPrice);
+            buyCruiseService.buyCruise(orderDTO,
+                    (Cruise)session.getAttribute(SESSION_CRUISE),
+                    (User)session.getAttribute(SESSION_USER));
+        return "redirect:/user/success-buy";
+    }
+
+    @GetMapping("success-buy")
+    public String successBuy(HttpSession session){
+        session.removeAttribute(SESSION_ORDER);
+        session.removeAttribute(SESSION_CRUISE);
+        session.removeAttribute(SESSION_EXCURSIONS);
+        return "success-buy";
+    }
+
+
     @PostMapping(value = "/add/excursion")
-    @ResponseBody
-    public ResponseEntity<Excursion> addExcursion (@ModelAttribute("excursionDTO") Excursion excursion,
-                                                   HttpSession session){
+    public String addExcursion(@ModelAttribute("excursionDTO") Excursion excursion,
+                                                  @ModelAttribute("portId") Long portId,
+                                                  @ModelAttribute("portName") String portName,
+                                                  HttpSession session) {
+        excursion.setPort(Port.builder().id(portId).portName(portName).build());
+        System.out.println(excursion);
         util.addExcursionToListInSession(session, excursion);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "redirect:/user/cruise/buy-submit";
     }
 
     @PostMapping(value = "/remove/excursion")
-    @ResponseBody
-    public ResponseEntity<Excursion> removeExcursion (@ModelAttribute("excursionDTO") Excursion excursion,
-                                                   HttpSession session){
+    public String  removeExcursion(@ModelAttribute("excursionDTO") Excursion excursion,
+                                                     HttpSession session) {
         util.removeExcursionFromSession(session, excursion);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return  "redirect:/user/cruise/buy-submit";
     }
 
     @GetMapping(value = "/orders")
-    public String getAllOrders(HttpSession session, Model model){
+    public String getAllOrders(HttpSession session, Model model) {
         model.addAttribute("orders", orderService.findAllOrdersByUser((User) session.getAttribute(SESSION_USER)));
         return "orders";
     }
-
-
 
 
 }

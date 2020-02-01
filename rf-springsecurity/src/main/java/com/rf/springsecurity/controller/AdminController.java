@@ -63,6 +63,7 @@ public class AdminController {
 
     @PostMapping("/adding-ticket")
     @PreAuthorize("hasRole('ADMIN')")
+    //todo peredelat na Ticket
     public String getAddTicketPage(@Valid @ModelAttribute TicketDTO ticketDTO,
                                    BindingResult bindingResult, HttpSession session) throws DataBaseDuplicateConstraint {
         if(bindingResult.hasErrors()){

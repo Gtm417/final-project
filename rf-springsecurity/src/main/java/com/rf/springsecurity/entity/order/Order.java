@@ -23,9 +23,14 @@ public class Order {
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String secondName;
+//
+//    @Column(name="price", nullable = false)
+//    private String orderPrice;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;

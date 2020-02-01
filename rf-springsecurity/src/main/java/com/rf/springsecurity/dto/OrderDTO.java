@@ -30,6 +30,7 @@ public class OrderDTO {
     private String secondName;
     private Ticket ticket;
     private Set<Excursion> excursions;
+    private long orderPrice;
 
 }
 

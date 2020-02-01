@@ -32,5 +32,11 @@ public class Port {
     @ManyToMany(mappedBy = "ports",fetch = FetchType.LAZY)
     private List<Cruise> cruises;
 
-
+    @Override
+    public String toString() {
+        return "Port{" +
+                "id=" + id +
+                ", portName='" + portName + '\'' +
+                '}';
+    }
 }

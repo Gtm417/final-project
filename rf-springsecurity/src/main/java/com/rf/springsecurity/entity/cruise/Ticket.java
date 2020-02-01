@@ -15,7 +15,6 @@ import java.util.List;
 
 @Table( name="ticket",
         uniqueConstraints={@UniqueConstraint(columnNames={"ticket_name", "cruise_id"})})
-//Todo Двойной первичный ключ (имя и айди круиза)
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -30,6 +29,10 @@ public class Ticket {
 
     @Column(name="discount", nullable = false, columnDefinition = "int default 0")
     private int discount;
+
+//
+//    @Column(name= "final_price", nullable = false)
+//    private long priceWithDiscount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="cruise_id")

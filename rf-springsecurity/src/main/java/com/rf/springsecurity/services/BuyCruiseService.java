@@ -37,11 +37,7 @@ public class BuyCruiseService {
     public boolean buyCruise(@NonNull OrderDTO orderDTO, @NonNull Cruise cruise, @NonNull User user) throws NotEnoughMoney {
         userRepository.save(
                 subBalance(
-                        user,
-                        getTotalCruisePrice(
-                                orderDTO.getTicket(),
-                                orderDTO.getExcursions()
-                        ))
+                        user, orderDTO.getOrderPrice())
         );
         addNewOrder(orderDTO, cruise, user);
         //TODO bad return

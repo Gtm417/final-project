@@ -37,6 +37,7 @@ public class Excursion {
                 ", excursionName='" + excursionName + '\'' +
                 ", duration=" + duration +
                 ", price=" + price +
+                ", port=" + port +
                 '}';
     }
 }
