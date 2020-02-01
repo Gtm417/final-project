@@ -49,7 +49,7 @@ public class CruiseService {
         cruise.setDescription_eng(cruiseDescriptionsDTO.getDescription_eng());
         return cruiseRepository.save(cruise);
     }
-
+    //todo Ticket
     public Ticket addNewTicketToCruise(TicketDTO ticketDTO ,Cruise cruise) throws DataBaseDuplicateConstraint {
         try{
             return ticketRepository.save(

@@ -1,30 +1,23 @@
 package com.rf.springsecurity.controller;
 
-import com.rf.springsecurity.dto.ExcursionsDTO;
-import com.rf.springsecurity.dto.OrderDTO;
-import com.rf.springsecurity.dto.OrdersDTO;
 import com.rf.springsecurity.entity.cruise.Cruise;
+import com.rf.springsecurity.entity.order.Order;
 import com.rf.springsecurity.entity.port.Excursion;
 import com.rf.springsecurity.entity.port.Port;
 import com.rf.springsecurity.entity.user.User;
 import com.rf.springsecurity.exceptions.NotEnoughMoney;
 import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
-import com.rf.springsecurity.services.BuyCruiseService;
-import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.OrderService;
+import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.UserService;
 import com.rf.springsecurity.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-
-import java.util.Set;
 
 import static com.rf.springsecurity.controller.SessionAttributeConstants.*;
 import static java.util.stream.Collectors.joining;
@@ -35,7 +28,6 @@ public class UserController {
 
     private final UserService userService;
     private final CruiseService cruiseService;
-    private final BuyCruiseService buyCruiseService;
     private final OrderService orderService;
 
     private final Util util;
@@ -43,11 +35,10 @@ public class UserController {
 
     @Autowired
     public UserController(UserService userService, CruiseService cruiseService, Util util,
-                          BuyCruiseService buyCruiseService, OrderService orderService) {
+                           OrderService orderService) {
         this.userService = userService;
         this.cruiseService = cruiseService;
         this.util = util;
-        this.buyCruiseService = buyCruiseService;
         this.orderService = orderService;
     }
 
@@ -90,19 +81,20 @@ public class UserController {
         //model.addAttribute("cruise", cruise);
         //model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
         //model.addAttribute("excursionDTO", new Excursion());
-        model.addAttribute("orderDTO", new OrderDTO());
+        //model.addAttribute("orderDTO", new OrderDTO());
+        model.addAttribute("orderDTO", new Order());
         model.addAttribute("ticketsPrice", cruiseService.listOfTicketPriceWithDiscount(cruise));
         return "buy-cruise";
     }
 
     //TODO обнулить сессию екскурсий
     @PostMapping("/cruise/buy")
-    public String buyCruise(@ModelAttribute("orderDTO") OrderDTO orderDTO,
+    public String buyCruise(@ModelAttribute("orderDTO") Order order,
                             HttpSession session) throws NotEnoughMoney {
         //orderDTO.setExcursions(((ExcursionsDTO) session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO());
         //orderDTO.setOrderPrice(cruiseService.getTicketPriceWithDiscount(orderDTO.getTicket()));
-        session.setAttribute(SESSION_ORDER, orderDTO);
-        System.out.println(orderDTO);
+        session.setAttribute(SESSION_ORDER, order);
+        System.out.println(order);
         session.removeAttribute(SESSION_EXCURSIONS);
 //        buyCruiseService.buyCruise(orderDTO,
 //                (Cruise) session.getAttribute(SESSION_CRUISE),
@@ -120,21 +112,21 @@ public class UserController {
         //model.addAttribute("cruise", cruise);
         util.addSetOfExcursionsToSession(session);
         model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
-        OrderDTO orderDTO = (OrderDTO) session.getAttribute("order"); // thymeleaf get session.order
+        Order order = (Order) session.getAttribute("order"); // thymeleaf get session.order
         //todo add to table ticket value price with discount, calc 1 time before insert new Ticket
-        orderDTO.setOrderPrice(cruiseService.getTicketPriceWithDiscount(orderDTO.getTicket()));
+        order.setOrderPrice(cruiseService.getTicketPriceWithDiscount(order.getTicket()));
         model.addAttribute("resultPrice",
-                ((OrderDTO) session.getAttribute("order")).getOrderPrice() + util.getTotalPriceSelectedExcursions(session));// перенести в сервис ++
+                ((Order) session.getAttribute("order")).getOrderPrice() + util.getTotalPriceSelectedExcursions(session));// перенести в сервис ++
         return "submit-form";
     }
 
     @PostMapping("/cruise/buy-submit")
     public String submitBuy(@ModelAttribute("resultPrice") Long resultPrice,
                             HttpSession session) throws NotEnoughMoney {
-            OrderDTO orderDTO = (OrderDTO) session.getAttribute(SESSION_ORDER);
-            orderDTO.setOrderPrice(resultPrice);
+            Order order = (Order) session.getAttribute(SESSION_ORDER);
+            order.setOrderPrice(resultPrice);
             System.out.println(resultPrice);
-            buyCruiseService.buyCruise(orderDTO,
+            orderService.buyCruise(order,
                     (Cruise)session.getAttribute(SESSION_CRUISE),
                     (User)session.getAttribute(SESSION_USER));
         return "redirect:/user/success-buy";

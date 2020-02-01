@@ -28,9 +28,9 @@ public class Order {
 
     @Column(nullable = false)
     private String secondName;
-//
-//    @Column(name="price", nullable = false)
-//    private String orderPrice;
+
+    @Column(name="price", nullable = false)
+    private long orderPrice;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User user;
