@@ -4,7 +4,7 @@ package com.rf.springsecurity.controller;
 import com.rf.springsecurity.dto.CruiseDescriptionsDTO;
 import com.rf.springsecurity.entity.cruise.Cruise;
 import com.rf.springsecurity.entity.cruise.Ticket;
-import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
+import com.rf.springsecurity.exception.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.OrderService;
 import lombok.extern.slf4j.Slf4j;

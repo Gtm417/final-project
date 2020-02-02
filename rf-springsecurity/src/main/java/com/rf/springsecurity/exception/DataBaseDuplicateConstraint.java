@@ -1,4 +1,4 @@
-package com.rf.springsecurity.exceptions;
+package com.rf.springsecurity.exception;
 
 public class DataBaseDuplicateConstraint extends Exception{
 

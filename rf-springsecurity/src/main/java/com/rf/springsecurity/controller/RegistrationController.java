@@ -2,21 +2,17 @@ package com.rf.springsecurity.controller;
 
 import com.rf.springsecurity.entity.user.Role;
 import com.rf.springsecurity.entity.user.User;
-import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
+import com.rf.springsecurity.exception.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.services.UserAuthenticationService;
 import com.rf.springsecurity.services.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 
 @Slf4j
 @Controller

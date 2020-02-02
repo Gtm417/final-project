@@ -4,8 +4,8 @@ import com.rf.springsecurity.entity.cruise.Cruise;
 import com.rf.springsecurity.entity.cruise.Ticket;
 import com.rf.springsecurity.entity.port.Excursion;
 import com.rf.springsecurity.dto.CruiseDescriptionsDTO;
-import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
-import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
+import com.rf.springsecurity.exception.DataBaseDuplicateConstraint;
+import com.rf.springsecurity.exception.UnsupportedCruise;
 import com.rf.springsecurity.repository.CruiseRepository;
 import com.rf.springsecurity.repository.ExcursionRepository;
 import com.rf.springsecurity.repository.TicketRepository;
@@ -14,7 +14,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CruiseService {
@@ -45,7 +44,7 @@ public class CruiseService {
         cruise.setDescription_eng(cruiseDescriptionsDTO.getDescription_eng());
         return cruiseRepository.save(cruise);
     }
-    //todo Ticket
+
     public Ticket addNewTicketToCruise(Ticket ticketDTO ,Cruise cruise) throws DataBaseDuplicateConstraint {
         try{
             ticketDTO.setPriceWithDiscount(setTicketPriceWithDiscount(ticketDTO));
@@ -67,8 +66,8 @@ public class CruiseService {
     }
 
     //TODo norm Exception
-    public Cruise findCruiseById(Long id) throws UnsupportedCruiseName {
+    public Cruise findCruiseById(Long id) throws UnsupportedCruise {
         return cruiseRepository.findById(id)
-                .orElseThrow(() -> new UnsupportedCruiseName(id.toString()));
+                .orElseThrow(() -> new UnsupportedCruise(id.toString()));
     }
 }

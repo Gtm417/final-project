@@ -1,11 +1,9 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.entity.cruise.Ticket;
 import com.rf.springsecurity.entity.user.User;
-import com.rf.springsecurity.exceptions.DataBaseDuplicateConstraint;
+import com.rf.springsecurity.exception.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;

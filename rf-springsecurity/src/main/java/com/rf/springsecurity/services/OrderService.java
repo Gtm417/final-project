@@ -4,7 +4,7 @@ import com.rf.springsecurity.dto.OrdersDTO;
 import com.rf.springsecurity.entity.cruise.Cruise;
 import com.rf.springsecurity.entity.order.Order;
 import com.rf.springsecurity.entity.user.User;
-import com.rf.springsecurity.exceptions.NotEnoughMoney;
+import com.rf.springsecurity.exception.NotEnoughMoney;
 import com.rf.springsecurity.repository.OrderRepository;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.NonNull;

@@ -5,8 +5,8 @@ import com.rf.springsecurity.entity.order.Order;
 import com.rf.springsecurity.entity.port.Excursion;
 import com.rf.springsecurity.entity.port.Port;
 import com.rf.springsecurity.entity.user.User;
-import com.rf.springsecurity.exceptions.NotEnoughMoney;
-import com.rf.springsecurity.exceptions.UnsupportedCruiseName;
+import com.rf.springsecurity.exception.NotEnoughMoney;
+import com.rf.springsecurity.exception.UnsupportedCruise;
 import com.rf.springsecurity.services.OrderService;
 import com.rf.springsecurity.services.CruiseService;
 import com.rf.springsecurity.services.UserService;
@@ -64,11 +64,12 @@ public class UserController {
     @GetMapping("/cruise")
     public String getCruisePage(@RequestParam("id") Long id,
                                 Model model,
-                                HttpSession session) throws UnsupportedCruiseName {
+                                HttpSession session) throws UnsupportedCruise {
         Cruise cruise = cruiseService.findCruiseById(id);
         session.setAttribute(SESSION_CRUISE, cruise);
         model.addAttribute("cruise", cruise);
         model.addAttribute("ports", cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
+        System.out.println(session.getAttribute("cruise"));
         return "cruise";
     }
 
