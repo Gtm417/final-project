@@ -14,9 +14,12 @@
     <table class="datatable">
         <thead>
         <tr>
+            <th th:text="Cruise"></th>
             <th th:text="Name"></th>
             <th th:text="Surname"></th>
             <th th:text="Ticket"></th>
+            <th th:text="Price"></th>
+
 
         </tr>
         </thead>
@@ -26,9 +29,11 @@
             <td colspan="2" th:text="#{message.passenger.empty}"> </td>
         </tr>
         <tr th:each="passenger: ${passengers}">
+            <td><span th:text="${passenger.cruise.cruiseName}"> First name </span></td>
             <td><span th:text="${passenger.firstName}"> First name </span></td>
             <td><span th:text="${passenger.secondName}">Second name </span></td>
             <td><span th:text="${passenger.ticket.ticketName}"> Password </span></td>
+            <td><span th:text="${passenger.orderPrice}"> Password </span></td>
         </tr>
         </tbody>
     </table>

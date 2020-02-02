@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 <!--xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"-->
 
 
@@ -51,7 +51,11 @@
     <div class="card" th:each="cruise: ${cruises}">
         <div class="card-body">
             <h5 class="card-title" th:text="${cruise.cruiseName}" ></h5>
-            <p class="card-text" th:text="${cruise.description_eng}"></p>
+
+            <p th:if="${#locale.getISO3Language() == 'eng'}" th:text="${cruise.description_eng}"></p>
+            <p th:if="${#locale.getISO3Language() == 'rus'}" th:text="${cruise.description_ru}"></p>
+
+<!--            <p class="card-text" th:text="${cruise.description_eng}"></p>-->
             <a th:href="@{/user/cruise(id=${cruise.id})}" class="btn btn-primary">Просмотреть рейс</a>
         </div>
     </div>

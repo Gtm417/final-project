@@ -76,32 +76,16 @@ public class UserController {
     @GetMapping("/cruise/buy")
     public String getCruiseBuyForm(Model model,HttpSession session) {
         Cruise cruise = (Cruise) session.getAttribute(SESSION_CRUISE);
-        //util.addSetOfExcursionsToSession(session);
-        //model.addAttribute("cruise", cruise);
-        //model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(cruise.getId()));
-        //model.addAttribute("excursionDTO", new Excursion());
-        //model.addAttribute("orderDTO", new OrderDTO());
         model.addAttribute("tickets", cruiseService.showAllTicketsForCruise(cruise));
         model.addAttribute("orderDTO", new Order());
         return "buy-cruise";
     }
 
-    //TODO обнулить сессию екскурсий
     @PostMapping("/cruise/buy")
     public String buyCruise(@ModelAttribute("orderDTO") Order order,
                             HttpSession session){
-        //orderDTO.setExcursions(((ExcursionsDTO) session.getAttribute(SESSION_EXCURSIONS)).getExcursionsDTO());
-        //orderDTO.setOrderPrice(cruiseService.getTicketPriceWithDiscount(orderDTO.getTicket()));
         session.setAttribute(SESSION_ORDER, order);
-        System.out.println(order);
         session.removeAttribute(SESSION_EXCURSIONS);
-//        buyCruiseService.buyCruise(orderDTO,
-//                (Cruise) session.getAttribute(SESSION_CRUISE),
-//                (User) session.getAttribute(SESSION_USER)
-//        );
-
-        //util.resetExcursionSession(session);
-       // return "redirect:/user/cruise/buy";
         return "redirect:/user/cruise/buy-submit";
     }
 
