@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().maximumSessions(1);
         http
                     .authorizeRequests()
-                    .antMatchers("/login", "/registration").anonymous()
+                    .antMatchers("/","/login", "/registration").anonymous()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().defaultSuccessUrl("/user",true).loginPage("/login")
@@ -38,6 +39,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
                 .and()
                     .exceptionHandling().accessDeniedPage("/user/error");
+
+    }
+
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/scss/**", "/vendor/**", "/img/favicon.ico");
 
     }
 

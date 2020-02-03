@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping
-    public String main(HttpSession session) {
+    public String user(HttpSession session) {
         session.setAttribute(SESSION_USER, userService.getAuthenticatedUser());
         return "user-page";
     }
