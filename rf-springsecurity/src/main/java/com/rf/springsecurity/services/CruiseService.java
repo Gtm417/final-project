@@ -47,7 +47,7 @@ public class CruiseService {
 
     public Ticket addNewTicketToCruise(Ticket ticketDTO ,Cruise cruise) throws DataBaseDuplicateConstraint {
         try{
-            ticketDTO.setPriceWithDiscount(setTicketPriceWithDiscount(ticketDTO));
+            ticketDTO.setPriceWithDiscount(calcTicketPriceWithDiscount(ticketDTO));
             ticketDTO.setCruise(cruise);
             return ticketRepository.save(ticketDTO);
         } catch (DataIntegrityViolationException ex){
@@ -56,7 +56,7 @@ public class CruiseService {
     }
 
 
-    public long setTicketPriceWithDiscount(Ticket ticket){
+    private long calcTicketPriceWithDiscount(Ticket ticket){
         return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
     }
 
@@ -65,7 +65,6 @@ public class CruiseService {
 
     }
 
-    //TODo norm Exception
     public Cruise findCruiseById(Long id) throws UnsupportedCruise {
         return cruiseRepository.findById(id)
                 .orElseThrow(() -> new UnsupportedCruise(id.toString()));
