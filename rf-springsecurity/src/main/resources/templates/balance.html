@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+<a href="?lang=en">en</a>
+<a href="?lang=ru">ru</a>
+
+<h1 th:text="#{label.current.balance} + ' ' + ${session.user.balance}"> </h1>
+
+    <div class="panel-body" >
+        <form th:action ="@{/replenishment}"  method="post">
+            <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+            <div class="form-group" >
+                <label th:text="#{label.sum.replenish.balance}" ></label>
+                <input type="number"  required min="100" step="100"  placeholder="0" name="balance" th:title="#{label.current.balance}">
+            </div>
+            <button type="submit" class="btn btn-default"  th:text="#{button.replenish.balance}"></button>
+        </form>
+    </div>
+</body>
+</html>

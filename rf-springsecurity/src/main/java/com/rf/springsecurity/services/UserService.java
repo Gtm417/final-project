@@ -1,52 +1,61 @@
 package com.rf.springsecurity.services;
 
-import com.rf.springsecurity.domain.User;
-import com.rf.springsecurity.dto.UsersDTO;
+import com.rf.springsecurity.entity.user.User;
+import com.rf.springsecurity.exception.DataBaseDuplicateConstraint;
 import com.rf.springsecurity.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
+
+
+import lombok.NonNull;
+
 
 
 @Slf4j
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-
-
-    @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userRepository.findByLogin(login);
-        if (user == null) {
-            throw new UsernameNotFoundException(login);
-        }
-        return new org.springframework.security.core.userdetails.User(user.getLogin(),user.getPassword(), Collections.singleton(user.getRoles()));
-    }
-
-
-
-    public UsersDTO getAllUsers() {
-        //TODO checking for an empty user list
-
-        return new UsersDTO(userRepository.findAll());
-
-    }
-
-
-    public void saveNewUser (User user) throws Exception{
+    public User saveNewUser (@NonNull User user) throws DataBaseDuplicateConstraint {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
+        try{
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException ex){
+            throw new DataBaseDuplicateConstraint("User with such login already exist:", user.getLogin());
+        }
     }
+
+    public User getAuthenticatedUser(){
+        return getUserByLogin(getAuthenticatedUserDetails().getUsername());
+    }
+
+    private UserDetails getAuthenticatedUserDetails(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+    }
+
+    private User getUserByLogin(@NonNull String login) throws  UsernameNotFoundException {
+        return userRepository.findByLogin(login).
+                orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
+    }
+
+    public User addBalance(User user, long balance){
+        user.setBalance(user.getBalance() + balance);
+        return userRepository.save(user);
+    }
+
+
 }

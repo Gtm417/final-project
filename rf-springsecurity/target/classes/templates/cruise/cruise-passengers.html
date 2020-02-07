@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Cruise passengers</title>
+</head>
+<body>
+<a href="?lang=en">en</a>
+<a href="?lang=ru">ru</a>
+<div id = "all_users">
+    <h2 th:text="Passengers"></h2>
+</div>
+<div id = "content">
+    <table class="datatable">
+        <thead>
+        <tr>
+            <th th:text="Cruise"></th>
+            <th th:text="Name"></th>
+            <th th:text="Surname"></th>
+            <th th:text="Ticket"></th>
+            <th th:text="Price"></th>
+
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:if="${passengers.empty}">
+            <td colspan="2" th:text="#{message.passenger.empty}"> </td>
+        </tr>
+        <tr th:each="passenger: ${passengers}">
+            <td><span th:text="${passenger.cruise.cruiseName}"> First name </span></td>
+            <td><span th:text="${passenger.firstName}"> First name </span></td>
+            <td><span th:text="${passenger.secondName}">Second name </span></td>
+            <td><span th:text="${passenger.ticket.ticketName}"> Password </span></td>
+            <td><span th:text="${passenger.orderPrice}"> Password </span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

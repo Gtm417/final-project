@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy submit</title>
+</head>
+<body>
+
+
+<h1>Receipt</h1>
+<table cellspacing="0">
+    <tr>
+        <td>First name</td>
+        <td th:text="${session.order.firstName}"></td>
+<!--        <td ><input required th:name="firstName" id="first"/></td>-->
+    </tr>
+    <tr>
+        <td>Second name</td>
+        <td th:text="${session.order.secondName}"></td>
+<!--        <td ><input required th:name="secondName" id="second" /></td>-->
+    </tr>
+    <tr>
+        <td>Cruise</td>
+        <td th:text="${session.cruise.cruiseName}"></td>
+    </tr>
+    <tr>
+        <td>Ticket Name</td>
+        <td th:text="${session.order.ticket.ticketName}"></td>
+    </tr>
+    <tr>
+        <td>Ticket Price</td>
+        <td th:text="${session.order.ticket.price}"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Ticket Discount</td>
+        <td th:text="${session.order.ticket.discount}"></td>
+    </tr>
+    <tr>
+        <td>Total</td>
+        <td th:text="${session.order.orderPrice}"></td>
+        <td th:text="${resultPrice}"></td>
+    </tr>
+</table>
+
+<table>
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col"> port</th>
+        <th scope="col"> Name</th>
+        <th scope="col"> duration</th>
+        <th scope="col"> price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="excursion: ${excursions}">
+        <td th:text="${excursion.port.portName}"></td>
+        <td th:text="${excursion.excursionName}"></td>
+        <td th:text=" ${excursion.duration}"></td>
+        <td th:text="${excursion.price}"></td>
+        <td>
+            <!--                todo th:object excursion-->
+            <form id="add" class="form-group" th:action="@{/user/add/excursion}" method="post"
+                  th:object="${excursionDTO}">
+                <input type="hidden" name="id" th:value="${excursion.id}"/>
+                <input type="hidden" name="excursionName" th:value="${excursion.excursionName}"/>
+                <input type="hidden" name="price" th:value="${excursion.price}"/>
+                <input type="hidden" name="duration" th:value="${excursion.duration}"/>
+                <input hidden name="portId" th:value="${excursion.port.id}"/>
+                <input hidden name="portName" th:value="${excursion.port.id}"/>
+<!--                <input hidden name="portName" th:value="${excursion.port.portName}"/>-->
+                <button class="btn btn-success" th:text="Add"></button>
+            </form>
+            <!--                <form action="" method="post">-->
+            <!--                    <input hidden name="excursionName" value = "${excursion.excursionName}"/>-->
+            <!--                    <input hidden name="id" value = "${excursion.id}"/>-->
+            <!--                    <input hidden name="duration" value = "${excursion.duration}"/>-->
+            <!--                    <input hidden name="price" value = "${excursion.price}"/>-->
+            <!--                    <input hidden name="portId" value = "${excursion.port.id}"/>-->
+            <!--                    <input hidden name="portName" value = "${excursion.port.portName}"/>-->
+            <!--                    <button class="btn btn-success">Add</button>-->
+            <!--                </form>-->
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table>
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col"> port</th>
+        <th scope="col"> Name</th>
+        <th scope="col"> price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="selectedExcursion: ${session.excursionsDTO.excursionsDTO}">
+        <td th:text="${selectedExcursion.port.portName}"></td>
+        <td th:text="${selectedExcursion.excursionName}"></td>
+        <td th:text="${selectedExcursion.price}"></td>
+        <td>
+            <!--                todo th:object excursion-->
+            <form th:action="@{/user/remove/excursion}" method="post" th:object="${excursionDTO}">
+                <input type="hidden" name="id" th:value="${selectedExcursion.id}"/>
+                <input type="hidden" name="excursionName" th:value="${selectedExcursion.excursionName}"/>
+                <input type="hidden" name="price" th:value="${selectedExcursion.price}"/>
+                <input type="hidden" name="duration" th:value="${selectedExcursion.duration}"/>
+                <input hidden name="portId" value="${selectedExcursion.port.id}"/>
+                <input hidden name="portName" value="${selectedExcursion.port.portName}"/>
+                <button class="btn btn-danger">Remove</button>
+            </form>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+<form th:action="@{/user/cruise/buy-submit}" method="post">
+    <button class="btn btn-success" value="Submit">Submit</button>
+    <input hidden name="resultPrice" th:value="${resultPrice}">
+</form>
+</body>
+</html>

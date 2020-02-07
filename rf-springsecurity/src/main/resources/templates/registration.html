@@ -1,41 +1,61 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-</head>
+
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link th:href="@{css/style.css}" rel="stylesheet"/>
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--    &lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
+    <!--          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <!--    &lt;!&ndash; Optional theme &ndash;&gt;-->
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"-->
+    <!--          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+    <!--</head>-->
 <body>
 <a href="?lang=en">en</a>
 <a href="?lang=ru">ru</a>
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-default" style="margin-top:45px">
-                <div class="panel-heading">
-                    <h3 class="panel-title" th:text="#{title.registration}"></h3>
-                </div>
+        <div class="col-md-5 mx-auto">
+            <div class="myform form ">
+                <div class="logo mb-3">
+                    <div class="col-md-12 text-center">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" th:text="#{title.registration}"></h3>
+                        </div>
 
-                <div class="panel-body">
-                    <form th:action = "@{/registration}" method="post">
-                        <p th:if="${message}" class="alert alert-info" role="alert" th:text="#{message.exist.login }"></p>
-                        <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
-                        <div class="form-group">
-                            <label for="login" th:text="#{label.login}"></label>
-                            <input type="text" class="form-control" id="login" placeholder="Login"
-                                   name="login">
+                        <div class="panel-body">
+                            <form th:action="@{/registration}" method="post">
+                                <p th:if="${error}" class="text-danger"
+                                   th:text="#{message.exist.login }"></p>
+                                <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+                                <div class="form-group">
+                                    <label for="login" th:text="#{label.login}"></label>
+                                    <input type="text" required class="form-control" id="login" placeholder="Login"
+                                           name="login">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" th:text="#{label.password}"></label>
+                                    <input type="password" required class="form-control" id="password"
+                                           placeholder="Password"
+                                           name="password">
+                                </div>
+                                <div class="col-md-12 text-center mb-3">
+                                    <button type="submit" id="submit" class=" btn btn-block mybtn btn-primary tx-tfm"
+                                            th:text="#{register.submit}"></button>
+                                </div>
+                                <div class="col-md-12 ">
+                                    <div class="form-group">
+                                        <p class="text-center"><a th:href="@{/login}" id="signin" th:text="#{register.signIn.message}"></a></p>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="password" th:text="#{label.password}"></label>
-                            <input type="password" class="form-control" id="password" placeholder="Password"
-                                   name="password">
-                        </div>
-                        <button type="submit" class="btn btn-default" th:text="#{button.registration}"></button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
