@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{css/cover.css}" rel="stylesheet">
+
+
+    <!--  0.7-->
+    <style>
+    body{
+        background:
+                linear-gradient(
+                        rgba(0, 0, 0, 0.4),
+                        rgba(0, 0, 0, 0.4)
+
+                ),
+                url(images/cruise_2.jpg);
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+</style>
+
+    <title>Cruise company</title>
+</head>
+
+<body class="text-center">
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+        <div class="inner">
+            <h3 class="masthead-brand" th:text="#{label.cruise.company}"></h3>
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link" href="?lang=en">English</a>
+                <a class="nav-link" href="?lang=ru">Русский</a>
+                <a th:if="${session.user == null}" class="nav-link" th:href="@{/login}" th:text="#{label.login}"></a>
+                <a th:if="${session.user != null}" class="nav-link" th:href="@{/logout}" th:text="#{button.logout}"></a>
+            </nav>
+        </div>
+    </header>
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading" th:text="#{header.best.cruises}"></h1>
+<!--        <p class="lead" th:text="#{header.best.cruises}"></p>-->
+<!--        <p class="lead" th:object="${session.user}" th:if="${session.user != null}">-->
+<!--            <a th:if="*{role.getDescription() == 'Admin'}" th:href="@{/admin}" class="btn btn-lg btn-secondary">Back To Admin Menu</a>-->
+<!--            <a th:if="*{role.getDescription() == 'User'}" th:href="@{/user}" class="btn btn-lg btn-secondary">Back To User Menu</a>-->
+<!--        </p>-->
+        <p class="lead">
+            <a th:href="@{/registration}" class="btn btn-lg btn-secondary" th:text="#{label.register.now}"> </a>
+        </p>
+
+    </main>
+
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+            <p th:text="#{index.footer}"></p>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -53,4 +53,15 @@ public class Cruise {
     @Column(name="description_ru")
     private String description_ru;
 
+    @Override
+    public String toString() {
+        return "Cruise{" +
+                "id=" + id +
+                ", cruiseName='" + cruiseName + '\'' +
+                ", departureDate=" + departureDate +
+                ", arrivalDate=" + arrivalDate +
+                ", description_eng='" + description_eng + '\'' +
+                ", description_ru='" + description_ru + '\'' +
+                '}';
+    }
 }
