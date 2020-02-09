@@ -1,12 +1,14 @@
 package ua.training.cruise.entity.order;
 
 
+import lombok.*;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.cruise.Ticket;
+import ua.training.cruise.entity.port.Excursion;
 import ua.training.cruise.entity.user.User;
-import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -38,6 +40,13 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Cruise cruise;
 
-    @ManyToOne(fetch = FetchType.EAGER,  optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Ticket ticket;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "orders_excursions",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "excursion_id"))
+    private Set<Excursion> excursions;
 }

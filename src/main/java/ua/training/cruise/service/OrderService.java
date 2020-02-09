@@ -1,16 +1,16 @@
 package ua.training.cruise.service;
 
-import ua.training.cruise.dto.OrdersDTO;
-import ua.training.cruise.entity.cruise.Cruise;
-import ua.training.cruise.entity.order.Order;
-import ua.training.cruise.entity.user.User;
-import ua.training.cruise.exception.NotEnoughMoney;
-import ua.training.cruise.repository.OrderRepository;
-import ua.training.cruise.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.cruise.entity.cruise.Cruise;
+import ua.training.cruise.entity.order.Order;
+import ua.training.cruise.entity.port.Excursion;
+import ua.training.cruise.entity.user.User;
+import ua.training.cruise.exception.NotEnoughMoney;
+import ua.training.cruise.repository.OrderRepository;
+import ua.training.cruise.repository.UserRepository;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class OrderService {
         return orderRepository.findAllByCruise(cruise);
     }
 
-    public List<OrdersDTO> findAllOrdersByUser(User user){
+    public List<Order> findAllOrdersByUser(User user) {
         return orderRepository.findAllByUser(user);
     }
     
@@ -58,6 +58,11 @@ public class OrderService {
         }
         user.setBalance(user.getBalance() - orderSum);
         return user;
+    }
+
+    public long getOrderTotalPrice(Order order) {
+        long excursionsPrice = order.getExcursions().stream().mapToLong(Excursion::getPrice).sum();
+        return order.getTicket().getPriceWithDiscount() + excursionsPrice;
     }
 
     //    private long getTicketPriceWithDiscount(Ticket ticket){

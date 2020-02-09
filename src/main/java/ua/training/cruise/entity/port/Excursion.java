@@ -1,15 +1,17 @@
 package ua.training.cruise.entity.port;
 
 import lombok.*;
+import ua.training.cruise.entity.order.Order;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
 
 @Entity
 @Table( name="excursions",
@@ -26,9 +28,26 @@ public class Excursion {
     private int duration;
     private long price;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="port_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "port_ID")
     private Port port;
+
+    @ManyToMany(mappedBy = "excursions", fetch = FetchType.LAZY)
+    private Set<Order> orders;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Excursion excursion = (Excursion) o;
+        return id == excursion.id &&
+                excursionName.equals(excursion.excursionName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, excursionName);
+    }
 
     @Override
     public String toString() {

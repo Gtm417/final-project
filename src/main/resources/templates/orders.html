@@ -36,8 +36,8 @@
             <tr th:each="order: ${orders}">
                 <td><span th:text="${order.firstName}">  </span></td>
                 <td><span th:text="${order.secondName}"> </span></td>
-                <td><span th:text="${order.ticketName}"> </span></td>
-                <td><span th:text="${order.cruiseName}"> </span></td>
+                <td><span th:text="${order.ticket.ticketName}"> </span></td>
+                <td><span th:text="${order.cruise.cruiseName}"> </span></td>
                 <td><span th:text="${order.orderPrice}"> </span></td>
             </tr>
         </tbody>

@@ -24,37 +24,37 @@
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 
 
-<form id="buy" th:action="@{/user/cruise/buy}" method="post" th:object="${orderDTO}">
+<form id="buy" method="post" th:action="@{/user/cruise/buy}" th:object="${order}">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
-        <div class="error"  style="color: red;" th:if="${#fields.hasErrors('*')}">
-            <p><strong>Errors</strong></p>
-            <ul>
-                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
-            </ul>
-        </div>
-        <div class="form-row" >
-            <div class="col">
-                <div class="error"  style="color: red;" th:if="${#fields.hasErrors('firstName')}">
-                    <ul>
-                        <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>
-                    </ul>
-                </div>
-                <input type="text" class="form-control" placeholder="Имя" th:field="*{firstName}">
+    <div class="error" style="color: red;" th:if="${#fields.hasErrors('*')}">
+        <p><strong>Errors</strong></p>
+        <ul>
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+        </ul>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <div class="error" style="color: red;" th:if="${#fields.hasErrors('firstName')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>
+                </ul>
             </div>
-            <div class="col">
-                <div class="error"  style="color: red;" th:if="${#fields.hasErrors('secondName')}">
-                    <ul>
-                        <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}"></li>
-                    </ul>
-                </div>
-                <input type="text" class="form-control" placeholder="Фамилия" th:field="*{secondName}">
-            </div>
+            <input class="form-control" placeholder="Имя" th:field="*{firstName}" type="text">
         </div>
-        <div class="form-group">
-            <select th:field="*{ticket}">
-                <option th:each="ticket, stat: ${tickets}"
-                        th:value="${ticket.id}"
-                        th:text="${ticket.ticketName} + ' ' + ${ticket.priceWithDiscount} " >
+        <div class="col">
+            <div class="error" style="color: red;" th:if="${#fields.hasErrors('secondName')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <input type="text" class="form-control" placeholder="Фамилия" th:field="*{secondName}">
+        </div>
+    </div>
+    <div class="form-group">
+        <select th:field="*{ticket}">
+            <option th:each="ticket, stat: ${tickets}"
+                    th:value="${ticket.id}"
+                    th:text="${ticket.ticketName} + ' ' + ${ticket.priceWithDiscount} ">
                 </option>
 
             </select>
