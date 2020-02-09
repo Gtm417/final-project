@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Orders</title>
@@ -12,36 +12,51 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 </head>
 <body>
-    <table class="table" style="
+<table class="table" style="
         width: 40%;
         margin: 0 auto;
         background:  #0c5460;
         border-radius: 10px;
         color: white;
         "
-    >
-        <thead>
-            <tr>
-                <th th:text="FirstName"></th>
-                <th th:text="Surname"></th>
-                <th th:text="Ticket"></th>
-                <th th:text="CruiseName"></th>
-                <th th:text="Price"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:if="${orders.empty}">
-                <td colspan="2" th:text="#{alert.empty.order.list}"> </td>
-            </tr>
-            <tr th:each="order: ${orders}">
-                <td><span th:text="${order.firstName}">  </span></td>
-                <td><span th:text="${order.secondName}"> </span></td>
-                <td><span th:text="${order.ticket.ticketName}"> </span></td>
-                <td><span th:text="${order.cruise.cruiseName}"> </span></td>
-                <td><span th:text="${order.orderPrice}"> </span></td>
-            </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/user}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" th:text="Main"> </a>
+>
+    <thead>
+    <tr>
+        <th th:text="FirstName"></th>
+        <th th:text="Surname"></th>
+        <th th:text="Ticket"></th>
+        <th th:text="CruiseName"></th>
+        <th th:text="Price"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${page.empty}">
+        <td colspan="2" th:text="#{alert.empty.order.list}"></td>
+    </tr>
+    <tr th:each="order: ${page.content}">
+        <td><span th:text="${order.firstName}">  </span></td>
+        <td><span th:text="${order.secondName}"> </span></td>
+        <td><span th:text="${order.ticket.ticketName}"> </span></td>
+        <td><span th:text="${order.cruise.cruiseName}"> </span></td>
+        <td><span th:text="${order.orderPrice}"> </span></td>
+    </tr>
+    </tbody>
+</table>
+<div class="pagination-div">
+    <span th:if="${page.hasPrevious()}">
+        <a th:href="@{/user/orders(page=${page.number - 1},size=${page.size})}">Previous</a>
+    </span>
+    <th:block th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}">
+        <span class="selected" th:if="${page.number == i}">[[${i}+1]]</span>
+        <span th:unless="${page.number == i}">
+             <a th:href="@{/user/orders(page=${i},size=${page.size})}">[[${i}+1]]</a>
+        </span>
+    </th:block>
+    <span th:if="${page.hasNext()}">
+        <a th:href="@{/user/orders(page=${page.number + 1},size=${page.size})}">Next</a>
+    </span>
+</div>
+<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/user}" th:text="Main"> </a>
+
 </body>
 </html>

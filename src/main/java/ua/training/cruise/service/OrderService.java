@@ -2,6 +2,8 @@ package ua.training.cruise.service;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.training.cruise.entity.cruise.Cruise;
@@ -36,8 +38,8 @@ public class OrderService {
         return orderRepository.findAllByCruise(cruise);
     }
 
-    public List<Order> findAllOrdersByUser(User user) {
-        return orderRepository.findAllByUser(user);
+    public Page<Order> findAllOrdersByUser(User user, Pageable pageable) {
+        return orderRepository.findAllByUser(user, pageable);
     }
 
     public boolean buyCruise(@NonNull Order order, @NonNull Cruise cruise, @NonNull User user) throws NotEnoughMoney, NoPlaceOnShip {

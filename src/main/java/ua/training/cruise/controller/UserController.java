@@ -1,6 +1,9 @@
 package ua.training.cruise.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -115,8 +118,12 @@ public class UserController {
 
 
     @GetMapping(value = "/orders")
-    public String getAllOrders(HttpSession session, Model model) {
-        model.addAttribute("orders", orderService.findAllOrdersByUser(Util.getUserFromSession(session)));
+    public String getAllOrders(HttpSession session, Model model,
+                               @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 4) Pageable pageable) {
+        //@RequestParam Integer size, @RequestParam Integer page
+        //, @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
+        //model.addAttribute("orders", orderService.findAllOrdersByUser(Util.getUserFromSession(session), pageable));
+        model.addAttribute("page", orderService.findAllOrdersByUser(Util.getUserFromSession(session), pageable));
         return "orders";
     }
 
