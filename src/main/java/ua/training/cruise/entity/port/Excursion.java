@@ -28,7 +28,7 @@ public class Excursion {
     private int duration;
     private long price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "port_ID")
     private Port port;
 

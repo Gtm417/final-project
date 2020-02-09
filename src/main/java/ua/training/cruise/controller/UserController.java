@@ -8,6 +8,7 @@ import ua.training.cruise.controller.util.Util;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.order.Order;
 import ua.training.cruise.entity.port.Port;
+import ua.training.cruise.exception.NoPlaceOnShip;
 import ua.training.cruise.exception.NotEnoughMoney;
 import ua.training.cruise.exception.UnsupportedCruise;
 import ua.training.cruise.service.CruiseService;
@@ -98,7 +99,7 @@ public class UserController {
 
 
     @PostMapping("/cruise/buy-submit")
-    public String submitBuy(HttpSession session) throws NotEnoughMoney {
+    public String submitBuy(HttpSession session) throws NotEnoughMoney, NoPlaceOnShip {
         Order order = (Order) session.getAttribute(SESSION_ORDER);
         orderService.buyCruise(order,
                 Util.getSessionCruise(session),

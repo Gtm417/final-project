@@ -1,8 +1,8 @@
 package ua.training.cruise.entity.cruise;
 
 
-import ua.training.cruise.entity.port.Port;
 import lombok.*;
+import ua.training.cruise.entity.port.Port;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -27,8 +27,8 @@ public class Cruise {
     @Column(name = "cruise_name", nullable = false)
     private String cruiseName;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ship_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ship_id")
     private Ship ship;
 
     @ManyToMany(fetch=FetchType.LAZY)
