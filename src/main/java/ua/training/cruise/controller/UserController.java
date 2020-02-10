@@ -31,7 +31,6 @@ public class UserController {
     private final UserService userService;
     private final CruiseService cruiseService;
     private final OrderService orderService;
-    Util util;
 
 
     @Autowired
@@ -64,10 +63,12 @@ public class UserController {
 
     @GetMapping("/cruise")
     public String getCruisePage(@RequestParam("id") Long id,
+                                @RequestParam(value = "noPlace", required = false) Boolean noPlace,
                                 Model model,
                                 HttpSession session) throws UnsupportedCruise {
         Cruise cruise = cruiseService.findCruiseById(id);
         session.setAttribute(SESSION_CRUISE, cruise);
+        model.addAttribute("noPlace", noPlace);
         model.addAttribute("cruise", cruise);
         model.addAttribute("ports", cruise.getPorts().stream().map(Port::getPortName).collect(joining(",")));
         return "cruise";
@@ -76,7 +77,6 @@ public class UserController {
 
     @GetMapping("/cruise/buy")
     public String getCruiseBuyForm(Model model, HttpSession session) {
-
         model.addAttribute("tickets", cruiseService.showAllTicketsForCruise(Util.getSessionCruise(session)));
         model.addAttribute("order", new Order());
         return "buy-cruise";
@@ -103,8 +103,7 @@ public class UserController {
 
     @PostMapping("/cruise/buy-submit")
     public String submitBuy(HttpSession session) throws NotEnoughMoney, NoPlaceOnShip {
-        Order order = (Order) session.getAttribute(SESSION_ORDER);
-        orderService.buyCruise(order,
+        orderService.buyCruise(Util.getSessionOrder(session),
                 Util.getSessionCruise(session),
                 Util.getUserFromSession(session));
         return "redirect:/user/success-buy";
@@ -120,9 +119,6 @@ public class UserController {
     @GetMapping(value = "/orders")
     public String getAllOrders(HttpSession session, Model model,
                                @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 4) Pageable pageable) {
-        //@RequestParam Integer size, @RequestParam Integer page
-        //, @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
-        //model.addAttribute("orders", orderService.findAllOrdersByUser(Util.getUserFromSession(session), pageable));
         model.addAttribute("page", orderService.findAllOrdersByUser(Util.getUserFromSession(session), pageable));
         return "orders";
     }

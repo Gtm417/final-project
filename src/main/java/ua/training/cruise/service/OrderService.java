@@ -43,26 +43,28 @@ public class OrderService {
     }
 
     public boolean buyCruise(@NonNull Order order, @NonNull Cruise cruise, @NonNull User user) throws NotEnoughMoney, NoPlaceOnShip {
-        Ship ship = checkShipCapacity(cruise);
         order.setCruise(cruise);
         order.setUser(user);
         subBalance(user, order.getOrderPrice());
 
-        buyDbChanges(order, user, ship);
+        buyDbChanges(order, user, cruise.getShip());
         return true;
     }
 
-    private Ship checkShipCapacity(@NonNull Cruise cruise) throws NoPlaceOnShip {
-        int newPassengerAmount = cruise.getShip().getCurrentAmountOfPassenger() + 1;
-        if (newPassengerAmount > cruise.getShip().getMaxAmountOfPassenger()) {
-            throw new NoPlaceOnShip("No place on cruise with id ", cruise.getId());
+    public int checkShipCapacity(@NonNull Ship ship) throws NoPlaceOnShip {
+        if (ship.getCurrentAmountOfPassenger() + 1 > ship.getMaxAmountOfPassenger()) {
+            throw new NoPlaceOnShip("No place on cruise with id ", ship.getId());
         }
-        cruise.getShip().setCurrentAmountOfPassenger(newPassengerAmount);
-        return cruise.getShip();
+        return ship.getCurrentAmountOfPassenger() + 1;
+    }
+
+    private void setAmountShipCapacity(@NonNull Ship ship) throws NoPlaceOnShip {
+        ship.setCurrentAmountOfPassenger(checkShipCapacity(ship));
     }
 
     @Transactional
-    public void buyDbChanges(@NonNull Order order, @NonNull User user, Ship ship) {
+    public void buyDbChanges(@NonNull Order order, @NonNull User user, Ship ship) throws NoPlaceOnShip {
+        setAmountShipCapacity(ship);
         userRepository.save(user);
         orderRepository.save(order);
         shipRepository.save(ship);

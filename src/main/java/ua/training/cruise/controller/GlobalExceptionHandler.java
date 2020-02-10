@@ -7,16 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ua.training.cruise.exception.NotEnoughMoney;
-import ua.training.cruise.exception.NotFoundExcursion;
-import ua.training.cruise.exception.UnreachableRequest;
-import ua.training.cruise.exception.UnsupportedCruise;
+import ua.training.cruise.exception.*;
 
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    //TODO redirect to NOT FOUND 404, Убрать model.attribute error
     @ExceptionHandler(UnsupportedCruise.class)
     public String  handlingUnsupportedCruiseName(UnsupportedCruise ex){
         log.error("Cruise not found: " + ex.getMessage());
@@ -34,6 +30,14 @@ public class GlobalExceptionHandler {
     public String handlingNotFoundExcursion(Exception ex) {
         log.info(ex.getMessage());
         return "404";
+    }
+
+    @ExceptionHandler(NoPlaceOnShip.class)
+    public String handlingNoPlacesOnShip(NoPlaceOnShip ex, Model model) {
+        log.info(ex.getMessage());
+        model.addAttribute("id", ex.getId());
+        model.addAttribute("noPlace", true);
+        return "redirect:/user/cruise";
     }
 
 

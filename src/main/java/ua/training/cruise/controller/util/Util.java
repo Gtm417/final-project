@@ -40,5 +40,4 @@ public class Util {
     public static User getUserFromSession(HttpSession session) {
         return (User) session.getAttribute(SESSION_USER);
     }
-
 }
