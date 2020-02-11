@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ua.training.cruise.controller.SessionAttributeConstants;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.order.Order;
+import ua.training.cruise.entity.port.Excursion;
 import ua.training.cruise.entity.user.User;
 import ua.training.cruise.exception.UnreachableRequest;
 
@@ -35,6 +36,12 @@ public class Util {
     public static void clearBuySessionAttributes(HttpSession session) {
         session.removeAttribute(SessionAttributeConstants.SESSION_ORDER);
         session.removeAttribute(SessionAttributeConstants.SESSION_CRUISE);
+    }
+
+    public static long calcOrderTotalPrice(HttpSession session) {
+        Order order = getSessionOrder(session);
+        long excursionsPrice = order.getExcursions().stream().mapToLong(Excursion::getPrice).sum();
+        return order.getTicket().getPriceWithDiscount() + excursionsPrice;
     }
 
     public static User getUserFromSession(HttpSession session) {

@@ -14,8 +14,8 @@ import java.util.Set;
 @Builder
 
 @Entity
-@Table( name="excursions",
-        uniqueConstraints={@UniqueConstraint(columnNames={"excursion_name"})})
+@Table(name = "excursions",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"excursion_name"})})
 public class Excursion {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -21,8 +20,8 @@ public class LocaleConfigure implements WebMvcConfigurer {
 
 
     @Bean
-    public MessageSource messageSource(){
-        ReloadableResourceBundleMessageSource messageResource= new ReloadableResourceBundleMessageSource();
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
         messageResource.setBasename("classpath:label");
         messageResource.setDefaultEncoding("UTF-8");
         return messageResource;
@@ -34,6 +33,7 @@ public class LocaleConfigure implements WebMvcConfigurer {
         slr.setDefaultLocale(Locale.ENGLISH);
         return slr;
     }
+
     @Bean
     public LocaleChangeInterceptor localeInterceptor() {
         LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
@@ -42,7 +42,7 @@ public class LocaleConfigure implements WebMvcConfigurer {
     }
 
     @Bean
-    public Function<String, String> changeLanguage(){
+    public Function<String, String> changeLanguage() {
         return lang -> ServletUriComponentsBuilder.fromCurrentRequest().replaceQueryParam(lang).toUriString();
     }
 

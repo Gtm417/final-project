@@ -4,7 +4,7 @@ public class UnsupportedCruise extends Exception {
     public UnsupportedCruise() {
     }
 
-    public UnsupportedCruise(String message) {
-        super(message);
+    public UnsupportedCruise(String message, long id) {
+        super(message + id);
     }
 }

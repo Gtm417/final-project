@@ -1,8 +1,6 @@
 package ua.training.cruise.service;
 
-import ua.training.cruise.entity.user.User;
-import ua.training.cruise.exception.DataBaseDuplicateConstraint;
-import ua.training.cruise.repository.UserRepository;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,10 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-import lombok.NonNull;
-
+import ua.training.cruise.entity.user.User;
+import ua.training.cruise.exception.DataBaseDuplicateConstraint;
+import ua.training.cruise.repository.UserRepository;
 
 
 @Slf4j
@@ -29,30 +26,31 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User saveNewUser (@NonNull User user) throws DataBaseDuplicateConstraint {
+    public User saveNewUser(@NonNull User user) throws DataBaseDuplicateConstraint {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        try{
+        try {
             return userRepository.save(user);
-        } catch (DataIntegrityViolationException ex){
+        } catch (DataIntegrityViolationException ex) {
             throw new DataBaseDuplicateConstraint("User with such login already exist:", user.getLogin());
         }
     }
 
-    public User getAuthenticatedUser(){
+    public User getAuthenticatedUser() {
         return getUserByLogin(getAuthenticatedUserDetails().getUsername());
     }
 
-    private UserDetails getAuthenticatedUserDetails(){
+    private UserDetails getAuthenticatedUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
     }
 
-    private User getUserByLogin(@NonNull String login) throws  UsernameNotFoundException {
+    public User getUserByLogin(@NonNull String login) throws UsernameNotFoundException {
         return userRepository.findByLogin(login).
-                orElseThrow(() -> new  UsernameNotFoundException("There is no user with login: " + login));
+                orElseThrow(() -> new UsernameNotFoundException("There is no user with login: " + login));
     }
 
-    public User addBalance(User user, long balance){
+
+    public User addBalance(User user, long balance) {
         user.setBalance(user.getBalance() + balance);
         return userRepository.save(user);
     }

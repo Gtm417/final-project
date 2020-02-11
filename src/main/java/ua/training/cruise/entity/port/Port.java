@@ -1,8 +1,11 @@
 package ua.training.cruise.entity.port;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ua.training.cruise.entity.cruise.Cruise;
-import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,8 +17,8 @@ import java.util.List;
 
 
 @Entity
-@Table( name="ports",
-        uniqueConstraints={@UniqueConstraint(columnNames={"port_name"})})
+@Table(name = "ports",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"port_name"})})
 
 public class Port {
     @Id
@@ -29,7 +32,7 @@ public class Port {
     private List<Excursion> excursions;
 
 
-    @ManyToMany(mappedBy = "ports",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "ports", fetch = FetchType.LAZY)
     private List<Cruise> cruises;
 
     @Override

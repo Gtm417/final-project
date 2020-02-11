@@ -14,8 +14,8 @@ import java.util.List;
 
 
 @Entity
-@Table( name="ships",
-        uniqueConstraints={@UniqueConstraint(columnNames={"ship_name"})})
+@Table(name = "ships",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"ship_name"})})
 public class Ship {
 
     @Id
@@ -35,6 +35,6 @@ public class Ship {
     @OneToMany(mappedBy = "ship")
     private List<Passenger> listOfPassenger;
 
-    @OneToOne(mappedBy = "ship",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "ship", cascade = CascadeType.ALL)
     private Cruise cruise;
 }

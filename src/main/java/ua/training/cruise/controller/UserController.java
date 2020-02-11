@@ -91,15 +91,6 @@ public class UserController {
         return "redirect:/user/cruise/buy-submit";
     }
 
-    @GetMapping("/cruise/buy-submit")
-    public String submitBuyPage(Model model, HttpSession session) {
-        model.addAttribute("excursions", cruiseService.getAllExcursionsByCruiseId(Util.getSessionCruise(session).getId()));
-        Order order = Util.getSessionOrder(session);
-        order.setOrderPrice(orderService.getOrderTotalPrice(order));
-        model.addAttribute("resultPrice", order.getOrderPrice());
-        return "submit-form";
-    }
-
 
     @PostMapping("/cruise/buy-submit")
     public String submitBuy(HttpSession session) throws NotEnoughMoney, NoPlaceOnShip {

@@ -12,8 +12,8 @@ import javax.persistence.*;
 @ToString
 
 @Entity
-@Table( name="passengers",
-        uniqueConstraints={@UniqueConstraint(columnNames={"id"})})
+@Table(name = "passengers",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 
 public class Passenger {
 
@@ -29,11 +29,11 @@ public class Passenger {
     private String secondName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ticket_id")
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="ship_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ship_id")
     private Ship ship;
 
 }

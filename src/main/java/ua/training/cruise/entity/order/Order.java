@@ -18,7 +18,7 @@ import java.util.Set;
 @EqualsAndHashCode
 
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,7 +31,7 @@ public class Order {
     @Column(nullable = false)
     private String secondName;
 
-    @Column(name="price", nullable = false)
+    @Column(name = "price", nullable = false)
     private long orderPrice;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

@@ -14,7 +14,7 @@ import ua.training.cruise.exception.*;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnsupportedCruise.class)
-    public String  handlingUnsupportedCruiseName(UnsupportedCruise ex){
+    public String handlingUnsupportedCruiseName(UnsupportedCruise ex) {
         log.error("Cruise not found: " + ex.getMessage());
         return "404";
     }

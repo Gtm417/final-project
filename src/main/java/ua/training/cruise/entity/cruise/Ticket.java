@@ -1,7 +1,7 @@
 package ua.training.cruise.entity.cruise;
 
-import ua.training.cruise.entity.order.Order;
 import lombok.*;
+import ua.training.cruise.entity.order.Order;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 
-@Table( name="ticket",
-        uniqueConstraints={@UniqueConstraint(columnNames={"ticket_name", "cruise_id"})})
+@Table(name = "ticket",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"ticket_name", "cruise_id"})})
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -27,14 +27,14 @@ public class Ticket {
     @Column(nullable = false)
     private long price;
 
-    @Column(name="discount", nullable = false, columnDefinition = "int default 0")
+    @Column(name = "discount", nullable = false, columnDefinition = "int default 0")
     private int discount;
 
-    @Column(name= "final_price", nullable = false)
+    @Column(name = "final_price", nullable = false)
     private long priceWithDiscount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="cruise_id")
+    @JoinColumn(name = "cruise_id")
     private Cruise cruise;
 
     @OneToMany(mappedBy = "ticket")

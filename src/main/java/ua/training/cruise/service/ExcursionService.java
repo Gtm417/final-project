@@ -6,6 +6,8 @@ import ua.training.cruise.entity.port.Excursion;
 import ua.training.cruise.exception.NotFoundExcursion;
 import ua.training.cruise.repository.ExcursionRepository;
 
+import java.util.List;
+
 @Service
 public class ExcursionService {
 
@@ -19,6 +21,10 @@ public class ExcursionService {
     public Excursion findById(long id) throws NotFoundExcursion {
         return excursionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundExcursion("Excursion not found with id: ", id));
+    }
+
+    public List<Excursion> getAllExcursionsByCruiseId(Long id) {
+        return excursionRepository.findAllByCruiseID(id);
     }
 
 }

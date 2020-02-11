@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.cruise.Ship;
 import ua.training.cruise.entity.order.Order;
-import ua.training.cruise.entity.port.Excursion;
 import ua.training.cruise.entity.user.User;
 import ua.training.cruise.exception.NoPlaceOnShip;
 import ua.training.cruise.exception.NotEnoughMoney;
@@ -80,9 +79,5 @@ public class OrderService {
         return user;
     }
 
-    public long getOrderTotalPrice(Order order) {
-        long excursionsPrice = order.getExcursions().stream().mapToLong(Excursion::getPrice).sum();
-        return order.getTicket().getPriceWithDiscount() + excursionsPrice;
-    }
 
 }

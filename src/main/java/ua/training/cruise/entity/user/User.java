@@ -1,6 +1,9 @@
 package ua.training.cruise.entity.user;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,16 +12,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
-
 
 @Entity
-@Table( name="users",
-        uniqueConstraints={@UniqueConstraint(columnNames={"login"})})
+@Table(name = "users",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"login"})})
 public class User {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 

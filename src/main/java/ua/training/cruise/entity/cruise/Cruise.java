@@ -16,8 +16,8 @@ import java.util.List;
 
 
 @Entity
-@Table( name="cruises",
-        uniqueConstraints={@UniqueConstraint(columnNames={"cruise_name"})})
+@Table(name = "cruises",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"cruise_name"})})
 public class Cruise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,26 +31,26 @@ public class Cruise {
     @JoinColumn(name = "ship_id")
     private Ship ship;
 
-    @ManyToMany(fetch=FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "ports_cruises",
             joinColumns = @JoinColumn(name = "cruise_id"),
             inverseJoinColumns = @JoinColumn(name = "port_id"))
     private List<Port> ports;
 
-    @OneToMany(mappedBy = "cruise", fetch =  FetchType.EAGER)
+    @OneToMany(mappedBy = "cruise", fetch = FetchType.EAGER)
     private List<Ticket> tickets;
 
-    @Column(name="departure_date", nullable =  false)
+    @Column(name = "departure_date", nullable = false)
     private LocalDate departureDate;
 
-    @Column(name= "arrival_date", nullable = false)
+    @Column(name = "arrival_date", nullable = false)
     private LocalDate arrivalDate;
 
-    @Column(name="description_eng")
+    @Column(name = "description_eng")
     private String description_eng;
 
-    @Column(name="description_ru")
+    @Column(name = "description_ru")
     private String description_ru;
 
     @Override

@@ -31,7 +31,7 @@ public class BalanceController {
 
     @PostMapping("/replenishment")
     public String replenishment(@ModelAttribute("balance") Long balance,
-                                HttpSession session){
+                                HttpSession session) {
         Util.createUpdateUserToSession(
                 userService.addBalance(
                         Util.getUserFromSession(session),
