@@ -26,27 +26,17 @@
 
 <form id="buy" method="post" th:action="@{/user/cruise/buy}" th:object="${order}">
     <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
-    <div class="error" style="color: red;" th:if="${#fields.hasErrors('*')}">
+    <div class="error" style="color: red;" th:if="${fieldErrors != null}">
         <p><strong>Errors</strong></p>
         <ul>
-            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            <li th:each="err : ${fieldErrors}" th:text="${err.defaultMessage}"></li>
         </ul>
     </div>
     <div class="form-row">
         <div class="col">
-            <div class="error" style="color: red;" th:if="${#fields.hasErrors('firstName')}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>
-                </ul>
-            </div>
             <input class="form-control" placeholder="Имя" th:field="*{firstName}" type="text">
         </div>
         <div class="col">
-            <div class="error" style="color: red;" th:if="${#fields.hasErrors('secondName')}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}"></li>
-                </ul>
-            </div>
             <input type="text" class="form-control" placeholder="Фамилия" th:field="*{secondName}">
         </div>
     </div>

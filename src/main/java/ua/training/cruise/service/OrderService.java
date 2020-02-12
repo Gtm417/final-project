@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.training.cruise.dto.OrderDTO;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.cruise.Ship;
 import ua.training.cruise.entity.order.Order;
@@ -15,6 +16,7 @@ import ua.training.cruise.exception.NotEnoughMoney;
 import ua.training.cruise.repository.OrderRepository;
 import ua.training.cruise.repository.ShipRepository;
 import ua.training.cruise.repository.UserRepository;
+import ua.training.cruise.service.mapper.OrderMapper;
 
 import java.util.List;
 
@@ -24,13 +26,15 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ShipRepository shipRepository;
+    private final OrderMapper mapper;
 
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ShipRepository shipRepository) {
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ShipRepository shipRepository, OrderMapper mapper) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.shipRepository = shipRepository;
+        this.mapper = mapper;
     }
 
     public List<Order> findAllOrdersByCruise(Cruise cruise) {
@@ -69,7 +73,6 @@ public class OrderService {
         shipRepository.save(ship);
     }
 
-
     private User subBalance(User user, long orderSum) throws NotEnoughMoney {
         long totalBalance = user.getBalance() - orderSum;
         if (totalBalance < 0) {
@@ -80,4 +83,7 @@ public class OrderService {
     }
 
 
+    public Order getEntityFromDTO(OrderDTO orderDTO) {
+        return mapper.mapToEntity(orderDTO);
+    }
 }

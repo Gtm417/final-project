@@ -15,7 +15,7 @@ import static ua.training.cruise.controller.SessionAttributeConstants.*;
 @Component
 public class Util {
 
-    public static void createUpdateUserToSession(User user, HttpSession session) {
+    public static void createUpdateUserInSession(User user, HttpSession session) {
         session.setAttribute(SESSION_USER, user);
     }
 
@@ -40,8 +40,10 @@ public class Util {
 
     public static long calcOrderTotalPrice(HttpSession session) {
         Order order = getSessionOrder(session);
-        long excursionsPrice = order.getExcursions().stream().mapToLong(Excursion::getPrice).sum();
-        return order.getTicket().getPriceWithDiscount() + excursionsPrice;
+        return order.getTicket().getPriceWithDiscount()
+                + order.getExcursions().stream()
+                .mapToLong(Excursion::getPrice)
+                .sum();
     }
 
     public static User getUserFromSession(HttpSession session) {

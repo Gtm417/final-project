@@ -29,20 +29,32 @@
                         </div>
 
                         <div class="panel-body">
-                            <form th:action="@{/registration}" method="post">
+                            <form method="post" th:action="@{/registration}" th:object="${registrationDTO}">
                                 <p th:if="${error}" class="text-danger"
                                    th:text="#{message.exist.login }"></p>
                                 <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
                                 <div class="form-group">
+                                    <div class="error" style="color: red;" th:if="${#fields.hasErrors('login')}">
+                                        <p><strong>Errors</strong></p>
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('login')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                     <label for="login" th:text="#{label.login}"></label>
                                     <input type="text" required class="form-control" id="login" placeholder="Login"
-                                           name="login">
+                                           th:field="*{login}">
                                 </div>
                                 <div class="form-group">
+                                    <div class="error" style="color: red;" th:if="${#fields.hasErrors('password')}">
+                                        <p><strong>Errors</strong></p>
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                     <label for="password" th:text="#{label.password}"></label>
                                     <input type="password" required class="form-control" id="password"
                                            placeholder="Password"
-                                           name="password">
+                                           th:field="*{password}">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
                                     <button type="submit" id="submit" class=" btn btn-block mybtn btn-primary tx-tfm"
