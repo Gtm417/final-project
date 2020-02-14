@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" id="bootstrap-css">
+    <link id="bootstrap-css" rel="stylesheet" th:href="@{css/bootstrap.min.css}">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link th:href="@{css/style.css}" rel="stylesheet"/>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/style.css}"/>
     <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
     <!--    &lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
     <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
@@ -29,28 +29,43 @@
                         </div>
 
                         <div class="panel-body">
-                            <form th:action="@{/registration}" method="post">
-                                <p th:if="${error}" class="text-danger"
+                            <form method="post" th:action="@{/registration}" th:object="${registrationDTO}">
+                                <p class="text-danger" th:if="${error}"
                                    th:text="#{message.exist.login }"></p>
-                                <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
+                                <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
                                 <div class="form-group">
+                                    <div class="error" style="color: red;" th:if="${#fields.hasErrors('login')}">
+                                        <p><strong>Errors</strong></p>
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('login')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                     <label for="login" th:text="#{label.login}"></label>
-                                    <input type="text" required class="form-control" id="login" placeholder="Login"
-                                           name="login">
+                                    <input class="form-control" id="login" placeholder="Login" required
+                                           th:field="*{login}"
+                                           type="text">
                                 </div>
                                 <div class="form-group">
+                                    <div class="error" style="color: red;" th:if="${#fields.hasErrors('password')}">
+                                        <p><strong>Errors</strong></p>
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                     <label for="password" th:text="#{label.password}"></label>
-                                    <input type="password" required class="form-control" id="password"
-                                           placeholder="Password"
-                                           name="password">
+                                    <input class="form-control" id="password" placeholder="Password" required
+                                           th:field="*{password}"
+                                           type="password">
                                 </div>
                                 <div class="col-md-12 text-center mb-3">
-                                    <button type="submit" id="submit" class=" btn btn-block mybtn btn-primary tx-tfm"
-                                            th:text="#{register.submit}"></button>
+                                    <button class=" btn btn-block mybtn btn-primary tx-tfm" id="submit"
+                                            th:text="#{register.submit}"
+                                            type="submit"></button>
                                 </div>
                                 <div class="col-md-12 ">
                                     <div class="form-group">
-                                        <p class="text-center"><a th:href="@{/login}" id="signin" th:text="#{register.signIn.message}"></a></p>
+                                        <p class="text-center"><a id="signin" th:href="@{/login}"
+                                                                  th:text="#{register.signIn.message}"></a></p>
                                     </div>
                                 </div>
                             </form>

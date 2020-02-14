@@ -7,10 +7,10 @@
 <body>
 <a href="?lang=en">en</a>
 <a href="?lang=ru">ru</a>
-<div id = "all_users">
+<div id="all_users">
     <h2 th:text="Passengers"></h2>
 </div>
-<div id = "content">
+<div id="content">
     <table class="datatable">
         <thead>
         <tr>
@@ -26,7 +26,7 @@
 
         <tbody>
         <tr th:if="${passengers.empty}">
-            <td colspan="2" th:text="#{message.passenger.empty}"> </td>
+            <td colspan="2" th:text="#{message.passenger.empty}"></td>
         </tr>
         <tr th:each="passenger: ${passengers}">
             <td><span th:text="${passenger.cruise.cruiseName}"> First name </span></td>

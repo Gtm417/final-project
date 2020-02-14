@@ -3,39 +3,44 @@ package ua.training.cruise.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.training.cruise.controller.util.Util;
+import ua.training.cruise.dto.BalanceDTO;
 import ua.training.cruise.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 
 @Controller
 public class BalanceController {
 
     private final UserService userService;
-    private final Util util;
 
     @Autowired
-    public BalanceController(UserService userService, Util util) {
+    public BalanceController(UserService userService) {
         this.userService = userService;
-        this.util = util;
     }
 
     @GetMapping("/balance")
     public String balanceReplenish(Model model) {
+        model.addAttribute("balanceDTO", new BalanceDTO());
         return "balance";
     }
 
     @PostMapping("/replenishment")
-    public String replenishment(@ModelAttribute("balance") Long balance,
+    public String replenishment(@Valid @ModelAttribute("balanceDTO") BalanceDTO balanceDTO, BindingResult bindingResult,
                                 HttpSession session) {
-        Util.createUpdateUserToSession(
+        if (bindingResult.hasErrors()) {
+            return "balance";
+        }
+        Util.createUpdateUserInSession(
                 userService.addBalance(
                         Util.getUserFromSession(session),
-                        balance),
+                        balanceDTO),
                 session
         );
 

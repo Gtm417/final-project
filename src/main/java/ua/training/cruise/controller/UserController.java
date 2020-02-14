@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.training.cruise.controller.util.Util;
+import ua.training.cruise.dto.OrderDTO;
 import ua.training.cruise.entity.cruise.Cruise;
-import ua.training.cruise.entity.order.Order;
 import ua.training.cruise.entity.port.Port;
 import ua.training.cruise.exception.NoPlaceOnShip;
 import ua.training.cruise.exception.NotEnoughMoney;
@@ -19,7 +23,7 @@ import ua.training.cruise.service.OrderService;
 import ua.training.cruise.service.UserService;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
+import javax.validation.Valid;
 
 import static java.util.stream.Collectors.joining;
 import static ua.training.cruise.controller.SessionAttributeConstants.*;
@@ -47,8 +51,8 @@ public class UserController {
     }
 
     @GetMapping
-    public String user(HttpSession session) {
-        session.setAttribute(SESSION_USER, userService.getAuthenticatedUser());
+    public String user(HttpSession session, @AuthenticationPrincipal User user) {
+        session.setAttribute(SESSION_USER, userService.getUserByLogin(user.getUsername()));
         return "user-page";
     }
 
@@ -76,27 +80,33 @@ public class UserController {
 
 
     @GetMapping("/cruise/buy")
-    public String getCruiseBuyForm(Model model, HttpSession session) {
+    public String getCruiseBuyForm(@RequestParam(value = "bindingResult", required = false) BindingResult bindingResult,
+                                   Model model, HttpSession session) {
         model.addAttribute("tickets", cruiseService.showAllTicketsForCruise(Util.getSessionCruise(session)));
-        model.addAttribute("order", new Order());
+        model.addAttribute("order", new OrderDTO());
+
         return "buy-cruise";
     }
 
     @PostMapping("/cruise/buy")
-    public String buyCruise(@ModelAttribute("order") Order order,
-                            HttpSession session) {
-        order.setExcursions(new HashSet<>());
-        order.setOrderPrice(order.getTicket().getPriceWithDiscount());
-        session.setAttribute(SESSION_ORDER, order);
+    public String buyCruise(@Valid @ModelAttribute("order") OrderDTO orderDTO, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("fieldErrors", bindingResult.getFieldErrors());
+            return "redirect:/user/cruise/buy";
+        }
+        session.setAttribute(SESSION_ORDER, orderService.getEntityFromDTO(orderDTO));
         return "redirect:/user/cruise/buy-submit";
     }
 
 
     @PostMapping("/cruise/buy-submit")
     public String submitBuy(HttpSession session) throws NotEnoughMoney, NoPlaceOnShip {
+
         orderService.buyCruise(Util.getSessionOrder(session),
                 Util.getSessionCruise(session),
                 Util.getUserFromSession(session));
+
         return "redirect:/user/success-buy";
     }
 

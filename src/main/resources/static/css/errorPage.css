@@ -2,15 +2,18 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 body {
     padding: 0;
     margin: 0;
 }
+
 #notfound {
     position: relative;
     height: 100vh;
     background-color: #222;
 }
+
 #notfound .notfound {
     position: absolute;
     left: 50%;
@@ -19,15 +22,18 @@ body {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
 .notfound {
     width: 100%;
     text-align: center;
     line-height: 1.4;
 }
+
 .notfound .notfound-404 {
     height: 158px;
     line-height: 153px;
 }
+
 .notfound .notfound-404 h1 {
     font-family: 'Josefin Sans', sans-serif;
     left: 30%;
@@ -38,9 +44,11 @@ body {
     font-weight: 700;
     text-shadow: 2px 2px 0px #c9c9c9, -2px -2px 0px #c9c9c9;
 }
-.notfound .notfound-404 h1>span {
+
+.notfound .notfound-404 h1 > span {
     text-shadow: 2px 2px 0px #ffab00, -2px -2px 0px #ffab00, 0px 0px 8px #ff8700;
 }
+
 .notfound p {
     font-family: 'Josefin Sans', sans-serif;
     color: #c9c9c9;
@@ -49,6 +57,7 @@ body {
     margin-top: 0px;
     margin-bottom: 15px;
 }
+
 .notfound a {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 14px;
@@ -63,10 +72,12 @@ body {
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
+
 .notfound a:hover {
     color: #ffab00;
     border-color: #ffab00;
 }
+
 @media only screen and (max-width: 480px) {
     .notfound .notfound-404 {
         height: 122px;

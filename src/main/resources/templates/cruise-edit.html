@@ -5,8 +5,9 @@
     <title>Edit</title>
 </head>
 <body>
-<a th:href="@{/cruise/edit/description}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Description</a>
-<a th:href="@{/cruise/edit/add/ticket}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add Ticket</a>
-<a th:href="@{/cruise/edit/all_passengers}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Passengers</a>
+<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/cruise/edit/description}">Description</a>
+<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/cruise/edit/add/ticket}">Add
+    Ticket</a>
+<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/cruise/edit/all_passengers}">Passengers</a>
 </body>
 </html>

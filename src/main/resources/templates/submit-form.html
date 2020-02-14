@@ -12,12 +12,12 @@
     <tr>
         <td>First name</td>
         <td th:text="${session.order.firstName}"></td>
-<!--        <td ><input required th:name="firstName" id="first"/></td>-->
+        <!--        <td ><input required th:name="firstName" id="first"/></td>-->
     </tr>
     <tr>
         <td>Second name</td>
         <td th:text="${session.order.secondName}"></td>
-<!--        <td ><input required th:name="secondName" id="second" /></td>-->
+        <!--        <td ><input required th:name="secondName" id="second" /></td>-->
     </tr>
     <tr>
         <td>Cruise</td>
@@ -61,7 +61,7 @@
         <td>
             <!--                todo th:object excursion-->
             <form class="form-group" id="add" method="post" th:action="@{/user/add/excursion}">
-                <input type="hidden" name="id" th:value="${excursion.id}"/>
+                <input name="id" th:value="${excursion.id}" type="hidden"/>
                 <!--                <input type="hidden" name="excursionName" th:value="${excursion.excursionName}"/>-->
                 <!--                <input type="hidden" name="price" th:value="${excursion.price}"/>-->
                 <!--                <input type="hidden" name="duration" th:value="${excursion.duration}"/>-->
@@ -99,7 +99,7 @@
         <td>
             <!--                todo th:object excursion-->
             <form method="post" th:action="@{/user/remove/excursion}">
-                <input type="hidden" name="id" th:value="${selectedExcursion.id}"/>
+                <input name="id" th:value="${selectedExcursion.id}" type="hidden"/>
                 <!--                <input type="hidden" name="excursionName" th:value="${selectedExcursion.excursionName}"/>-->
                 <!--                <input type="hidden" name="price" th:value="${selectedExcursion.price}"/>-->
                 <!--                <input type="hidden" name="duration" th:value="${selectedExcursion.duration}"/>-->
@@ -112,7 +112,7 @@
 
     </tbody>
 </table>
-<form th:action="@{/user/cruise/buy-submit}" method="post">
+<form method="post" th:action="@{/user/cruise/buy-submit}">
     <button class="btn btn-success" value="Submit">Submit</button>
     <input hidden name="resultPrice" th:value="${resultPrice}">
 </form>

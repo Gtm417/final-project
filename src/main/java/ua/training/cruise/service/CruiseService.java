@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ua.training.cruise.dto.CruiseDescriptionsDTO;
+import ua.training.cruise.dto.TicketDTO;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.cruise.Ticket;
 import ua.training.cruise.exception.DataBaseDuplicateConstraint;
 import ua.training.cruise.exception.UnsupportedCruise;
 import ua.training.cruise.repository.CruiseRepository;
 import ua.training.cruise.repository.TicketRepository;
+import ua.training.cruise.service.mapper.TicketMapper;
 
 import java.util.List;
 
@@ -21,11 +23,13 @@ public class CruiseService {
 
     private final CruiseRepository cruiseRepository;
     private final TicketRepository ticketRepository;
+    private final TicketMapper mapper;
 
     @Autowired
-    public CruiseService(CruiseRepository cruiseRepository, TicketRepository ticketRepository) {
+    public CruiseService(CruiseRepository cruiseRepository, TicketRepository ticketRepository, TicketMapper mapper) {
         this.cruiseRepository = cruiseRepository;
         this.ticketRepository = ticketRepository;
+        this.mapper = mapper;
     }
 
     public List<Cruise> getAllCruises() {
@@ -38,11 +42,13 @@ public class CruiseService {
         return cruiseRepository.save(cruise);
     }
 
-    public Ticket addNewTicketToCruise(Ticket ticketDTO, Cruise cruise) throws DataBaseDuplicateConstraint {
-        ticketDTO.setPriceWithDiscount(calcTicketPriceWithDiscount(ticketDTO));
-        ticketDTO.setCruise(cruise);
+    public Ticket addNewTicketToCruise(TicketDTO ticketDTO, Cruise cruise) throws DataBaseDuplicateConstraint {
+        Ticket ticket = mapper.mapToEntity(ticketDTO);
+        ticket.setPriceWithDiscount(calcTicketPriceWithDiscount(ticketDTO));
+        ticket.setCruise(cruise);
+        System.out.println(ticket);
         try {
-            return ticketRepository.save(ticketDTO);
+            return ticketRepository.save(ticket);
         } catch (DataIntegrityViolationException ex) {
             throw new DataBaseDuplicateConstraint(
                     cruise.getCruiseName() + "already has ticket with name: ",
@@ -51,8 +57,7 @@ public class CruiseService {
         }
     }
 
-
-    private long calcTicketPriceWithDiscount(Ticket ticket) {
+    private long calcTicketPriceWithDiscount(TicketDTO ticket) {
         return ticket.getPrice() - Math.round(((double) ticket.getPrice() * ticket.getDiscount() / ONE_HUNDRED_PERCENT));
     }
 
@@ -65,4 +70,6 @@ public class CruiseService {
         return cruiseRepository.findById(id)
                 .orElseThrow(() -> new UnsupportedCruise("Cruise not found with id: ", id));
     }
+
+
 }

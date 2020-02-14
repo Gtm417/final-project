@@ -7,21 +7,23 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import ua.training.cruise.dto.BalanceDTO;
 import ua.training.cruise.entity.user.Role;
 import ua.training.cruise.entity.user.User;
 import ua.training.cruise.repository.UserRepository;
+import ua.training.cruise.service.mapper.UserMapper;
 
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@ContextConfiguration(classes = UserService.class)
 public class UserServiceTest {
 
     public static final User USER = User.builder()
@@ -39,6 +41,8 @@ public class UserServiceTest {
     UserRepository repository;
     @MockBean
     PasswordEncoder passwordEncoder;
+    @MockBean
+    UserMapper mapper;
 
     @Test
     public void saveNewUser() {
@@ -46,10 +50,12 @@ public class UserServiceTest {
 
     @Test
     public void addBalance() {
+        BalanceDTO balanceDTO = new BalanceDTO();
         long inputBalance = 500L;
+        balanceDTO.setBalance(inputBalance);
 
         when(repository.save(ArgumentMatchers.any(User.class))).thenReturn(USER);
-        service.addBalance(USER, inputBalance);
+        service.addBalance(USER, balanceDTO);
 
         verify(repository, times(1)).save(USER);
         Assert.assertEquals(1500L, USER.getBalance());
