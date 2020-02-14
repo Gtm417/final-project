@@ -40,8 +40,7 @@ public class Util {
 
     public static long calcOrderTotalPrice(HttpSession session) {
         Order order = getSessionOrder(session);
-        return order.getTicket().getPriceWithDiscount()
-                + order.getExcursions().stream()
+        return order.getTicket().getPriceWithDiscount() + order.getExcursions().stream()
                 .mapToLong(Excursion::getPrice)
                 .sum();
     }

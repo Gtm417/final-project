@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" rel="stylesheet">
 </head>
 <body>
 <a href="?lang=en">en</a>
 <a href="?lang=ru">ru</a>
 
-<h1 th:text="#{label.current.balance} + ' ' + ${session.user.balance}"> </h1>
+<h1 th:text="#{label.current.balance} + ' ' + ${session.user.balance}"></h1>
 
-    <div class="panel-body" >
-        <form method="post" th:action="@{/replenishment}" th:object="${balanceDTO}">
-            <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
-            <div class="form-group">
-                <div class="error" style="color: red;" th:if="${#fields.hasErrors('balance')}">
-                    <p><strong>Errors</strong></p>
-                    <ul>
-                        <li th:each="err : ${#fields.errors('balance')}" th:text="${err}"></li>
-                    </ul>
-                </div>
-                <label th:text="#{label.sum.replenish.balance}"></label>
-                <input min="100" placeholder="0" required step="100" th:field="*{balance}"
-                       th:title="#{label.current.balance}" type="number">
+<div class="panel-body">
+    <form method="post" th:action="@{/replenishment}" th:object="${balanceDTO}">
+        <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
+        <div class="form-group">
+            <div class="error" style="color: red;" th:if="${#fields.hasErrors('balance')}">
+                <p><strong>Errors</strong></p>
+                <ul>
+                    <li th:each="err : ${#fields.errors('balance')}" th:text="${err}"></li>
+                </ul>
             </div>
-            <button type="submit" class="btn btn-default" th:text="#{button.replenish.balance}"></button>
-        </form>
-    </div>
+            <label th:text="#{label.sum.replenish.balance}"></label>
+            <input min="100" placeholder="0" required step="100" th:field="*{balance}"
+                   th:title="#{label.current.balance}" type="number">
+        </div>
+        <button class="btn btn-default" th:text="#{button.replenish.balance}" type="submit"></button>
+    </form>
+</div>
 </body>
 </html>

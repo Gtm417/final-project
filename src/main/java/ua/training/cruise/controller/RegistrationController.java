@@ -21,7 +21,6 @@ public class RegistrationController {
     @Autowired
     public RegistrationController(UserService userService) {
         this.userService = userService;
-
     }
 
     @GetMapping("/registration")

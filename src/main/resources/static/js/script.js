@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     $("form[name='login']").validate({
         rules: {
 
@@ -20,15 +20,14 @@ $(function() {
             }
 
         },
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             form.submit();
         }
     });
 });
 
 
-
-$(function() {
+$(function () {
 
     $("form[name='registration']").validate({
         rules: {
@@ -58,7 +57,7 @@ $(function() {
             passwordConfirmation: "Please provide a password confirmation"
         },
 
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             form.submit();
         }
     });
