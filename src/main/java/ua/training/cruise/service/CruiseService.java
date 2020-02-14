@@ -1,35 +1,22 @@
 package ua.training.cruise.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ua.training.cruise.dto.CruiseDescriptionsDTO;
-import ua.training.cruise.dto.TicketDTO;
 import ua.training.cruise.entity.cruise.Cruise;
-import ua.training.cruise.entity.cruise.Ticket;
-import ua.training.cruise.exception.DataBaseDuplicateConstraint;
 import ua.training.cruise.exception.UnsupportedCruise;
 import ua.training.cruise.repository.CruiseRepository;
-import ua.training.cruise.repository.TicketRepository;
-import ua.training.cruise.service.mapper.TicketMapper;
 
 import java.util.List;
 
 @Service
 public class CruiseService {
 
-
-    private static final int ONE_HUNDRED_PERCENT = 100;
-
     private final CruiseRepository cruiseRepository;
-    private final TicketRepository ticketRepository;
-    private final TicketMapper mapper;
 
     @Autowired
-    public CruiseService(CruiseRepository cruiseRepository, TicketRepository ticketRepository, TicketMapper mapper) {
+    public CruiseService(CruiseRepository cruiseRepository) {
         this.cruiseRepository = cruiseRepository;
-        this.ticketRepository = ticketRepository;
-        this.mapper = mapper;
     }
 
     public List<Cruise> getAllCruises() {
@@ -42,29 +29,6 @@ public class CruiseService {
         return cruiseRepository.save(cruise);
     }
 
-    public Ticket addNewTicketToCruise(TicketDTO ticketDTO, Cruise cruise) throws DataBaseDuplicateConstraint {
-        Ticket ticket = mapper.mapToEntity(ticketDTO);
-        ticket.setPriceWithDiscount(calcTicketPriceWithDiscount(ticketDTO));
-        ticket.setCruise(cruise);
-        System.out.println(ticket);
-        try {
-            return ticketRepository.save(ticket);
-        } catch (DataIntegrityViolationException ex) {
-            throw new DataBaseDuplicateConstraint(
-                    cruise.getCruiseName() + "already has ticket with name: ",
-                    ticketDTO.getTicketName()
-            );
-        }
-    }
-
-    private long calcTicketPriceWithDiscount(TicketDTO ticket) {
-        return ticket.getPrice() - Math.round(((double) ticket.getPrice() * ticket.getDiscount() / ONE_HUNDRED_PERCENT));
-    }
-
-    public List<Ticket> showAllTicketsForCruise(Cruise cruise) {
-        return ticketRepository.findAllByCruise(cruise);
-
-    }
 
     public Cruise findCruiseById(Long id) throws UnsupportedCruise {
         return cruiseRepository.findById(id)

@@ -20,6 +20,7 @@ import ua.training.cruise.exception.NotEnoughMoney;
 import ua.training.cruise.exception.UnsupportedCruise;
 import ua.training.cruise.service.CruiseService;
 import ua.training.cruise.service.OrderService;
+import ua.training.cruise.service.TicketService;
 import ua.training.cruise.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -35,14 +36,16 @@ public class UserController {
     private final UserService userService;
     private final CruiseService cruiseService;
     private final OrderService orderService;
+    private final TicketService ticketService;
 
 
     @Autowired
     public UserController(UserService userService, CruiseService cruiseService,
-                          OrderService orderService) {
+                          OrderService orderService, TicketService ticketService) {
         this.userService = userService;
         this.cruiseService = cruiseService;
         this.orderService = orderService;
+        this.ticketService = ticketService;
     }
 
     @GetMapping("/error")
@@ -82,7 +85,7 @@ public class UserController {
     @GetMapping("/cruise/buy")
     public String getCruiseBuyForm(@RequestParam(value = "bindingResult", required = false) BindingResult bindingResult,
                                    Model model, HttpSession session) {
-        model.addAttribute("tickets", cruiseService.showAllTicketsForCruise(Util.getSessionCruise(session)));
+        model.addAttribute("tickets", ticketService.showAllTicketsForCruise(Util.getSessionCruise(session)));
         model.addAttribute("order", new OrderDTO());
 
         return "buy-cruise";
