@@ -14,6 +14,7 @@ import ua.training.cruise.dto.TicketDTO;
 import ua.training.cruise.exception.DataBaseDuplicateConstraint;
 import ua.training.cruise.service.CruiseService;
 import ua.training.cruise.service.OrderService;
+import ua.training.cruise.service.TicketService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -24,11 +25,13 @@ import javax.validation.Valid;
 public class AdminController {
     private final CruiseService cruiseService;
     private final OrderService orderService;
+    private final TicketService ticketService;
 
     @Autowired
-    public AdminController(CruiseService cruiseService, OrderService orderService) {
+    public AdminController(CruiseService cruiseService, OrderService orderService, TicketService ticketService) {
         this.cruiseService = cruiseService;
         this.orderService = orderService;
+        this.ticketService = ticketService;
     }
 
     @GetMapping()
@@ -73,7 +76,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "cruise/add-ticket";
         }
-        cruiseService.addNewTicketToCruise(ticketDTO, Util.getSessionCruise(session));
+        ticketService.addNewTicketToCruise(ticketDTO, Util.getSessionCruise(session));
         return "redirect:/cruise/edit/add/ticket?success";
     }
 
