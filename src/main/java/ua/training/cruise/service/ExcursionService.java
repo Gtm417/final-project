@@ -3,7 +3,7 @@ package ua.training.cruise.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.training.cruise.entity.port.Excursion;
-import ua.training.cruise.exception.NotFoundExcursion;
+import ua.training.cruise.exception.EntityNotFound;
 import ua.training.cruise.repository.ExcursionRepository;
 
 import java.util.List;
@@ -18,9 +18,9 @@ public class ExcursionService {
         this.excursionRepository = excursionRepository;
     }
 
-    public Excursion findById(long id) throws NotFoundExcursion {
+    public Excursion findById(long id) throws EntityNotFound {
         return excursionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundExcursion("Excursion not found with id: ", id));
+                .orElseThrow(() -> new EntityNotFound("Excursion not found with id: ", id));
     }
 
     public List<Excursion> getAllExcursionsByCruiseId(Long id) {

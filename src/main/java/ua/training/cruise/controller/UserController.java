@@ -15,8 +15,6 @@ import ua.training.cruise.controller.util.Util;
 import ua.training.cruise.dto.OrderDTO;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.port.Port;
-import ua.training.cruise.exception.NoPlaceOnShip;
-import ua.training.cruise.exception.NotEnoughMoney;
 import ua.training.cruise.exception.UnsupportedCruise;
 import ua.training.cruise.service.CruiseService;
 import ua.training.cruise.service.OrderService;
@@ -83,8 +81,7 @@ public class UserController {
 
 
     @GetMapping("/cruise/buy")
-    public String getCruiseBuyForm(@RequestParam(value = "bindingResult", required = false) BindingResult bindingResult,
-                                   Model model, HttpSession session) {
+    public String getCruiseBuyForm(Model model, HttpSession session) {
         model.addAttribute("tickets", ticketService.showAllTicketsForCruise(Util.getSessionCruise(session)));
         model.addAttribute("order", new OrderDTO());
 
@@ -104,8 +101,7 @@ public class UserController {
 
 
     @PostMapping("/cruise/buy-submit")
-    public String submitBuy(HttpSession session) throws NotEnoughMoney, NoPlaceOnShip {
-
+    public String submitBuy(HttpSession session) {
         orderService.buyCruise(Util.getSessionOrder(session),
                 Util.getSessionCruise(session),
                 Util.getUserFromSession(session));

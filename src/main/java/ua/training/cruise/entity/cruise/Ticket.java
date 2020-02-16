@@ -38,9 +38,6 @@ public class Ticket {
     private Cruise cruise;
 
     @OneToMany(mappedBy = "ticket")
-    private List<Passenger> listOfPassenger;
-
-    @OneToMany(mappedBy = "ticket")
     private List<Order> orders;
 
     @Override

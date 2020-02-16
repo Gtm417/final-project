@@ -11,8 +11,9 @@ import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.cruise.Ship;
 import ua.training.cruise.entity.order.Order;
 import ua.training.cruise.entity.user.User;
-import ua.training.cruise.exception.NoPlaceOnShip;
+import ua.training.cruise.exception.EntityNotFound;
 import ua.training.cruise.exception.NotEnoughMoney;
+import ua.training.cruise.exception.OrderSaveException;
 import ua.training.cruise.repository.OrderRepository;
 import ua.training.cruise.repository.ShipRepository;
 import ua.training.cruise.repository.UserRepository;
@@ -45,32 +46,32 @@ public class OrderService {
         return orderRepository.findAllByUser(user, pageable);
     }
 
-    public boolean buyCruise(@NonNull Order order, @NonNull Cruise cruise, @NonNull User user) throws NotEnoughMoney, NoPlaceOnShip {
+    public boolean buyCruise(@NonNull Order order, @NonNull Cruise cruise, @NonNull User user) {
         order.setCruise(cruise);
         order.setUser(user);
-        subBalance(user, order.getOrderPrice());
 
-        buyDbChanges(order, user, cruise.getShip());
+        try {
+            buyDbChanges(order);
+        } catch (Exception e) {
+            throw new OrderSaveException("Something went wrong during the addition of the order:", e);
+        }
         return true;
     }
 
-    public int checkShipCapacity(@NonNull Ship ship) throws NoPlaceOnShip {
-        if (ship.getCurrentAmountOfPassenger() + 1 > ship.getMaxAmountOfPassenger()) {
-            throw new NoPlaceOnShip("No place on cruise with id ", ship.getId());
-        }
-        return ship.getCurrentAmountOfPassenger() + 1;
-    }
-
-    private void setAmountShipCapacity(@NonNull Ship ship) throws NoPlaceOnShip {
-        ship.setCurrentAmountOfPassenger(checkShipCapacity(ship));
-    }
-
     @Transactional
-    public void buyDbChanges(@NonNull Order order, @NonNull User user, Ship ship) throws NoPlaceOnShip {
-        setAmountShipCapacity(ship);
-        userRepository.save(user);
+    public void buyDbChanges(@NonNull Order order) {
+        Ship ship = shipRepository.findById(order.getCruise().getShip().getId())
+                .orElseThrow(() -> new EntityNotFound("Ship not found with id: ", order.getCruise().getShip().getId()));
+        ship.setCurrentAmountOfPassenger(incrementPassengerAmount(ship));
+        User user = userRepository.findById(order.getUser().getId())
+                .orElseThrow(() -> new EntityNotFound("User not found with id: ", order.getUser().getId()));
+        order.getCruise().setShip(ship);
+        order.setUser(subBalance(user, order.getOrderPrice()));
         orderRepository.save(order);
-        shipRepository.save(ship);
+    }
+
+    private int incrementPassengerAmount(Ship dbShip) {
+        return dbShip.getCurrentAmountOfPassenger() + 1;
     }
 
     private User subBalance(User user, long orderSum) throws NotEnoughMoney {
