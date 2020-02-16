@@ -69,7 +69,7 @@ DROP TABLE IF EXISTS `excursions`;
 CREATE TABLE `excursions`
 (
     `id`             bigint(20) NOT NULL,
-    `duration`       varchar(255) DEFAULT NULL,
+    `duration`       int(11)      DEFAULT NULL,
     `excursion_name` varchar(255) DEFAULT NULL,
     `port_id`        bigint(20)   DEFAULT NULL,
     `price`          bigint(20) NOT NULL,
@@ -348,7 +348,8 @@ CREATE TABLE `ships`
     `ship_name`                   varchar(255) NOT NULL,
     `current_amount_of_passenger` int(11)      NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `UK83ysgfacfsnhkotxa6f2fr1kx` (`ship_name`)
+    UNIQUE KEY `UK83ysgfacfsnhkotxa6f2fr1kx` (`ship_name`),
+    CONSTRAINT `check_passengers` CHECK ((`current_amount_of_passenger` <= `max_amount_of_passenger`))
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -362,7 +363,7 @@ LOCK TABLES `ships` WRITE;
 /*!40000 ALTER TABLE `ships`
     DISABLE KEYS */;
 INSERT INTO `ships`
-VALUES (1, 100, 'Costa', 101),
+VALUES (1, 100, 'Costa', 80),
        (2, 5000, 'Titanic', 0),
        (3, 100000, 'test', 0);
 /*!40000 ALTER TABLE `ships`
@@ -432,7 +433,8 @@ CREATE TABLE `users`
     `roles`    varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_ow0gan20590jrb00upg3va2fn` (`login`),
-    UNIQUE KEY `UKow0gan20590jrb00upg3va2fn` (`login`)
+    UNIQUE KEY `UKow0gan20590jrb00upg3va2fn` (`login`),
+    CONSTRAINT `users_chk_1` CHECK ((`balance` >= '0'))
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

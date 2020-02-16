@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.training.cruise.controller.util.Util;
-import ua.training.cruise.exception.NotFoundExcursion;
 import ua.training.cruise.service.ExcursionService;
 
 import javax.servlet.http.HttpSession;
@@ -27,13 +26,13 @@ public class ExcursionController {
 
 
     @PostMapping(value = "/add/excursion")
-    public String addExcursion(@ModelAttribute("id") Long id, HttpSession session) throws NotFoundExcursion {
+    public String addExcursion(@ModelAttribute("id") Long id, HttpSession session) {
         Util.getSessionOrder(session).getExcursions().add(excursionService.findById(id));
         return "redirect:/user/cruise/buy-submit";
     }
 
     @PostMapping(value = "/remove/excursion")
-    public String removeExcursion(@ModelAttribute("id") Long id, HttpSession session) throws NotFoundExcursion {
+    public String removeExcursion(@ModelAttribute("id") Long id, HttpSession session) {
         Util.getSessionOrder(session).getExcursions().remove(excursionService.findById(id));
         return "redirect:/user/cruise/buy-submit";
     }

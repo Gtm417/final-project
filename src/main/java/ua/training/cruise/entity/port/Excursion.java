@@ -25,6 +25,7 @@ public class Excursion {
     @Column(name = "excursion_name")
     private String excursionName;
 
+
     private int duration;
     private long price;
 

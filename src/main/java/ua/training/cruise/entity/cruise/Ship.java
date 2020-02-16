@@ -4,7 +4,6 @@ package ua.training.cruise.entity.cruise;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,10 +29,8 @@ public class Ship {
     private int maxAmountOfPassenger;
 
     @Column(name = "current_amount_of_passenger", nullable = false)
-    private int currentAmountOfPassenger;
 
-    @OneToMany(mappedBy = "ship")
-    private List<Passenger> listOfPassenger;
+    private int currentAmountOfPassenger;
 
     @OneToOne(mappedBy = "ship", cascade = CascadeType.ALL)
     private Cruise cruise;

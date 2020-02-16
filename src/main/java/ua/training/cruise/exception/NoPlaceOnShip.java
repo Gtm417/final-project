@@ -1,6 +1,6 @@
 package ua.training.cruise.exception;
 
-public class NoPlaceOnShip extends Exception {
+public class NoPlaceOnShip extends RuntimeException {
     private long id;
 
     public NoPlaceOnShip(String message, Long id) {

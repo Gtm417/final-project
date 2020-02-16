@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import ua.training.cruise.entity.port.Excursion;
-import ua.training.cruise.exception.NotFoundExcursion;
+import ua.training.cruise.exception.EntityNotFound;
 import ua.training.cruise.repository.ExcursionRepository;
 
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class ExcursionServiceTest {
     ExcursionRepository excursionRepository;
 
     @Test
-    public void findByIdIfExist() throws NotFoundExcursion {
+    public void findByIdIfExist() throws EntityNotFound {
         long id = 1L;
         when(excursionRepository.findById(id)).thenReturn(Optional.of(EXCURSION));
         Excursion excursion = excursionService.findById(id);
@@ -41,8 +41,8 @@ public class ExcursionServiceTest {
         Assert.assertEquals(EXCURSION, excursion);
     }
 
-    @Test(expected = NotFoundExcursion.class)
-    public void findByIdIfNotFound() throws NotFoundExcursion {
+    @Test(expected = EntityNotFound.class)
+    public void findByIdIfNotFound() throws EntityNotFound {
         when(excursionRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
         excursionService.findById(1L);

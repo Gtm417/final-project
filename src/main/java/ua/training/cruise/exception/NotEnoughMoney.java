@@ -1,6 +1,6 @@
 package ua.training.cruise.exception;
 
-public class NotEnoughMoney extends Exception {
+public class NotEnoughMoney extends RuntimeException {
     public NotEnoughMoney() {
     }
 

@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         return "not-enough-money";
     }
 
-    @ExceptionHandler({NotFoundExcursion.class, UnreachableRequest.class})
+    @ExceptionHandler({EntityNotFound.class, UnreachableRequest.class})
     public String handlingNotFoundExcursion(Exception ex) {
         log.info(ex.getMessage());
         return "404";
@@ -40,6 +40,11 @@ public class GlobalExceptionHandler {
         return "redirect:/user/cruise";
     }
 
+    @ExceptionHandler(OrderSaveException.class)
+    public String orderSaveExceptionHandling(OrderSaveException ex) {
+        log.info(ex.getMessage());
+        return "unsuccess-buy";
+    }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handling() {
