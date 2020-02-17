@@ -4,6 +4,7 @@ package ua.training.cruise.entity.cruise;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,6 +33,6 @@ public class Ship {
 
     private int currentAmountOfPassenger;
 
-    @OneToOne(mappedBy = "ship", cascade = CascadeType.ALL)
-    private Cruise cruise;
+    @OneToMany(mappedBy = "ship", cascade = CascadeType.ALL)
+    private List<Cruise> cruises;
 }

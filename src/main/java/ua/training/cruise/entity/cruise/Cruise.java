@@ -27,7 +27,7 @@ public class Cruise {
     @Column(name = "cruise_name", nullable = false)
     private String cruiseName;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ship_id")
     private Ship ship;
 
