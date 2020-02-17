@@ -4,6 +4,7 @@
 -- ------------------------------------------------------
 -- Server version	8.0.18
 
+
 CREATE DATABASE IF NOT EXISTS `trainingdb` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `trainingdb`;
 
@@ -53,7 +54,7 @@ LOCK TABLES `cruises` WRITE;
     DISABLE KEYS */;
 INSERT INTO `cruises`
 VALUES (1, '2020-01-03', 'Costa Cruise', '2019-12-28', 1, 'FIrst!', 'Первый!'),
-       (2, '2020-01-17', 'name1', '2020-01-09', 2, 'Normal cruise', 'Нормальный круиз'),
+       (2, '2020-01-17', 'Carnival', '2020-01-09', 2, 'Normal cruise', 'Нормальный круиз'),
        (3, '2020-01-24', 'Titanic', '2020-01-18', 3, 'Not good enough cruise', 'Не очень хороший круиз');
 /*!40000 ALTER TABLE `cruises`
     ENABLE KEYS */;
@@ -90,17 +91,17 @@ LOCK TABLES `excursions` WRITE;
 /*!40000 ALTER TABLE `excursions`
     DISABLE KEYS */;
 INSERT INTO `excursions`
-VALUES (1, '1', 'name1', 1, 100),
-       (2, '2', 'name2', 1, 100),
-       (3, '3', 'name3', 1, 100),
-       (4, '4', 'name4', 1, 100),
-       (5, '3', 'name5', 2, 100),
-       (6, '2', 'name16', 3, 100),
-       (7, '1', 'name7', 2, 100),
-       (8, '1', 'name8', 2, 100),
-       (9, '3', 'name9', 2, 100),
-       (10, '2', 'name20', 1, 100),
-       (11, '6', 'name12', 3, 100);
+VALUES (1, 1, 'name1', 1, 100),
+       (2, 2, 'name2', 1, 100),
+       (3, 3, 'name3', 1, 100),
+       (4, 4, 'name4', 1, 100),
+       (5, 3, 'name5', 2, 100),
+       (6, 2, 'name16', 3, 100),
+       (7, 1, 'name7', 2, 100),
+       (8, 1, 'name8', 2, 100),
+       (9, 3, 'name9', 2, 100),
+       (10, 2, 'name20', 1, 100),
+       (11, 6, 'name12', 3, 100);
 /*!40000 ALTER TABLE `excursions`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -128,7 +129,7 @@ LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence`
     DISABLE KEYS */;
 INSERT INTO `hibernate_sequence`
-VALUES (234);
+VALUES (237);
 /*!40000 ALTER TABLE `hibernate_sequence`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -169,11 +170,11 @@ LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders`
     DISABLE KEYS */;
 INSERT INTO `orders`
-VALUES (217, 1, 11, 1, 'вфывфы', 'вфывфыв', 100),
-       (227, 1, 11, 1, 'dasd', 'asdasda', 1100),
-       (228, 1, 11, 1, 'dasda', 'sdasda', 1100),
-       (229, 1, 11, 1, 'sdasd', 'asdadasd', 1000),
-       (231, 1, 11, 1, 'dasdas', 'dasdasda', 900);
+VALUES (227, 1, 11, 1, 'Tymofii', 'Hodik', 1100),
+       (228, 1, 11, 1, 'Alexey', 'Hodik', 1100),
+       (229, 1, 11, 1, 'Maxim', 'Maxim', 1000),
+       (231, 1, 11, 1, 'Egor', 'Egor', 900),
+       (234, 1, 11, 1, 'Artur', 'Artur', 1200);
 /*!40000 ALTER TABLE `orders`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -210,60 +211,11 @@ VALUES (227, 6),
        (227, 8),
        (228, 5),
        (228, 8),
-       (229, 6);
+       (229, 6),
+       (234, 7),
+       (234, 9),
+       (234, 11);
 /*!40000 ALTER TABLE `orders_excursions`
-    ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `passengers`
---
-
-DROP TABLE IF EXISTS `passengers`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `passengers`
-(
-    `id`          bigint(20)   NOT NULL,
-    `first_name`  varchar(255) NOT NULL,
-    `second_name` varchar(255) NOT NULL,
-    `ship_id`     bigint(20) DEFAULT NULL,
-    `ticket_id`   bigint(20) DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `FK3s3hlghcfyi901s9tl8l2wx3m` (`ship_id`),
-    KEY `FKq7fkg9cyd58jrdc3dlrbc1j6o` (`ticket_id`),
-    CONSTRAINT `FK3s3hlghcfyi901s9tl8l2wx3m` FOREIGN KEY (`ship_id`) REFERENCES `ships` (`id`),
-    CONSTRAINT `FKq7fkg9cyd58jrdc3dlrbc1j6o` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `passengers`
---
-
-LOCK TABLES `passengers` WRITE;
-/*!40000 ALTER TABLE `passengers`
-    DISABLE KEYS */;
-INSERT INTO `passengers`
-VALUES (62, 'tima', 'tima', 1, 1),
-       (64, 'dasdas', 'dasdasda', 1, 2),
-       (66, 'dadad', 'asdasdas', 1, 3),
-       (68, 'dwdadasd', 'asdasdadasda', 1, 1),
-       (70, 'dasda', 'dasdad', 1, 1),
-       (71, 'tima', 'tima', 2, 1),
-       (73, 'tima', 'tima', 1, 1),
-       (134, 'dasdasdad', 'dasdasda', 1, 1),
-       (136, 'sddadas', 'dasdasdsada', 1, 1),
-       (138, 'dsadasdasdasd', 'asdasdasdas', 1, 4),
-       (140, 'sdasda', 'adasdasd', 2, 2),
-       (148, 'dsadasdas', 'sdasdasdasda', 1, 4),
-       (159, 'Dasdasda', 'Asdsadasdas', 1, 3),
-       (162, 'Tymofii', 'Hodik', 1, 3),
-       (165, 'Tymofii', 'Da', 1, 4),
-       (167, 'Dadada', 'Dsdasdasda', 1, 2);
-/*!40000 ALTER TABLE `passengers`
     ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,7 +281,12 @@ LOCK TABLES `ports_cruises` WRITE;
     DISABLE KEYS */;
 INSERT INTO `ports_cruises`
 VALUES (1, 2),
-       (1, 3);
+       (1, 3),
+       (1, 1),
+       (2, 1),
+       (2, 2),
+       (3, 2),
+       (3, 1);
 /*!40000 ALTER TABLE `ports_cruises`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -363,7 +320,7 @@ LOCK TABLES `ships` WRITE;
 /*!40000 ALTER TABLE `ships`
     DISABLE KEYS */;
 INSERT INTO `ships`
-VALUES (1, 100, 'Costa', 80),
+VALUES (1, 100, 'Costa', 100),
        (2, 5000, 'Titanic', 0),
        (3, 100000, 'test', 0);
 /*!40000 ALTER TABLE `ships`
@@ -408,9 +365,9 @@ VALUES (1, 1000, 'VIP', 10, 1, 900),
        (4, 2000, 'SUPER_VIP', 30, 1, 1400),
        (5, 1500, 'CASUAL', 0, 2, 1500),
        (6, 3000, 'SUPER_VIP', 0, 2, 3000),
-       (151, 750, 'Classic', 0, 1, 750),
+       (151, 750, 'CLASSIC', 0, 1, 750),
        (152, 1000, 'LOW', 10, 3, 900),
-       (153, 5000, 'Classic', 0, 3, 5000),
+       (153, 5000, 'CLASSIC', 0, 3, 5000),
        (154, 10000, 'VIP', 0, 3, 10000);
 /*!40000 ALTER TABLE `ticket`
     ENABLE KEYS */;
@@ -434,7 +391,7 @@ CREATE TABLE `users`
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_ow0gan20590jrb00upg3va2fn` (`login`),
     UNIQUE KEY `UKow0gan20590jrb00upg3va2fn` (`login`),
-    CONSTRAINT `users_chk_1` CHECK ((`balance` >= '0'))
+    CONSTRAINT `users_chk_1` CHECK ((`balance` >= _utf8mb3'0'))
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -448,32 +405,8 @@ LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users`
     DISABLE KEYS */;
 INSERT INTO `users`
-VALUES (1, _binary '', 0, 'second', '$2a$10$4/UBSuWJQ1fXT0fKPUsVpuSBaeRfeNCdK3JEeI6l.ALodAJFyzvtm', 'ROLE_USER'),
-       (7, _binary '', 0, 'user', '$2a$10$zGI4mkJ23IA4OGFrZtVjseWB02Jau8fXenLJX42aH3XUuHg8o7qkO', 'ROLE_USER'),
-       (8, _binary '', 0, 'tima', '$2a$10$FVjxY9wjzYTD8WbqnXbBNebM5Gsxl1qV.4BaNI.oEVQRyMY02PMNC', 'ROLE_USER'),
-       (9, _binary '', 0, 'alex', '$2a$10$jrK3lMD94tGKInrGlcAaZe2QYLD99Ndwr0AcwQesSgC2gINjg9lcW', 'ROLE_USER'),
-       (10, _binary '', 0, 'Gtm417', '$2a$10$NeH/S.cQUUsWXA3nidfEVugKt70Y3UrU09/3TwIbaYlOn5WdVGBTG', 'ROLE_USER'),
-       (11, _binary '', 46500, 't', '$2a$10$fRHGOjZJV50JmMb/CZP9C.pmbIyggBW2n.ltGFZhY0XKzx5joJe4q', 'ROLE_ADMIN'),
-       (32, _binary '', 0, 'Hodik', '$2a$10$6IIRIqMwh2Ik9D/2ipBCtOjr3u3pSCJcLO78HWWLKN/hU2hYsn4Ny', 'ROLE_USER'),
-       (33, _binary '', 0, 'ivan', '$2a$10$zedVzfx1dYVgU4hx6nnghugNeZ4amGAydJh7fvOEVr.oG5xJwoieW', 'ROLE_USER'),
-       (46, _binary '', 0, 'h', '$2a$10$Q56O0gAmr3sCF/Qyqy/my.pOfKf6TUkW4OAIwgvxsxWbpnwdBvgF.', 'ROLE_USER'),
-       (47, _binary '', 0, 'l', '$2a$10$xiElM/Ggm4nTHRPrcTufbuj8k9307xFX4Zx0fdd9poWXq73.tUToi', 'ROLE_USER'),
-       (48, _binary '', 0, 'tt', '$2a$10$iLwhVKXLvf8/O53QuyxDduHdPtXA8l/0vRghIysNV3FzNIOaWGinK', 'ROLE_USER'),
-       (50, _binary '', 0, 'jhjh', '$2a$10$2lwbv6h7Eb7bHxd3Fhjfv.fvD/t/Pf9eq9OwEd9seOPJMDzKZdQs.', 'ROLE_USER'),
-       (51, _binary '', 0, 'jj', '$2a$10$vD7mJ/994WQQynZ63Bpa3e0H5e0AiOA9B7UjcNSYK8PALOqhYHe/u', 'ROLE_USER'),
-       (52, _binary '', 0, 'sdasd', '$2a$10$ImtGzKpoDyZ5.asTbHEMBeild0dim9x0yr3KmbmckxpO4AU4K9Pf6', 'ROLE_USER'),
-       (53, _binary '', 0, 'dasdas', '$2a$10$8j9SSNq1/LgBcJDWLK5XUeB6eqqbYMzt1Jm6qRZxOQOe/AMktO6qK', 'ROLE_USER'),
-       (54, _binary '', 0, 'ccZsdas', '$2a$10$JCFSw93yyKH1ahqmBsMvXeGWfqnx2OHG2HSxJNs/tDEopKh/26xuy', 'ROLE_USER'),
-       (55, _binary '', 0, 'asdasd', '$2a$10$bfn.SQ6FCRBIB07ib4EipOsgXHyqJyfq7rccquOtP8v9jKYVnlxIG', 'ROLE_USER'),
-       (56, _binary '', 0, 'dadas', '$2a$10$sKTY7fhcakEsY4i9sDghou04CBri5NynXTGCpvVYBakHOYa6hmpZy', 'ROLE_USER'),
-       (189, _binary '', 0, 'Test', '$2a$10$UC0LhF54zdg9eVqGoSj6uOR2B0NDt/PgYP.7euCevY2VMj4vq7J5G', 'ROLE_USER'),
-       (192, _binary '', 0, 'test2', '$2a$10$PtGvEFSEBm8fH2r.M06OwOvsdihczd7EwaeKDevn.lklCTmAV8YTi', 'ROLE_USER'),
-       (195, _binary '', 0, '', '$2a$10$.tTgQo3sEBqj0NgulR09uuSgTmyCvJ0.ombEl6MCZF5kYjyCi.Dxy', 'ROLE_USER'),
-       (206, _binary '', 0, 'dasdasdasda', '$2a$10$2id02m2xVAYxIXpmp1uLNeA2hhaTMpkQmqJUjEh.rar/8eOcl8aWa',
-        'ROLE_USER'),
-       (226, _binary '', 0, 'вфывфыв', '$2a$10$cWAjE65F08Rhff.JnCvmju92fUN/u6Njo0fF1erUNwIvQiADt/5LC', 'ROLE_USER'),
-       (232, _binary '', 0, 'Hello', '$2a$10$yHgL2kVhvmA80FjmbE0V1OSt683jntf2.3j0mIJLmGwOAKsW1fmvi', 'ROLE_USER'),
-       (233, _binary '', 0, 'Test312', '$2a$10$kjlax8tEmqpD6maP8glSJ.nHXbbhwnUsAEvjBNzTiD9.JIdL4.g7i', 'ROLE_USER');
+VALUES (11, _binary '', 45300, 'Admin', '$2a$10$HHZY0pkbvCpXThbMggDjGe0NUm1N7Q4icpLPW5IgbpQvFrTYlughq', 'ROLE_ADMIN'),
+       (17, _binary '', 10000, 'Tima123', '$2a$10$DKGQLdfHq4QSh8VIsnVhKuOdnTSYThlvumYOI..UWq6pnaLlbDwP2', 'ROLE_USER');
 /*!40000 ALTER TABLE `users`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -487,4 +420,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-11 15:13:10
+-- Dump completed on 2020-02-17 12:36:03
