@@ -1,6 +1,6 @@
 package ua.training.cruise.exception;
 
-public class UnsupportedCruise extends Exception {
+public class UnsupportedCruise extends RuntimeException {
     public UnsupportedCruise() {
     }
 

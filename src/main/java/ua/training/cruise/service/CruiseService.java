@@ -30,7 +30,7 @@ public class CruiseService {
     }
 
 
-    public Cruise findCruiseById(Long id) throws UnsupportedCruise {
+    public Cruise findCruiseById(Long id) {
         return cruiseRepository.findById(id)
                 .orElseThrow(() -> new UnsupportedCruise("Cruise not found with id: ", id));
     }

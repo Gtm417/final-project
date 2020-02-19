@@ -322,7 +322,7 @@ LOCK TABLES `ships` WRITE;
 INSERT INTO `ships`
 VALUES (1, 100, 'Costa', 100),
        (2, 5000, 'Titanic', 0),
-       (3, 100000, 'test', 0);
+       (3, 100000, 'Las de Porto', 0);
 /*!40000 ALTER TABLE `ships`
     ENABLE KEYS */;
 UNLOCK TABLES;

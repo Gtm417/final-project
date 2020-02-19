@@ -4,10 +4,13 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import ua.training.cruise.dto.TicketDTO;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.cruise.Ticket;
@@ -19,6 +22,8 @@ import ua.training.cruise.service.mapper.TicketMapper;
 
 import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = TicketService.class)
 public class TicketServiceTest {
 
     public static final Cruise CRUISE = Cruise.builder().id(1L).cruiseName("test").description_eng("english").description_ru("russian").build();
