@@ -15,7 +15,6 @@ import ua.training.cruise.controller.util.Util;
 import ua.training.cruise.dto.OrderDTO;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.port.Port;
-import ua.training.cruise.exception.UnsupportedCruise;
 import ua.training.cruise.service.CruiseService;
 import ua.training.cruise.service.OrderService;
 import ua.training.cruise.service.TicketService;
@@ -52,25 +51,23 @@ public class UserController {
     }
 
     @GetMapping
-    public String user(HttpSession session, @AuthenticationPrincipal User user) {
+    public String getUserPage(HttpSession session, @AuthenticationPrincipal User user) {
         session.setAttribute(SESSION_USER, userService.getUserByLogin(user.getUsername()));
         return "user-page";
     }
 
     @GetMapping("/main")
-    public String getMainPage(@RequestParam(value = "error", required = false) String error,
-                              Model model, HttpSession session) {
+    public String getMainPage(Model model, HttpSession session) {
         Util.clearBuySessionAttributes(session);
-        model.addAttribute("error", error);
         model.addAttribute("cruises", cruiseService.getAllCruises());
         return "main";
     }
 
-    @GetMapping("/cruise")
+    @RequestMapping("/cruise")
     public String getCruisePage(@RequestParam("id") Long id,
                                 @RequestParam(value = "noPlace", required = false) Boolean noPlace,
                                 Model model,
-                                HttpSession session) throws UnsupportedCruise {
+                                HttpSession session) {
         Cruise cruise = cruiseService.findCruiseById(id);
         session.setAttribute(SESSION_CRUISE, cruise);
         model.addAttribute("noPlace", noPlace);

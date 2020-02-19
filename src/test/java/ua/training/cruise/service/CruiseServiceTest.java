@@ -65,7 +65,6 @@ public class CruiseServiceTest {
     }
 
 
-
     @Test
     public void findCruiseByIdIfExist() throws UnsupportedCruise {
         long id = 1L;

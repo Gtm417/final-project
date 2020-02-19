@@ -3,9 +3,9 @@ package ua.training.cruise.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ua.training.cruise.dto.RegistrationDTO;
 import ua.training.cruise.exception.DataBaseDuplicateConstraint;
 import ua.training.cruise.service.UserService;
@@ -24,12 +24,10 @@ public class RegistrationController {
     }
 
     @GetMapping("/registration")
-    public ModelAndView registration(@RequestParam(value = "error", required = false) String error) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("error", error != null);
-        modelAndView.addObject("registrationDTO", new RegistrationDTO());
-        modelAndView.setViewName("registration");
-        return modelAndView;
+    public String registration(@RequestParam(value = "error", required = false) String error, Model model) {
+        model.addAttribute("error", error != null);
+        model.addAttribute("registrationDTO", new RegistrationDTO());
+        return "registration";
     }
 
     @PostMapping("/registration")
