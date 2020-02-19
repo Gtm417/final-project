@@ -1,7 +1,7 @@
 package ua.training.cruise.controller;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ua.training.cruise.exception.*;
 
-@Slf4j
+@Log4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnsupportedCruise.class)
     public String handlingUnsupportedCruiseName(UnsupportedCruise ex) {
-        log.error("Cruise not found: " + ex.getMessage());
+        log.info("Cruise not found: " + ex.getMessage());
         return "404";
     }
 
     @ExceptionHandler(NotEnoughMoney.class)
     public String handlingNotEnoughMoney(Model model, NotEnoughMoney ex) {
         model.addAttribute("notEnoughMoney", true);
-        log.info(ex.getMessage());
+        log.info("NotEnoughMoney" + ex.getMessage());
         return "not-enough-money";
     }
 
@@ -32,17 +32,9 @@ public class GlobalExceptionHandler {
         return "404";
     }
 
-    @ExceptionHandler(NoPlaceOnShip.class)
-    public String handlingNoPlacesOnShip(NoPlaceOnShip ex, Model model) {
-        log.info(ex.getMessage());
-        model.addAttribute("id", ex.getId());
-        model.addAttribute("noPlace", true);
-        return "redirect:/user/cruise";
-    }
-
     @ExceptionHandler(OrderSaveException.class)
     public String orderSaveExceptionHandling(OrderSaveException ex) {
-        log.info(ex.getMessage());
+        log.info("OrderSaveException: " + ex.getMessage());
         return "unsuccess-buy";
     }
 

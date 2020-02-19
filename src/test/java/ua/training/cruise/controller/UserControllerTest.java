@@ -5,12 +5,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+import ua.training.cruise.dto.OrderDTO;
 import ua.training.cruise.entity.cruise.Cruise;
 import ua.training.cruise.entity.cruise.Ticket;
 import ua.training.cruise.entity.order.Order;
@@ -127,19 +133,65 @@ public class UserControllerTest {
     }
 
     @Test
-    public void buyCruiseWhenBindingResultWithoutError() {
-        ///controller.buyCruise()
+    public void buyCruiseWhenBindingResultWithoutErrors() {
+        OrderDTO dto = new OrderDTO("test", "test", new Ticket());
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
+        when(bindingResult.hasErrors()).thenReturn(false);
+        when(orderService.getEntityFromDTO(dto)).thenReturn(new Order());
+        String actual = controller.buyCruise(dto, bindingResult, redirectAttributes, session);
+
+        verify(orderService, times(1)).getEntityFromDTO(any(OrderDTO.class));
+        Assert.assertNotNull(session.getAttribute(SESSION_ORDER));
+        Assert.assertEquals("redirect:/user/cruise/buy-submit", actual);
+    }
+
+    @Test
+    public void buyCruiseWhenBindingResultHasErrors() {
+        OrderDTO dto = new OrderDTO("test", "test", new Ticket());
+        RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+
+        when(bindingResult.hasErrors()).thenReturn(true);
+        String actual = controller.buyCruise(dto, bindingResult, redirectAttributes, session);
+
+        verify(orderService, times(0)).getEntityFromDTO(any(OrderDTO.class));
+        Assert.assertTrue(redirectAttributes.getFlashAttributes().containsKey("fieldErrors"));
+        Assert.assertNull(session.getAttribute(SESSION_ORDER));
+        Assert.assertEquals("redirect:/user/cruise/buy", actual);
     }
 
     @Test
     public void submitBuy() {
+        session.setAttribute(SESSION_CRUISE, new Cruise());
+        session.setAttribute(SESSION_USER, new User());
+        session.setAttribute(SESSION_ORDER, new Order());
+
+        when(orderService.buyCruise(any(Order.class), any(Cruise.class), any(User.class))).thenReturn(true);
+        String actual = controller.submitBuy(session);
+
+        verify(orderService, times(1)).buyCruise(any(Order.class), any(Cruise.class), any(User.class));
+        Assert.assertEquals("redirect:/user/success-buy", actual);
     }
 
     @Test
     public void successBuy() {
+        session.setAttribute(SESSION_ORDER, new Order());
+        session.setAttribute(SESSION_CRUISE, new Cruise());
+        String actual = controller.successBuy(session);
+
+        Assert.assertNull(session.getAttribute(SESSION_ORDER));
+        Assert.assertNull(session.getAttribute(SESSION_CRUISE));
+        Assert.assertEquals("success-buy", actual);
     }
 
     @Test
     public void getAllOrders() {
+        session.setAttribute(SESSION_USER, new User());
+        Pageable pageable = PageRequest.of(1, 1);
+        when(orderService.findAllOrdersByUser(any(User.class), any(Pageable.class))).thenReturn(new PageImpl<>(Collections.singletonList(new Order())));
+        String actual = controller.getAllOrders(session, model, pageable);
+
+        Assert.assertNotNull(model.getAttribute("page"));
+        Assert.assertEquals("orders", actual);
     }
 }

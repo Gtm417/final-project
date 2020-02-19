@@ -1,5 +1,6 @@
 package ua.training.cruise.controller.util;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Component;
 import ua.training.cruise.controller.SessionAttributeConstants;
 import ua.training.cruise.entity.cruise.Cruise;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import static ua.training.cruise.controller.SessionAttributeConstants.*;
 
+@Log4j
 @Component
 public class Util {
 
@@ -34,8 +36,10 @@ public class Util {
     }
 
     public static void clearBuySessionAttributes(HttpSession session) {
+
         session.removeAttribute(SessionAttributeConstants.SESSION_ORDER);
         session.removeAttribute(SessionAttributeConstants.SESSION_CRUISE);
+        log.debug("Session Order and Cruise cleared");
     }
 
     public static long calcOrderTotalPrice(HttpSession session) {

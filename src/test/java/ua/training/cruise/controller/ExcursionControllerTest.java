@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import ua.training.cruise.entity.cruise.Cruise;
+import ua.training.cruise.entity.cruise.Ticket;
 import ua.training.cruise.entity.order.Order;
 import ua.training.cruise.entity.port.Excursion;
 import ua.training.cruise.service.ExcursionService;
@@ -30,7 +31,7 @@ import static ua.training.cruise.controller.SessionAttributeConstants.SESSION_OR
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ExcursionController.class)
 public class ExcursionControllerTest {
-    public static final Excursion EXCURSION = Excursion.builder().id(1L).build();
+    public static final Excursion EXCURSION = Excursion.builder().id(1L).price(100L).build();
     Model model = new ExtendedModelMap();
     HttpSession session = new MockHttpSession();
 
@@ -68,7 +69,7 @@ public class ExcursionControllerTest {
 
     @Test
     public void submitBuyPage() {
-        session.setAttribute(SESSION_ORDER, new Order());
+        session.setAttribute(SESSION_ORDER, buildOrderWithSingletonList());
         session.setAttribute(SESSION_CRUISE, Cruise.builder().id(1L).build());
         long cruiseSessionId = ((Cruise) session.getAttribute(SESSION_CRUISE)).getId();
 
@@ -78,5 +79,13 @@ public class ExcursionControllerTest {
 
         Assert.assertNotNull(model.getAttribute("excursions"));
         Assert.assertEquals("submit-form", actual);
+    }
+
+    private Order buildOrderWithSingletonList() {
+        return Order.builder().orderPrice(1000L).ticket(buildTicket()).excursions(Collections.singleton(EXCURSION)).build();
+    }
+
+    private Ticket buildTicket() {
+        return Ticket.builder().priceWithDiscount(100L).build();
     }
 }
