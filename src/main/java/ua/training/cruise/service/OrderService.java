@@ -1,6 +1,7 @@
 package ua.training.cruise.service;
 
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import ua.training.cruise.service.mapper.OrderMapper;
 
 import java.util.List;
 
+@Log4j
 @Service
 public class OrderService {
 
@@ -53,7 +55,7 @@ public class OrderService {
         try {
             buyDbChanges(order);
         } catch (Exception e) {
-            throw new OrderSaveException("Something went wrong during the addition of the order:", e);
+            throw new OrderSaveException("Transaction rollback. Something went wrong during the addition of the order:", e);
         }
         return true;
     }
@@ -61,10 +63,10 @@ public class OrderService {
     @Transactional
     public void buyDbChanges(@NonNull Order order) {
         Ship ship = shipRepository.findById(order.getCruise().getShip().getId())
-                .orElseThrow(() -> new EntityNotFound("Ship not found with id: ", order.getCruise().getShip().getId()));
+                .orElseThrow(() -> new EntityNotFound("Ship not found with id: " + order.getCruise().getShip().getId()));
         ship.setCurrentAmountOfPassenger(incrementPassengerAmount(ship));
         User user = userRepository.findById(order.getUser().getId())
-                .orElseThrow(() -> new EntityNotFound("User not found with id: ", order.getUser().getId()));
+                .orElseThrow(() -> new EntityNotFound("User not found with id: " + order.getUser().getId()));
         order.getCruise().setShip(ship);
         order.setUser(subBalance(user, order.getOrderPrice()));
         orderRepository.save(order);

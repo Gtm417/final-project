@@ -1,7 +1,6 @@
 package ua.training.cruise.service;
 
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,8 +12,6 @@ import ua.training.cruise.exception.DataBaseDuplicateConstraint;
 import ua.training.cruise.repository.UserRepository;
 import ua.training.cruise.service.mapper.UserMapper;
 
-
-@Slf4j
 @Service
 public class UserService {
 
@@ -31,7 +28,7 @@ public class UserService {
         try {
             return userRepository.save(userMapper.mapToEntity(registrationDTO));
         } catch (DataIntegrityViolationException ex) {
-            throw new DataBaseDuplicateConstraint("User with such login already exist:", registrationDTO.getLogin());
+            throw new DataBaseDuplicateConstraint("User with such login already exist: " + registrationDTO.getLogin());
         }
     }
 

@@ -3,8 +3,8 @@ package ua.training.cruise.exception;
 public class DataBaseDuplicateConstraint extends Exception {
 
 
-    public DataBaseDuplicateConstraint(String message, String name) {
-        super(message + " " + name);
+    public DataBaseDuplicateConstraint(String message) {
+        super(message);
     }
 
 }

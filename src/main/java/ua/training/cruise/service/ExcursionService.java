@@ -20,7 +20,7 @@ public class ExcursionService {
 
     public Excursion findById(long id) throws EntityNotFound {
         return excursionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFound("Excursion not found with id: ", id));
+                .orElseThrow(() -> new EntityNotFound("Excursion not found with id: " + id));
     }
 
     public List<Excursion> getAllExcursionsByCruiseId(Long id) {

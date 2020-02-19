@@ -1,7 +1,6 @@
 package ua.training.cruise.service;
 
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +11,6 @@ import ua.training.cruise.repository.UserRepository;
 
 import java.util.Collections;
 
-@Slf4j
 @Service
 public class UserAuthenticationService implements UserDetailsService {
 

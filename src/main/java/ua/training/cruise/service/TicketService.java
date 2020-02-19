@@ -1,5 +1,6 @@
 package ua.training.cruise.service;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import ua.training.cruise.service.mapper.TicketMapper;
 
 import java.util.List;
 
+@Log4j
 @Service
 public class TicketService {
     private static final int ONE_HUNDRED_PERCENT = 100;
@@ -33,10 +35,7 @@ public class TicketService {
         try {
             return ticketRepository.save(ticket);
         } catch (DataIntegrityViolationException ex) {
-            throw new DataBaseDuplicateConstraint(
-                    cruise.getCruiseName() + "already has ticket with name: ",
-                    ticketDTO.getTicketName()
-            );
+            throw new DataBaseDuplicateConstraint(cruise.getCruiseName() + "already has ticket with name: " + ticketDTO.getTicketName());
         }
     }
 
