@@ -134,7 +134,7 @@ public class OrderServiceTest {
         when(shipRepository.findById(SHIP.getId())).thenReturn(Optional.of(SHIP));
         when(userRepository.findById(USER.getId())).thenReturn(Optional.of(USER));
 
-        service.buyDbChanges(ORDER);
+        service.buyInTransaction(ORDER);
 
         verify(shipRepository, times(1)).findById(SHIP.getId());
         verify(userRepository, times(1)).findById(USER.getId());
@@ -150,7 +150,7 @@ public class OrderServiceTest {
         when(shipRepository.findById(anyLong())).thenReturn(Optional.of(SHIP));
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        service.buyDbChanges(ORDER);
+        service.buyInTransaction(ORDER);
     }
 
     @Test(expected = EntityNotFound.class)
@@ -158,7 +158,7 @@ public class OrderServiceTest {
         when(shipRepository.findById(anyLong())).thenReturn(Optional.empty());
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(USER));
 
-        service.buyDbChanges(ORDER);
+        service.buyInTransaction(ORDER);
     }
 
 }

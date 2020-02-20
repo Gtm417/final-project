@@ -8,7 +8,6 @@ import ua.training.cruise.entity.user.User;
 
 @Component
 public class UserMapper {
-
     public User mapToEntity(RegistrationDTO registrationDTO) {
         return User.builder()
                 .login(registrationDTO.getLogin())

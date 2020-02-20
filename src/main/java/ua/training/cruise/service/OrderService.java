@@ -53,7 +53,7 @@ public class OrderService {
         order.setUser(user);
 
         try {
-            buyDbChanges(order);
+            buyInTransaction(order);
         } catch (Exception e) {
             throw new OrderSaveException("Transaction rollback. Something went wrong during the addition of the order:", e);
         }
@@ -61,14 +61,14 @@ public class OrderService {
     }
 
     @Transactional
-    public void buyDbChanges(@NonNull Order order) {
+    public void buyInTransaction(@NonNull Order order) {
         Ship ship = shipRepository.findById(order.getCruise().getShip().getId())
                 .orElseThrow(() -> new EntityNotFound("Ship not found with id: " + order.getCruise().getShip().getId()));
         ship.setCurrentAmountOfPassenger(incrementPassengerAmount(ship));
         User user = userRepository.findById(order.getUser().getId())
                 .orElseThrow(() -> new EntityNotFound("User not found with id: " + order.getUser().getId()));
         order.getCruise().setShip(ship);
-        order.setUser(subBalance(user, order.getOrderPrice()));
+        order.setUser(setUserBalance(user, order.getOrderPrice()));
         orderRepository.save(order);
     }
 
@@ -76,13 +76,17 @@ public class OrderService {
         return dbShip.getCurrentAmountOfPassenger() + 1;
     }
 
-    private User subBalance(User user, long orderSum) throws NotEnoughMoney {
+    private User setUserBalance(User user, long orderSum) {
+        user.setBalance(calcBalance(user, orderSum));
+        return user;
+    }
+
+    private long calcBalance(User user, long orderSum) {
         long totalBalance = user.getBalance() - orderSum;
         if (totalBalance < 0) {
             throw new NotEnoughMoney("Not Enough Money " + user.getBalance());
         }
-        user.setBalance(user.getBalance() - orderSum);
-        return user;
+        return totalBalance;
     }
 
 

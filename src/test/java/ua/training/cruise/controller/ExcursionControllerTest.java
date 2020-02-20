@@ -50,7 +50,7 @@ public class ExcursionControllerTest {
 
         verify(excursionService, times(1)).findById(anyLong());
         Assert.assertThat(((Order) session.getAttribute(SESSION_ORDER)).getExcursions(), Matchers.contains(EXCURSION));
-        Assert.assertEquals("redirect:/user/cruise/buy-submit", actual);
+        Assert.assertEquals("redirect:/user/cruise/buy", actual);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ExcursionControllerTest {
 
         verify(excursionService, times(1)).findById(anyLong());
         Assert.assertThat(((Order) session.getAttribute(SESSION_ORDER)).getExcursions(), not(Matchers.contains(EXCURSION)));
-        Assert.assertEquals("redirect:/user/cruise/buy-submit", actual);
+        Assert.assertEquals("redirect:/user/cruise/buy", actual);
     }
 
     @Test

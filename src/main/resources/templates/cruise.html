@@ -35,7 +35,7 @@
 <h1 th:text="${ports}"></h1>
 <h1 th:text="${cruise.description_eng}"></h1>
 <h1 th:text="${cruise.departureDate}"></h1>
-<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/user/cruise/buy}"> Купить</a>
+<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/user/cruise/order}"> Купить</a>
 <div sec:authorize="hasRole('ROLE_ADMIN')">
     <a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/cruise/edit}"
        th:text="Edit"> </a>

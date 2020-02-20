@@ -24,7 +24,7 @@ public class ExcursionService {
     }
 
     public List<Excursion> getAllExcursionsByCruiseId(Long id) {
-        return excursionRepository.findAllByCruiseID(id);
+        return excursionRepository.findAllByCruiseId(id);
     }
 
 }

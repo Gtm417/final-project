@@ -31,7 +31,7 @@
 <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 
 
-<form id="buy" method="post" th:action="@{/user/cruise/buy}" th:object="${order}">
+<form id="buy" method="post" th:action="@{/user/cruise/order}" th:object="${order}">
     <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
     <div class="error" style="color: red;" th:if="${fieldErrors != null}">
         <p><strong>Errors</strong></p>

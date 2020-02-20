@@ -28,16 +28,16 @@ public class ExcursionController {
     @PostMapping(value = "/add/excursion")
     public String addExcursion(@ModelAttribute("id") Long id, HttpSession session) {
         Util.getSessionOrder(session).getExcursions().add(excursionService.findById(id));
-        return "redirect:/user/cruise/buy-submit";
+        return "redirect:/user/cruise/buy";
     }
 
     @PostMapping(value = "/remove/excursion")
     public String removeExcursion(@ModelAttribute("id") Long id, HttpSession session) {
         Util.getSessionOrder(session).getExcursions().remove(excursionService.findById(id));
-        return "redirect:/user/cruise/buy-submit";
+        return "redirect:/user/cruise/buy";
     }
 
-    @GetMapping("/cruise/buy-submit")
+    @GetMapping("/cruise/buy")
     public String submitBuyPage(Model model, HttpSession session) {
         model.addAttribute("excursions", excursionService.getAllExcursionsByCruiseId(Util.getSessionCruise(session).getId()));
         Util.getSessionOrder(session).setOrderPrice(Util.calcOrderTotalPrice(session));

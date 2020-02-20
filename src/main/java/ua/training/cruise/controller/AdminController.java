@@ -1,7 +1,7 @@
 package ua.training.cruise.controller;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import ua.training.cruise.service.TicketService;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-@Slf4j
+@Log4j
 @Controller
 @RequestMapping("/cruise/edit")
 public class AdminController {
@@ -47,7 +47,7 @@ public class AdminController {
         return "cruise/edit-description";
     }
 
-    @PostMapping("/descriptionEdit")
+    @PostMapping("/description")
     @PreAuthorize("hasRole('ADMIN')")
     public String editCruiseDescription(@Valid @ModelAttribute("descriptionDTO") CruiseDescriptionsDTO cruiseDescriptionsDTO,
                                         BindingResult bindingResult, HttpSession session) {
@@ -69,7 +69,7 @@ public class AdminController {
         return "cruise/add-ticket";
     }
 
-    @PostMapping("/adding-ticket")
+    @PostMapping("/add/ticket")
     @PreAuthorize("hasRole('ADMIN')")
     public String postAddTicketPage(@Valid @ModelAttribute TicketDTO ticketDTO, BindingResult bindingResult,
                                     HttpSession session) throws DataBaseDuplicateConstraint {
@@ -80,7 +80,7 @@ public class AdminController {
         return "redirect:/cruise/edit/add/ticket?success";
     }
 
-    @GetMapping("/all_passengers")
+    @GetMapping("/passengers")
     @PreAuthorize("hasRole('ADMIN')")
     public String getAllPassengers(Model model, HttpSession session) {
         model.addAttribute("passengers", orderService.findAllOrdersByCruise(Util.getSessionCruise(session)));
