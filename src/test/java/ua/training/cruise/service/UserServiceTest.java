@@ -73,9 +73,7 @@ public class UserServiceTest {
 
     @Test
     public void addBalance() {
-        BalanceDTO balanceDTO = new BalanceDTO();
-        long inputBalance = 500L;
-        balanceDTO.setBalance(inputBalance);
+        BalanceDTO balanceDTO = new BalanceDTO(500L);
 
         when(repository.save(ArgumentMatchers.any(User.class))).thenReturn(USER);
         service.addBalance(USER, balanceDTO);
