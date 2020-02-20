@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Buy submit</title>
+    <link href="/static/style.css" rel="stylesheet">
+
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" rel="stylesheet">
+
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
+    <!-- Optional theme -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" rel="stylesheet">
 </head>
 <body>
 
+<div th:replace="header :: header"></div>
 
 <h1>Receipt</h1>
 <table>
     <tr>
         <td>First name</td>
         <td th:text="${session.order.firstName}"></td>
-        <!--        <td ><input required th:name="firstName" id="first"/></td>-->
     </tr>
     <tr>
         <td>Second name</td>
         <td th:text="${session.order.secondName}"></td>
-        <!--        <td ><input required th:name="secondName" id="second" /></td>-->
     </tr>
     <tr>
         <td>Cruise</td>
@@ -39,17 +51,16 @@
     <tr>
         <td>Total</td>
         <td th:text="${session.order.orderPrice}"></td>
-        <td th:text="${resultPrice}"></td>
     </tr>
 </table>
 
 <table>
     <thead class="thead-dark">
     <tr>
-        <th scope="col"> port</th>
-        <th scope="col"> Name</th>
-        <th scope="col"> duration</th>
-        <th scope="col"> price</th>
+        <th scope="col" th:text="#{table.excursion.port}"> port</th>
+        <th scope="col" th:text="#{table.excursion.name}"> Name</th>
+        <th scope="col" th:text="#{table.excursion.duration}"> duration</th>
+        <th scope="col" th:text="#{table.excursion.price}"> price</th>
     </tr>
     </thead>
     <tbody>
@@ -59,26 +70,10 @@
         <td th:text=" ${excursion.duration}"></td>
         <td th:text="${excursion.price}"></td>
         <td>
-            <!--                todo th:object excursion-->
             <form class="form-group" id="add" method="post" th:action="@{/user/add/excursion}">
                 <input name="id" th:value="${excursion.id}" type="hidden"/>
-                <!--                <input type="hidden" name="excursionName" th:value="${excursion.excursionName}"/>-->
-                <!--                <input type="hidden" name="price" th:value="${excursion.price}"/>-->
-                <!--                <input type="hidden" name="duration" th:value="${excursion.duration}"/>-->
-                <!--                <input hidden name="portId" th:value="${excursion.port.id}"/>-->
-                <!--                <input hidden name="portName" th:value="${excursion.port.id}"/>-->
-                <!--                <input hidden name="portName" th:value="${excursion.port.portName}"/>-->
-                <button class="btn btn-success" th:text="Add"></button>
+                <button class="btn btn-success" th:text="#{button.add}"></button>
             </form>
-            <!--                <form action="" method="post">-->
-            <!--                    <input hidden name="excursionName" value = "${excursion.excursionName}"/>-->
-            <!--                    <input hidden name="id" value = "${excursion.id}"/>-->
-            <!--                    <input hidden name="duration" value = "${excursion.duration}"/>-->
-            <!--                    <input hidden name="price" value = "${excursion.price}"/>-->
-            <!--                    <input hidden name="portId" value = "${excursion.port.id}"/>-->
-            <!--                    <input hidden name="portName" value = "${excursion.port.portName}"/>-->
-            <!--                    <button class="btn btn-success">Add</button>-->
-            <!--                </form>-->
         </td>
     </tr>
     </tbody>
@@ -86,9 +81,9 @@
 <table>
     <thead class="thead-dark">
     <tr>
-        <th scope="col"> port</th>
-        <th scope="col"> Name</th>
-        <th scope="col"> price</th>
+        <th scope="col" th:text="#{table.excursion.port}"> port</th>
+        <th scope="col" th:text="#{table.excursion.name}"> Name</th>
+        <th scope="col" th:text="#{table.excursion.price}"> price</th>
     </tr>
     </thead>
     <tbody>
@@ -97,15 +92,9 @@
         <td th:text="${selectedExcursion.excursionName}"></td>
         <td th:text="${selectedExcursion.price}"></td>
         <td>
-            <!--                todo th:object excursion-->
             <form method="post" th:action="@{/user/remove/excursion}">
                 <input name="id" th:value="${selectedExcursion.id}" type="hidden"/>
-                <!--                <input type="hidden" name="excursionName" th:value="${selectedExcursion.excursionName}"/>-->
-                <!--                <input type="hidden" name="price" th:value="${selectedExcursion.price}"/>-->
-                <!--                <input type="hidden" name="duration" th:value="${selectedExcursion.duration}"/>-->
-                <!--                <input hidden name="portId" value="${selectedExcursion.port.id}"/>-->
-                <!--                <input hidden name="portName" value="${selectedExcursion.port.portName}"/>-->
-                <button class="btn btn-danger">Remove</button>
+                <button class="btn btn-danger" th:text="#{button.remove}"></button>
             </form>
         </td>
     </tr>
@@ -114,7 +103,6 @@
 </table>
 <form method="post" th:action="@{/user/cruise/buy}">
     <button class="btn btn-success" value="Submit">Submit</button>
-    <input hidden name="resultPrice" th:value="${resultPrice}">
 </form>
 </body>
 </html>

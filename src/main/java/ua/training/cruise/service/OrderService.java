@@ -55,7 +55,7 @@ public class OrderService {
         try {
             buyInTransaction(order);
         } catch (Exception e) {
-            throw new OrderSaveException("Transaction rollback. Something went wrong during the addition of the order:", e);
+            throw new OrderSaveException("Transaction rollback. Something went wrong during the addition of the order: " + e.getMessage());
         }
         return true;
     }

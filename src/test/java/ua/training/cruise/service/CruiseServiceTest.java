@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import ua.training.cruise.dto.CruiseDescriptionsDTO;
 import ua.training.cruise.entity.cruise.Cruise;
-import ua.training.cruise.entity.cruise.Ticket;
 import ua.training.cruise.exception.UnsupportedCruise;
 import ua.training.cruise.repository.CruiseRepository;
 import ua.training.cruise.repository.ExcursionRepository;
@@ -28,7 +27,6 @@ import static org.mockito.Mockito.*;
 public class CruiseServiceTest {
 
     public static final Cruise CRUISE = Cruise.builder().id(1L).cruiseName("test").description_eng("english").description_ru("russian").build();
-    public static final Ticket TICKET = Ticket.builder().ticketName("Test").price(1000L).discount(10).build();
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

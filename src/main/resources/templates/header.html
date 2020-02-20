@@ -14,11 +14,13 @@
     <div class="navbar-nav mr-auto">
         <a class="navbar-brand mx-auto">Cruises</a>
 
-        <a class="navbar container " sec:authorize="isAuthenticated()" style="margin-left: 50%"
+        <a class="navbar container" sec:authorize="isAuthenticated()" style="margin-left: 50%"
            th:text="#{label.balance} + ${session.user.balance}"></a>
-        <a class="btn btn-dark" sec:authorize="isAuthenticated()" th:href="@{/balance}"
-           th:text="#{button.replenish.balance}"
-           type="button"></a>
+        <div class="navbar container">
+            <a class="btn btn-dark" sec:authorize="isAuthenticated()" th:href="@{/balance}"
+               th:text="#{button.replenish.balance}"
+               type="button"></a>
+        </div>
     </div>
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
 
@@ -27,7 +29,8 @@
             <a class="nav-link active" th:href="@{${urlBuilder}(lang='en')}">English</a>
             <a class="nav-link active" th:href="@{${urlBuilder}(lang='ru')}">Русский</a>
 
-            <form class="form-inline my-2 my-lg-0" method="get" th:action="@{/logout}">
+            <form class="form-inline my-2 my-lg-0" method="get" sec:authorize="isAuthenticated()"
+                  th:action="@{/logout}">
                 <button class="btn btn-dark" th:text="#{button.logout}" type="submit"></button>
             </form>
         </ul>

@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cruise passengers</title>
+    <link href="/static/style.css" rel="stylesheet">
+
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" rel="stylesheet">
+
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
+    <!-- Optional theme -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" rel="stylesheet">
 </head>
 <body>
-<a href="?lang=en">en</a>
-<a href="?lang=ru">ru</a>
+<div th:replace="header :: header"></div>
 <div id="all_users">
     <h2 th:text="Passengers"></h2>
 </div>
@@ -14,29 +26,29 @@
     <table class="datatable">
         <thead>
         <tr>
-            <th th:text="Cruise"></th>
-            <th th:text="Name"></th>
-            <th th:text="Surname"></th>
-            <th th:text="Ticket"></th>
-            <th th:text="Price"></th>
-
-
+            <th th:text="#{table.order.cruise}"></th>
+            <th th:text="#{table.order.first.name}"></th>
+            <th th:text="#{table.order.second.name}"></th>
+            <th th:text="#{table.order.ticket}"></th>
+            <th th:text="#{table.order.price}"></th>
         </tr>
         </thead>
 
         <tbody>
         <tr th:if="${passengers.empty}">
-            <td colspan="2" th:text="#{message.passenger.empty}"></td>
+            <td colspan="2" th:text="#{message.passengers.empty}"></td>
         </tr>
         <tr th:each="passenger: ${passengers}">
-            <td><span th:text="${passenger.cruise.cruiseName}"> First name </span></td>
-            <td><span th:text="${passenger.firstName}"> First name </span></td>
-            <td><span th:text="${passenger.secondName}">Second name </span></td>
-            <td><span th:text="${passenger.ticket.ticketName}"> Password </span></td>
-            <td><span th:text="${passenger.orderPrice}"> Password </span></td>
+            <td><span th:text="${passenger.cruise.cruiseName}"> </span></td>
+            <td><span th:text="${passenger.firstName}"> </span></td>
+            <td><span th:text="${passenger.secondName}"> </span></td>
+            <td><span th:text="${passenger.ticket.ticketName}"> </span></td>
+            <td><span th:text="${passenger.orderPrice}"> </span></td>
         </tr>
         </tbody>
     </table>
+    <a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/user}"
+       th:text="#{button.user.page}"> </a>
 </div>
 </body>
 </html>

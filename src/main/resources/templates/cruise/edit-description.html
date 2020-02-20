@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Edit Description</title>
+    <link href="/static/style.css" rel="stylesheet">
+
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" rel="stylesheet">
+
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
+    <!-- Optional theme -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" rel="stylesheet">
 </head>
 <body>
+<div th:replace="header :: header"></div>
 <form method="post" th:action="@{/cruise/edit/description}" th:object="${descriptionDTO}">
     <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
     <div class="input-group">
@@ -29,9 +43,12 @@
             </div>
             <input required th:field="*{description_ru}" type="text" value="${cruise.description_ru}">
         </div>
-        <button class="btn btn-default" th:text="Submit" type="submit"></button>
+        <button class="btn btn-default" th:text="#{button.submit}" type="submit"></button>
 
     </div>
+    <a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/user}"
+       th:text="#{button.user.page}"> </a>
+
 
 </form>
 </body>

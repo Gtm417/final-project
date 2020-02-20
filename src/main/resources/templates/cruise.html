@@ -18,27 +18,18 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" rel="stylesheet">
 </head>
 <body>
-<script crossorigin="anonymous"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<div th:replace="header :: header"></div>
 <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
 <h1 th:text="${cruise.cruiseName}"></h1>
 <h1 class="text-danger" th:if="${noPlace}" th:text="#{alert.cruise.no.place}"></h1>
 <h1 th:text="${ports}"></h1>
 <h1 th:text="${cruise.description_eng}"></h1>
 <h1 th:text="${cruise.departureDate}"></h1>
-<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/user/cruise/order}"> Купить</a>
+<a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/user/cruise/order}"
+   th:text="#{button.buy}"> </a>
 <div sec:authorize="hasRole('ROLE_ADMIN')">
     <a aria-pressed="true" class="btn btn-primary btn-lg active" role="button" th:href="@{/cruise/edit}"
-       th:text="Edit"> </a>
+       th:text="#{button.edit}"> </a>
 </div>
 
 </body>
