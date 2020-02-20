@@ -38,7 +38,7 @@
                     <li th:each="err : ${#fields.errors('ticketName')}" th:text="${err}"></li>
                 </ul>
             </div>
-            <label th:text="name"></label>
+            <label th:text="#{label.ticket.name}"></label>
             <input class="form-control" required th:field="*{ticketName}" type="text">
         </div>
         <div class="form-group">
@@ -48,7 +48,7 @@
                     <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
                 </ul>
             </div>
-            <label th:text="price"></label>
+            <label th:text="#{label.ticket.price}"></label>
             <input class="form-control" min="0" placeholder="0" required step="10" th:field="*{price}"
                    type="number">
         </div>
@@ -59,7 +59,7 @@
                     <li th:each="err : ${#fields.errors('discount')}" th:text="${err}"></li>
                 </ul>
             </div>
-            <label th:text="discount"></label>
+            <label th:text="#{label.ticket.discount}"></label>
             <input class="form-control" max="100" min="0" placeholder="0" required step="10" th:field="*{discount}"
                    type="number">
         </div>
