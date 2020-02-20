@@ -18,7 +18,6 @@ import java.util.function.Function;
 @Configuration
 public class LocaleConfigure implements WebMvcConfigurer {
 
-
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();

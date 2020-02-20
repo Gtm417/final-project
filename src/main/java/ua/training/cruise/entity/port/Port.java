@@ -25,7 +25,7 @@ public class Port {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(unique = true, nullable = false)
     private long id;
-    @Column(name = "port_name")
+    @Column(name = "port_name", nullable = false)
     private String portName;
 
     @OneToMany(mappedBy = "port")
