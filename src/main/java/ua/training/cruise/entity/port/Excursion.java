@@ -22,11 +22,12 @@ public class Excursion {
     @Column(unique = true, nullable = false)
     private long id;
 
-    @Column(name = "excursion_name")
+    @Column(name = "excursion_name", nullable = false)
     private String excursionName;
 
-
+    @Column(nullable = false)
     private int duration;
+    @Column(nullable = false)
     private long price;
 
     @ManyToOne(fetch = FetchType.EAGER)
