@@ -16,6 +16,6 @@ public class CruiseDescriptionsDTO {
     @Pattern(regexp = "[\\w\\d\\s\\v \\-,.!'\"]*", message = "Any character without \"(,),{,},[,],<,>\" ")
     private String description_eng;
     @NotEmpty(message = "Required")
-    @Pattern(regexp = "[\\w\\d\\s\\v \\-,.!'\"]*", message = "Any character without \"(,),{,},[,],<,>\" ")
+    @Pattern(regexp = "[A-ZА-Яa-zа-я\\d\\s\\v \\-,.!'\"]*", message = "Any character without \"(,),{,},[,],<,>\" ")
     private String description_ru;
 }

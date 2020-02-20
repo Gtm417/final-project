@@ -123,7 +123,7 @@ public class UserControllerTest {
 
         when(ticketService.showAllTicketsForCruise(any(Cruise.class))).thenReturn(Collections.singletonList(new Ticket()));
 
-        String actual = controller.getCruiseBuyForm(model, session);
+        String actual = controller.getCruiserOrderForm(model, session);
 
         verify(ticketService, times(1)).showAllTicketsForCruise(any(Cruise.class));
 
@@ -143,7 +143,7 @@ public class UserControllerTest {
 
         verify(orderService, times(1)).getEntityFromDTO(any(OrderDTO.class));
         Assert.assertNotNull(session.getAttribute(SESSION_ORDER));
-        Assert.assertEquals("redirect:/user/cruise/buy-submit", actual);
+        Assert.assertEquals("redirect:/user/cruise/buy", actual);
     }
 
     @Test
@@ -157,7 +157,7 @@ public class UserControllerTest {
         verify(orderService, times(0)).getEntityFromDTO(any(OrderDTO.class));
         Assert.assertTrue(redirectAttributes.getFlashAttributes().containsKey("fieldErrors"));
         Assert.assertNull(session.getAttribute(SESSION_ORDER));
-        Assert.assertEquals("redirect:/user/cruise/buy", actual);
+        Assert.assertEquals("redirect:/user/cruise/order", actual);
     }
 
     @Test
@@ -170,7 +170,7 @@ public class UserControllerTest {
         String actual = controller.submitBuy(session);
 
         verify(orderService, times(1)).buyCruise(any(Order.class), any(Cruise.class), any(User.class));
-        Assert.assertEquals("redirect:/user/success-buy", actual);
+        Assert.assertEquals("redirect:/user/buy/success", actual);
     }
 
     @Test

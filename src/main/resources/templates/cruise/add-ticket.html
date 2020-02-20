@@ -11,7 +11,7 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" rel="stylesheet">
 </head>
 <body>
-<form method="post" th:action="@{/cruise/edit/adding-ticket}" th:object="${ticketDTO}">
+<form method="post" th:action="@{/cruise/edit/add/ticket}" th:object="${ticketDTO}">
     <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
 
 

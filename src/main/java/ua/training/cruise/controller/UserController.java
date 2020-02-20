@@ -77,36 +77,36 @@ public class UserController {
     }
 
 
-    @GetMapping("/cruise/buy")
-    public String getCruiseBuyForm(Model model, HttpSession session) {
+    @GetMapping("/cruise/order")
+    public String getCruiserOrderForm(Model model, HttpSession session) {
         model.addAttribute("tickets", ticketService.showAllTicketsForCruise(Util.getSessionCruise(session)));
         model.addAttribute("order", new OrderDTO());
 
         return "buy-cruise";
     }
 
-    @PostMapping("/cruise/buy")
+    @PostMapping("/cruise/order")
     public String buyCruise(@Valid @ModelAttribute("order") OrderDTO orderDTO, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("fieldErrors", bindingResult.getFieldErrors());
-            return "redirect:/user/cruise/buy";
+            return "redirect:/user/cruise/order";
         }
         session.setAttribute(SESSION_ORDER, orderService.getEntityFromDTO(orderDTO));
-        return "redirect:/user/cruise/buy-submit";
+        return "redirect:/user/cruise/buy";
     }
 
 
-    @PostMapping("/cruise/buy-submit")
+    @PostMapping("/cruise/buy")
     public String submitBuy(HttpSession session) {
         orderService.buyCruise(Util.getSessionOrder(session),
                 Util.getSessionCruise(session),
                 Util.getUserFromSession(session));
 
-        return "redirect:/user/success-buy";
+        return "redirect:/user/buy/success";
     }
 
-    @GetMapping("success-buy")
+    @GetMapping("buy/success")
     public String successBuy(HttpSession session) {
         Util.clearBuySessionAttributes(session);
         return "success-buy";

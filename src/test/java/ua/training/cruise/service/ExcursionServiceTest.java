@@ -53,6 +53,6 @@ public class ExcursionServiceTest {
         long id = 1L;
         excursionService.getAllExcursionsByCruiseId(id);
         verify(excursionRepository, times(1))
-                .findAllByCruiseID(ArgumentMatchers.eq(id));
+                .findAllByCruiseId(ArgumentMatchers.eq(id));
     }
 }

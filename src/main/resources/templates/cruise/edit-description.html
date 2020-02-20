@@ -5,7 +5,7 @@
     <title>Edit Description</title>
 </head>
 <body>
-<form method="post" th:action="@{/cruise/edit/descriptionEdit}" th:object="${descriptionDTO}">
+<form method="post" th:action="@{/cruise/edit/description}" th:object="${descriptionDTO}">
     <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
     <div class="input-group">
 

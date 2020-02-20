@@ -31,7 +31,7 @@ public class BalanceController {
         return "balance";
     }
 
-    @PostMapping("/replenishment")
+    @PostMapping("/balance")
     public String replenishment(@Valid @ModelAttribute("balanceDTO") BalanceDTO balanceDTO, BindingResult bindingResult,
                                 HttpSession session) {
         if (bindingResult.hasErrors()) {

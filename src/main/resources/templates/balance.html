@@ -18,7 +18,7 @@
 <h1 th:text="#{label.current.balance} + ' ' + ${session.user.balance}"></h1>
 
 <div class="panel-body">
-    <form method="post" th:action="@{/replenishment}" th:object="${balanceDTO}">
+    <form method="post" th:action="@{/balance}" th:object="${balanceDTO}">
         <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}">
         <div class="form-group">
             <div class="error" style="color: red;" th:if="${#fields.hasErrors('balance')}">

@@ -8,7 +8,7 @@
 
 
 <h1>Receipt</h1>
-<table cellspacing="0">
+<table>
     <tr>
         <td>First name</td>
         <td th:text="${session.order.firstName}"></td>
@@ -112,7 +112,7 @@
 
     </tbody>
 </table>
-<form method="post" th:action="@{/user/cruise/buy-submit}">
+<form method="post" th:action="@{/user/cruise/buy}">
     <button class="btn btn-success" value="Submit">Submit</button>
     <input hidden name="resultPrice" th:value="${resultPrice}">
 </form>
