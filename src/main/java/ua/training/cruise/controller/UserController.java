@@ -96,7 +96,6 @@ public class UserController {
         return "redirect:/user/cruise/buy";
     }
 
-
     @PostMapping("/cruise/buy")
     public String submitBuy(HttpSession session) {
         orderService.buyCruise(Util.getSessionOrder(session),
