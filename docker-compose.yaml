@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+
+  mysql:
+    container_name: cruise-mysql
+    image: cruise:0.0.2
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: "trainingdb"
+         
